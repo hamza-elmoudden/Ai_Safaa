@@ -15,14 +15,14 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   
-  await app.listen(3000)
+  // await app.listen(3000)
 
-  // await app.init();
-  // return app;
+  await app.init();
+  return app;
 }
 
-bootstrap()
-// export default async (req, res) => {
-//   const app = await bootstrap();
-//   return app.getHttpAdapter().getInstance()(req, res);
-// };
+// bootstrap()
+export default async (req, res) => {
+  const app = await bootstrap();
+  return app.getHttpAdapter().getInstance()(req, res);
+};
