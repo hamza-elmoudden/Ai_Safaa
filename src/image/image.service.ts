@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
+
 
 @Injectable()
 export class ImageService {
@@ -38,6 +39,9 @@ export class ImageService {
     filename: string,
     mimetype: string,
   ): Promise<{ url: string; key: string }> {
+
+    const uuidModule = await import('uuid');
+    const uuidv4 = uuidModule.v4
     const key = `images/${uuidv4()}-${filename}`;
 
     const upload = new Upload({
