@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "p1",
+    "name": "La Roche-Posay Effaclar Duo+",
+    "brand": "La Roche-Posay",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["acne", "blemishes", "clogged_pores"],
+    "type": "treatment",
+    "price_range": "medium",
+    "description": "A lightweight corrective cream that reduces acne marks and unclogs pores. Very popular in Moroccan pharmacies."
+  },
+  {
+    "id": "p2",
+    "name": "La Roche-Posay Effaclar Purifying Foaming Gel",
+    "brand": "La Roche-Posay",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["oiliness", "acne"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "A gentle foaming cleanser specifically for oily and acne-prone skin. Reduces shine without stripping moisture."
+  },
+  {
+    "id": "p3",
+    "name": "CeraVe Hydrating Cleanser",
+    "brand": "CeraVe",
+    "skin_types": ["dry", "normal", "sensitive"],
+    "concerns": ["dryness", "irritation"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "Non-foaming cleanser enriched with ceramides and hyaluronic acid. Great for dry and sensitive skin."
+  },
+  {
+    "id": "p4",
+    "name": "CeraVe Foaming Facial Cleanser",
+    "brand": "CeraVe",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["acne", "oiliness"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "Foaming gel that cleans deeply without irritating the skin. A bestseller for oily skin in Morocco."
+  },
+  {
+    "id": "p5",
+    "name": "CeraVe Moisturizing Cream",
+    "brand": "CeraVe",
+    "skin_types": ["dry", "normal", "sensitive"],
+    "concerns": ["dryness", "flakiness"],
+    "type": "moisturizer",
+    "price_range": "medium",
+    "description": "Rich hydrating cream with ceramides. Excellent for restoring the skin barrier."
+  },
+  {
+    "id": "p6",
+    "name": "The Ordinary Niacinamide 10% + Zinc 1%",
+    "brand": "The Ordinary",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["pores", "acne", "dark_spots", "texture"],
+    "type": "serum",
+    "price_range": "low",
+    "description": "High-strength niacinamide serum that reduces blemishes and minimizes pores."
+  },
+  {
+    "id": "p7",
+    "name": "The Ordinary Hyaluronic Acid 2% + B5",
+    "brand": "The Ordinary",
+    "skin_types": ["dry", "normal", "combination"],
+    "concerns": ["dehydration", "dullness"],
+    "type": "serum",
+    "price_range": "low",
+    "description": "Hydrating serum with three types of hyaluronic acid for deep moisture."
+  },
+  {
+    "id": "p8",
+    "name": "The Ordinary Glycolic Acid 7% Toning Solution",
+    "brand": "The Ordinary",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["texture", "pigmentation", "dullness"],
+    "type": "toner",
+    "price_range": "low",
+    "description": "Acid exfoliating toner that smooths skin texture and brightens tone."
+  },
+  {
+    "id": "p9",
+    "name": "SVR Sebiaclear Gel Moussant",
+    "brand": "SVR",
+    "skin_types": ["oily", "acne_prone"],
+    "concerns": ["acne", "oiliness"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "Purifying gel that reduces excess sebum and prevents breakouts."
+  },
+  {
+    "id": "p10",
+    "name": "SVR Sebiaclear Active",
+    "brand": "SVR",
+    "skin_types": ["oily", "acne_prone"],
+    "concerns": ["acne", "blemishes"],
+    "type": "treatment",
+    "price_range": "medium",
+    "description": "Acne treatment cream with AHA/BHA for stubborn imperfections."
+  },
+  {
+    "id": "p11",
+    "name": "Eucerin Pro Acne Solution A.I. Clearing Treatment",
+    "brand": "Eucerin",
+    "skin_types": ["oily", "acne_prone"],
+    "concerns": ["acne", "texture"],
+    "type": "treatment",
+    "price_range": "high",
+    "description": "Advanced resurfacing treatment for persistent acne using lactic acid and salicylic acid."
+  },
+  {
+    "id": "p12",
+    "name": "Eucerin Hyaluron-Filler Night Cream",
+    "brand": "Eucerin",
+    "skin_types": ["dry", "mature"],
+    "concerns": ["wrinkles", "fine_lines"],
+    "type": "moisturizer",
+    "price_range": "high",
+    "description": "Anti-aging night cream that plumps the skin using hyaluronic acid."
+  },
+  {
+    "id": "p13",
+    "name": "Bioderma Sébium Gel Moussant",
+    "brand": "Bioderma",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["acne", "oiliness"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "A gentle gel cleanser that regulates sebum while purifying the skin."
+  },
+  {
+    "id": "p14",
+    "name": "Bioderma Sensibio H2O Micellar Water",
+    "brand": "Bioderma",
+    "skin_types": ["sensitive"],
+    "concerns": ["redness", "irritation"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "Top-rated micellar water for sensitive skin, removes makeup without irritation."
+  },
+  {
+    "id": "p15",
+    "name": "Garnier Vitamin C Booster Serum",
+    "brand": "Garnier",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["dullness", "dark_spots"],
+    "type": "serum",
+    "price_range": "low",
+    "description": "Affordable brightening serum that reduces dullness and improves skin glow."
+  },
+  {
+    "id": "p16",
+    "name": "Neutrogena Hydro Boost Water Gel",
+    "brand": "Neutrogena",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["dehydration"],
+    "type": "moisturizer",
+    "price_range": "medium",
+    "description": "Lightweight gel moisturizer with hyaluronic acid for long-lasting hydration."
+  },
+  {
+    "id": "p17",
+    "name": "Neutrogena Oil-Free Acne Wash",
+    "brand": "Neutrogena",
+    "skin_types": ["oily"],
+    "concerns": ["acne"],
+    "type": "cleanser",
+    "price_range": "medium",
+    "description": "A salicylic-acid-based cleanser that removes excess oil and prevents breakouts."
+  },
+  {
+    "id": "p18",
+    "name": "Nivea Soft Cream",
+    "brand": "Nivea",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["dryness"],
+    "type": "moisturizer",
+    "price_range": "low",
+    "description": "Light hydrating cream suitable for face and body. Popular due to its affordability."
+  },
+  {
+    "id": "p19",
+    "name": "Nivea Perfect & Radiant Even Tone Day Cream",
+    "brand": "Nivea",
+    "skin_types": ["normal"],
+    "concerns": ["dark_spots", "uneven_tone"],
+    "type": "moisturizer",
+    "price_range": "low",
+    "description": "Day cream formulated to reduce dark spots and even skin tone."
+  },
+  {
+    "id": "p20",
+    "name": "The Ordinary Azelaic Acid Suspension 10%",
+    "brand": "The Ordinary",
+    "skin_types": ["sensitive", "acne_prone"],
+    "concerns": ["acne", "redness", "pigmentation"],
+    "type": "treatment",
+    "price_range": "low",
+    "description": "A multifunctional brightening and calming treatment that reduces blemishes."
+  },
+    {
+    "id": 21,
+    "name": "L'Oréal Hyaluron Expert Replumping Serum",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "90–140",
+    "skin_types": ["dry", "normal", "combination"],
+    "concerns": ["dehydration", "dullness"],
+    "description": "Lightweight serum with hyaluronic acid that hydrates and plumps the skin, making it smoother and more refreshed."
+  },
+  {
+    "id": 22,
+    "name": "Garnier Micellar Cleansing Water (Pink)",
+    "category": "Makeup Remover",
+    "price_category": "Low",
+    "price_range_mad": "40–70",
+    "skin_types": ["sensitive", "normal"],
+    "concerns": ["makeup removal", "redness"],
+    "description": "Gentle micellar water that removes makeup and impurities without irritation."
+  },
+  {
+    "id": 23,
+    "name": "CeraVe Hydrating Cleanser",
+    "category": "Cleanser",
+    "price_category": "Medium",
+    "price_range_mad": "130–180",
+    "skin_types": ["dry", "normal", "sensitive"],
+    "concerns": ["dryness", "tightness"],
+    "description": "Non-foaming cleanser with ceramides that cleans the skin while keeping moisture locked in."
+  },
+  {
+    "id": 24,
+    "name": "The Ordinary Lactic Acid 5%",
+    "category": "Exfoliant",
+    "price_category": "Medium",
+    "price_range_mad": "110–150",
+    "skin_types": ["dry", "dull"],
+    "concerns": ["texture", "dullness"],
+    "description": "Mild chemical exfoliant that gently smooths rough texture and brightens the skin."
+  },
+  {
+    "id": 25,
+    "name": "Simple Hydrating Light Moisturizer",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "60–90",
+    "skin_types": ["oily", "sensitive", "normal"],
+    "concerns": ["light hydration"],
+    "description": "Light, oil-free moisturizer suitable for sensitive skin that provides soft hydration."
+  },
+  {
+    "id": 26,
+    "name": "Nivea Soft Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "30–60",
+    "skin_types": ["dry", "normal"],
+    "concerns": ["dry patches", "softness"],
+    "description": "Affordable hydrating cream with a soft texture that absorbs quickly."
+  },
+  {
+    "id": 27,
+    "name": "Bioderma Sebium Purifying Foaming Gel",
+    "category": "Cleanser",
+    "price_category": "Medium",
+    "price_range_mad": "120–170",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["excess oil", "breakouts"],
+    "description": "Purifying gel cleanser designed to reduce oiliness and clean pores without drying the skin."
+  },
+  {
+    "id": 28,
+    "name": "La Roche-Posay Effaclar Micro-Peeling Gel",
+    "category": "Cleanser",
+    "price_category": "High",
+    "price_range_mad": "180–230",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["blackheads", "texture"],
+    "description": "Deep-cleansing gel that helps unclog pores and reduce rough texture."
+  },
+  {
+    "id": 29,
+    "name": "Clinique Dramatically Different Moisturizing Gel",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "260–350",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["shine", "light hydration"],
+    "description": "Oil-free moisturizer ideal for oily skin, balancing hydration without greasiness."
+  },
+  {
+    "id": 30,
+    "name": "Nuxe Huile Prodigieuse Dry Oil",
+    "category": "Oil",
+    "price_category": "High",
+    "price_range_mad": "200–300",
+    "skin_types": ["dry", "normal"],
+    "concerns": ["dullness", "dryness"],
+    "description": "Multi-purpose nourishing oil that softens skin and adds a natural glow."
+  },
+  {
+    "id": 31,
+    "name": "Farmasi Tea Tree Serum",
+    "category": "Serum",
+    "price_category": "Low",
+    "price_range_mad": "60–100",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["breakouts", "excess oil"],
+    "description": "Light tea tree serum that helps reduce oil and supports clearer-looking skin."
+  },
+  {
+    "id": 32,
+    "name": "Hada Labo Gokujyun Lotion",
+    "category": "Hydrating Lotion",
+    "price_category": "Medium",
+    "price_range_mad": "130–180",
+    "skin_types": ["dry", "normal", "combination"],
+    "concerns": ["dehydration"],
+    "description": "Hydrating Japanese lotion rich in hyaluronic acid for deep moisture."
+  },
+  {
+    "id": 33,
+    "name": "Yves Rocher Sebo Pure Vegetal Gel Cream",
+    "category": "Moisturizer",
+    "price_category": "Medium",
+    "price_range_mad": "100–150",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["shine", "breakouts"],
+    "description": "Light gel cream that mattifies the skin while maintaining hydration."
+  },
+  {
+    "id": 34,
+    "name": "Olay Regenerist Micro-Sculpting Cream",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "200–300",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["fine lines", "texture"],
+    "description": "Rich cream that keeps the skin moisturized and smooth-looking."
+  },
+  {
+    "id": 35,
+    "name": "The Ordinary Squalane Cleanser",
+    "category": "Cleanser",
+    "price_category": "Medium",
+    "price_range_mad": "100–140",
+    "skin_types": ["dry", "normal", "sensitive"],
+    "concerns": ["dryness", "makeup removal"],
+    "description": "Gentle balm-to-oil cleanser that removes makeup and hydrates at the same time."
+  },
+  {
+    "id": 36,
+    "name": "Garnier Vitamin C Brightening Serum",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "90–130",
+    "skin_types": ["dull", "normal", "combination"],
+    "concerns": ["dark spots", "dullness"],
+    "description": "Vitamin C serum designed to brighten the skin and improve radiance."
+  },
+  {
+    "id": 37,
+    "name": "Neutrogena Oil-Free Moisture",
+    "category": "Moisturizer",
+    "price_category": "Medium",
+    "price_range_mad": "110–160",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["shine control"],
+    "description": "Lightweight moisturizer ideal for oily skin, keeping it soft without adding oils."
+  },
+  {
+    "id": 38,
+    "name": "Nivea Rose Care Gel Cleanser",
+    "category": "Cleanser",
+    "price_category": "Low",
+    "price_range_mad": "40–70",
+    "skin_types": ["normal", "sensitive"],
+    "concerns": ["light cleansing"],
+    "description": "Gentle gel cleanser infused with rose water that soothes and refreshes the skin."
+  },
+  {
+    "id": 39,
+    "name": "Diadermine Lift Super Corrective Serum",
+    "category": "Serum",
+    "price_category": "Low",
+    "price_range_mad": "70–100",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["texture", "dullness"],
+    "description": "Affordable serum that smooths and hydrates the skin with a lightweight texture."
+  },
+  {
+    "id": 40,
+    "name": "The Body Shop Tea Tree Skin Clearing Toner",
+    "category": "Toner",
+    "price_category": "Medium",
+    "price_range_mad": "110–160",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["breakouts", "oiliness"],
+    "description": "Refreshing toner that helps reduce oil and leaves the skin feeling clean."
+  },
+    {
+    "id": 41,
+    "name": "The Ordinary Glycolic Acid 7% Toning Solution",
+    "category": "Toner",
+    "price_category": "Medium",
+    "price_range_mad": "110–150",
+    "skin_types": ["normal", "combination", "oily"],
+    "concerns": ["dullness", "texture"],
+    "description": "A gentle exfoliating toner that helps improve skin smoothness and radiance."
+  },
+  {
+    "id": 42,
+    "name": "La Roche-Posay Cicaplast Baume B5",
+    "category": "Soothing Balm",
+    "price_category": "High",
+    "price_range_mad": "150–220",
+    "skin_types": ["sensitive", "dry"],
+    "concerns": ["irritation", "dry patches"],
+    "description": "A multi-purpose soothing balm that helps calm and comfort sensitive skin."
+  },
+  {
+    "id": 43,
+    "name": "Nivea Perfect & Radiant Even Tone Day Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "50–80",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["dark spots", "dullness"],
+    "description": "Hydrating day cream that helps the skin appear brighter and more even."
+  },
+  {
+    "id": 44,
+    "name": "Garnier Pure Active Charcoal 3-in-1",
+    "category": "Cleanser/Mask",
+    "price_category": "Low",
+    "price_range_mad": "50–90",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["blackheads", "oiliness"],
+    "description": "A charcoal formula that can be used as a cleanser, scrub, or mask to purify the skin."
+  },
+  {
+    "id": 45,
+    "name": "CeraVe Foaming Facial Cleanser",
+    "category": "Cleanser",
+    "price_category": "Medium",
+    "price_range_mad": "120–170",
+    "skin_types": ["normal", "oily"],
+    "concerns": ["excess oil"],
+    "description": "Foaming cleanser that removes impurities while maintaining the skin barrier."
+  },
+  {
+    "id": 46,
+    "name": "Pixi Glow Tonic",
+    "category": "Toner",
+    "price_category": "Medium",
+    "price_range_mad": "120–180",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["dullness", "uneven texture"],
+    "description": "A mild exfoliating toner with glycolic acid that leaves the skin looking refreshed."
+  },
+  {
+    "id": 47,
+    "name": "SVR Sebiaclear Gel Moussant",
+    "category": "Cleanser",
+    "price_category": "High",
+    "price_range_mad": "140–200",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["oiliness", "breakouts"],
+    "description": "Purifying foaming gel designed to gently cleanse and mattify oily skin."
+  },
+  {
+    "id": 48,
+    "name": "Yves Rocher Hydra Végétal 48H Gel Cream",
+    "category": "Moisturizer",
+    "price_category": "Medium",
+    "price_range_mad": "100–150",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["dehydration"],
+    "description": "Moisturizing gel cream that leaves the skin feeling fresh and hydrated."
+  },
+  {
+    "id": 49,
+    "name": "Ziaja Goat’s Milk Night Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "40–70",
+    "skin_types": ["dry", "normal"],
+    "concerns": ["dryness", "dullness"],
+    "description": "Nourishing night cream that leaves dry skin soft and comfortable."
+  },
+  {
+    "id": 50,
+    "name": "The Ordinary Niacinamide 10% + Zinc 1%",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "90–130",
+    "skin_types": ["oily", "acne-prone", "combination"],
+    "concerns": ["excess oil", "pores"],
+    "description": "Light serum that supports clearer-looking skin and reduces shine."
+  },
+  {
+    "id": 51,
+    "name": "L'Oréal Revitalift Hyaluronic Acid Serum",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "120–160",
+    "skin_types": ["dry", "normal"],
+    "concerns": ["dehydration"],
+    "description": "Hydrating serum formulated to plump and smooth the skin."
+  },
+  {
+    "id": 52,
+    "name": "Nuxe Reve de Miel Lip Balm",
+    "category": "Lip Care",
+    "price_category": "Medium",
+    "price_range_mad": "80–120",
+    "skin_types": ["dry", "sensitive"],
+    "concerns": ["dry lips"],
+    "description": "Rich lip balm that nourishes and softens dry, chapped lips."
+  },
+  {
+    "id": 53,
+    "name": "Himalaya Neem Face Wash",
+    "category": "Cleanser",
+    "price_category": "Low",
+    "price_range_mad": "30–60",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["oiliness", "breakouts"],
+    "description": "Gentle herbal face wash that helps clean oily skin and reduce impurities."
+  },
+  {
+    "id": 54,
+    "name": "Diadermine Lift Hydratant Day Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "60–90",
+    "skin_types": ["dry", "normal"],
+    "concerns": ["dryness"],
+    "description": "Daily hydrating cream with a soft texture suitable for normal to dry skin."
+  },
+  {
+    "id": 55,
+    "name": "Uriage Eau Thermale Light Water Cream",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "150–200",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["dehydration"],
+    "description": "Light moisturizing cream enriched with thermal water to refresh and hydrate."
+  },
+  {
+    "id": 56,
+    "name": "The Body Shop Aloe Soothing Day Cream",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "120–180",
+    "skin_types": ["sensitive"],
+    "concerns": ["irritation", "redness"],
+    "description": "Gentle cream that soothes sensitive skin with aloe vera."
+  },
+  {
+    "id": 57,
+    "name": "L'Oréal Pure Clay Detox Mask",
+    "category": "Mask",
+    "price_category": "Medium",
+    "price_range_mad": "80–120",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["clogged pores", "dullness"],
+    "description": "Detoxifying mask that absorbs excess oil and impurities."
+  },
+  {
+    "id": 58,
+    "name": "Garnier Hydra Bomb Night Gel Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "50–90",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["dehydration"],
+    "description": "A refreshing nighttime gel cream that hydrates and softens the skin."
+  },
+  {
+    "id": 59,
+    "name": "Farmasi Calendula Face Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "40–70",
+    "skin_types": ["sensitive", "normal"],
+    "concerns": ["irritation"],
+    "description": "Light cream with calendula extract that soothes and hydrates."
+  },
+  {
+    "id": 60,
+    "name": "Simple Kind to Skin Refreshing Face Wash",
+    "category": "Cleanser",
+    "price_category": "Low",
+    "price_range_mad": "40–70",
+    "skin_types": ["sensitive", "normal"],
+    "concerns": ["light cleansing"],
+    "description": "Gentle face wash without fragrances or harsh ingredients."
+  },
+   {
+    "id": 61,
+    "name": "Avène Thermal Spring Water",
+    "category": "Facial Mist",
+    "price_category": "Medium",
+    "price_range_mad": "90–130",
+    "skin_types": ["sensitive", "dry"],
+    "concerns": ["irritation", "redness"],
+    "description": "Soothing thermal water mist that calms and refreshes sensitive skin throughout the day."
+  },
+  {
+    "id": 62,
+    "name": "L’Oréal Age Perfect Cell Renewal Night Cream",
+    "category": "Night Cream",
+    "price_category": "High",
+    "price_range_mad": "250–350",
+    "skin_types": ["mature", "normal"],
+    "concerns": ["wrinkles", "texture"],
+    "description": "Luxurious night cream that promotes skin renewal and reduces fine lines."
+  },
+  {
+    "id": 63,
+    "name": "The Ordinary Caffeine Solution 5% + EGCG",
+    "category": "Eye Serum",
+    "price_category": "Medium",
+    "price_range_mad": "110–150",
+    "skin_types": ["all"],
+    "concerns": ["dark_circles", "puffiness"],
+    "description": "Targeted eye serum that helps reduce the appearance of dark circles and under-eye puffiness."
+  },
+  {
+    "id": 64,
+    "name": "Nivea Q10 Power Anti-Wrinkle Day Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "70–100",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["fine_lines", "aging"],
+    "description": "Day cream enriched with Q10 that helps smooth skin and reduce the first signs of aging."
+  },
+  {
+    "id": 65,
+    "name": "Bioderma Atoderm Intensive Balm",
+    "category": "Body Cream",
+    "price_category": "High",
+    "price_range_mad": "180–240",
+    "skin_types": ["very dry", "sensitive"],
+    "concerns": ["dryness", "itchy skin"],
+    "description": "Soothing, nourishing body balm especially for very dry and fragile skin."
+  },
+  {
+    "id": 66,
+    "name": "The Ordinary Alpha Arbutin 2% + HA",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "120–180",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["dark_spots", "pigmentation"],
+    "description": "Targeted skin brightening serum that helps reduce dark spots and uneven tone."
+  },
+  {
+    "id": 67,
+    "name": "L’Oréal UV Defender SPF50",
+    "category": "Sunscreen",
+    "price_category": "Medium",
+    "price_range_mad": "140–190",
+    "skin_types": ["all"],
+    "concerns": ["sun_protection"],
+    "description": "High protection sunscreen that shields skin from UV rays without greasiness."
+  },
+  {
+    "id": 68,
+    "name": "Cicaplast Baume B5 Soothing Repair Balm",
+    "category": "Soothing Balm",
+    "price_category": "Medium",
+    "price_range_mad": "150–220",
+    "skin_types": ["sensitive", "irritated"],
+    "concerns": ["soothing", "redness"],
+    "description": "Multi-purpose soothing balm that helps repair and calm irritated skin."
+  },
+  {
+    "id": 69,
+    "name": "The Body Shop Vitamin E Moisture Cream",
+    "category": "Moisturizer",
+    "price_category": "Medium",
+    "price_range_mad": "120–180",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["moisture", "softness"],
+    "description": "Classic vitamin E cream that keeps skin hydrated and soft all day."
+  },
+  {
+    "id": 70,
+    "name": "Nuxe Crème Fraîche de Beauté 48H Moisturizer",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "220–300",
+    "skin_types": ["normal", "sensitive"],
+    "concerns": ["dehydration", "comfort"],
+    "description": "Rich yet fresh moisturizer that nourishes and restores comfort to the skin."
+  },
+  {
+    "id": 71,
+    "name": "La Roche-Posay Anthelios Invisible Fluid SPF50+",
+    "category": "Sunscreen",
+    "price_category": "High",
+    "price_range_mad": "220–290",
+    "skin_types": ["all"],
+    "concerns": ["sun_protection"],
+    "description": "Ultra-light, high-protection sunscreen that leaves no white cast."
+  },
+  {
+    "id": 72,
+    "name": "Bioderma Hydrabio H2O Micellar Water",
+    "category": "Cleanser",
+    "price_category": "Medium",
+    "price_range_mad": "140–190",
+    "skin_types": ["dry", "sensitive"],
+    "concerns": ["cleanse", "hydration"],
+    "description": "Micellar water designed for dehydrated and sensitive skin to remove impurities and refresh."
+  },
+  {
+    "id": 73,
+    "name": "Uriage Bariésun Mineral Tinted Fluid SPF50",
+    "category": "Sunscreen",
+    "price_category": "High",
+    "price_range_mad": "230–300",
+    "skin_types": ["all"],
+    "concerns": ["sun_protection", "uneven_tone"],
+    "description": "Mineral sunscreen with a light tint that evens skin tone while protecting from UV."
+  },
+  {
+    "id": 74,
+    "name": "The Ordinary Caffeine Solution 10% + EGCG",
+    "category": "Eye Serum",
+    "price_category": "Medium",
+    "price_range_mad": "150–200",
+    "skin_types": ["all"],
+    "concerns": ["dark_circles", "puffiness"],
+    "description": "Powerful eye serum targeting dark circles and puffiness with green tea extract."
+  },
+  {
+    "id": 75,
+    "name": "Yves Rocher Sebo Purifying Toner",
+    "category": "Toner",
+    "price_category": "Medium",
+    "price_range_mad": "100–140",
+    "skin_types": ["oily", "combination"],
+    "concerns": ["oiliness", "texture"],
+    "description": "Toner that helps remove residue and refresh oily skin."
+  },
+  {
+    "id": 76,
+    "name": "Clinique Moisture Surge 72-Hour Auto-Replenishing Hydrator",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "350–450",
+    "skin_types": ["all"],
+    "concerns": ["dehydration"],
+    "description": "Intense hydrating cream that delivers moisture and keeps skin plump for up to 72 hours."
+  },
+  {
+    "id": 77,
+    "name": "Bioderma Photoderm Max SPF50+",
+    "category": "Sunscreen",
+    "price_category": "High",
+    "price_range_mad": "210–260",
+    "skin_types": ["all"],
+    "concerns": ["sun_protection"],
+    "description": "High protection sunscreen with a lightweight texture perfect for everyday use."
+  },
+  {
+    "id": 78,
+    "name": "Nivea Q10 Night Cream",
+    "category": "Night Cream",
+    "price_category": "Low",
+    "price_range_mad": "70–110",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["fine_lines"],
+    "description": "Night cream enriched with coenzyme Q10 to help refresh skin overnight."
+  },
+  {
+    "id": 79,
+    "name": "La Roche-Posay Cicaplast Lait B5 Body Lotion",
+    "category": "Body Lotion",
+    "price_category": "Medium",
+    "price_range_mad": "140–180",
+    "skin_types": ["all"],
+    "concerns": ["dryness", "irritation"],
+    "description": "Everyday body lotion that soothes and hydrates dry, irritated skin."
+  },
+  {
+    "id": 80,
+    "name": "The Ordinary Mandelic Acid 10% + HA",
+    "category": "Exfoliant",
+    "price_category": "Medium",
+    "price_range_mad": "150–190",
+    "skin_types": ["sensitive", "normal"],
+    "concerns": ["texture", "uneven_tone"],
+    "description": "Gentle exfoliant that helps smooth texture and improve skin radiance."
+  },
+   {
+    "id": 81,
+    "name": "Vichy Mineral 89 Hyaluronic Acid Booster",
+    "category": "Serum",
+    "price_category": "High",
+    "price_range_mad": "250–350",
+    "skin_types": ["all"],
+    "concerns": ["dehydration", "plumping"],
+    "description": "Daily booster with 89% Vichy mineral water to hydrate and strengthen skin barrier."
+  },
+  {
+    "id": 82,
+    "name": "Garnier Light Complete Brightening Serum Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "50–90",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["dullness", "dark spots"],
+    "description": "Day cream that brightens and evens skin tone with vitamin C."
+  },
+  {
+    "id": 83,
+    "name": "L’Oréal Revitalift Laser X3 Serum",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "180–240",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["wrinkles", "firmness"],
+    "description": "Advanced serum that targets wrinkles, elasticity, and radiance."
+  },
+  {
+    "id": 84,
+    "name": "Nuxe Huile Prodigieuse Multi-Purpose Dry Oil",
+    "category": "Face & Body Oil",
+    "price_category": "High",
+    "price_range_mad": "280–360",
+    "skin_types": ["all"],
+    "concerns": ["dryness", "softness"],
+    "description": "Luxurious dry oil for face, body, and hair that nourishes and softens skin."
+  },
+  {
+    "id": 85,
+    "name": "The Ordinary Retinol 0.2% in Squalane",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "150–200",
+    "skin_types": ["normal", "combination"],
+    "concerns": ["fine_lines", "texture"],
+    "description": "Gentle retinol formula that targets early signs of aging."
+  },
+  {
+    "id": 86,
+    "name": "Bioderma Sensibio AR Cream",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "200–260",
+    "skin_types": ["sensitive", "redness-prone"],
+    "concerns": ["redness", "sensitivity"],
+    "description": "Calming cream that reduces redness and soothes sensitive skin."
+  },
+  {
+    "id": 87,
+    "name": "CeraVe Moisturizing Cream",
+    "category": "Moisturizer",
+    "price_category": "Medium",
+    "price_range_mad": "140–200",
+    "skin_types": ["dry", "normal"],
+    "concerns": ["dryness"],
+    "description": "Rich cream with ceramides to restore and maintain the skin barrier."
+  },
+  {
+    "id": 88,
+    "name": "La Roche-Posay Effaclar Duo+",
+    "category": "Treatment",
+    "price_category": "High",
+    "price_range_mad": "180–250",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["blemishes", "pores"],
+    "description": "Targeted treatment to reduce imperfections and prevent breakouts."
+  },
+  {
+    "id": 89,
+    "name": "Garnier Micellar Cleansing Water",
+    "category": "Cleanser",
+    "price_category": "Low",
+    "price_range_mad": "40–80",
+    "skin_types": ["all"],
+    "concerns": ["makeup_removal", "gentle_cleanse"],
+    "description": "Micellar water that gently removes makeup and impurities without irritation."
+  },
+  {
+    "id": 90,
+    "name": "Eucerin Hyaluron-Filler Day Cream SPF30",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "220–280",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["wrinkles", "dehydration"],
+    "description": "Anti-aging day cream with hyaluronic acid to plump and smooth fine lines."
+  },
+  {
+    "id": 91,
+    "name": "The Body Shop Drops of Youth Concentrate",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "150–220",
+    "skin_types": ["all"],
+    "concerns": ["texture", "firmness"],
+    "description": "Youth-boosting serum that smooths and refreshes skin."
+  },
+  {
+    "id": 92,
+    "name": "Vichy Normaderm Anti-Acne Care",
+    "category": "Treatment",
+    "price_category": "Medium",
+    "price_range_mad": "150–200",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["breakouts", "pores"],
+    "description": "Daily care that reduces acne blemishes and regulates oiliness."
+  },
+  {
+    "id": 93,
+    "name": "Nivea Soft Moisturizing Cream",
+    "category": "Moisturizer",
+    "price_category": "Low",
+    "price_range_mad": "40–70",
+    "skin_types": ["all"],
+    "concerns": ["dryness", "softness"],
+    "description": "Light cream for daily hydration and smooth skin."
+  },
+  {
+    "id": 94,
+    "name": "Uriage Isofill Wrinkle Filler",
+    "category": "Treatment",
+    "price_category": "High",
+    "price_range_mad": "250–320",
+    "skin_types": ["mature", "dry"],
+    "concerns": ["wrinkles", "volume_loss"],
+    "description": "Advanced anti-wrinkle serum that helps fill lines and restore skin plumpness."
+  },
+  {
+    "id": 95,
+    "name": "The Ordinary Buffet",
+    "category": "Serum",
+    "price_category": "Medium",
+    "price_range_mad": "150–200",
+    "skin_types": ["all"],
+    "concerns": ["aging", "texture"],
+    "description": "Multi-technology peptide serum targeting multiple signs of aging."
+  },
+  {
+    "id": 96,
+    "name": "La Roche-Posay Toleriane Double Repair Face Moisturizer",
+    "category": "Moisturizer",
+    "price_category": "High",
+    "price_range_mad": "180–240",
+    "skin_types": ["sensitive", "normal"],
+    "concerns": ["hydration", "barrier_repair"],
+    "description": "Daily moisturizer that restores skin barrier and maintains comfort."
+  },
+  {
+    "id": 97,
+    "name": "Bioderma Atoderm Shower Oil",
+    "category": "Body Cleanser",
+    "price_category": "Medium",
+    "price_range_mad": "120–180",
+    "skin_types": ["dry", "sensitive"],
+    "concerns": ["dryness", "irritation"],
+    "description": "Gentle shower oil that cleanses while nourishing very dry skin."
+  },
+  {
+    "id": 98,
+    "name": "Nuxe Nuxellence Detox Night Cream",
+    "category": "Night Cream",
+    "price_category": "High",
+    "price_range_mad": "280–360",
+    "skin_types": ["all"],
+    "concerns": ["aging", "dullness"],
+    "description": "Night cream that detoxifies and regenerates skin overnight."
+  },
+  {
+    "id": 99,
+    "name": "The Ordinary Salicylic Acid 2% Solution",
+    "category": "Treatment",
+    "price_category": "Medium",
+    "price_range_mad": "120–170",
+    "skin_types": ["oily", "acne-prone"],
+    "concerns": ["acne", "pores"],
+    "description": "Targeted solution that helps reduce blemishes and unclog pores."
+  },
+  {
+    "id": 100,
+    "name": "Garnier Light Complete Vitamin C 2-in-1 Serum Cream",
+    "category": "Moisturizer/Serum",
+    "price_category": "Low",
+    "price_range_mad": "60–100",
+    "skin_types": ["normal", "dry"],
+    "concerns": ["dullness", "dark spots"],
+    "description": "Daily brightening serum cream with vitamin C to give radiant skin."
+  }
+]
