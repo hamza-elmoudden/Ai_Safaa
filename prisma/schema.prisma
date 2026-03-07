@@ -1,15 +1,202 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider     = "prisma-client"
-  output       = "../generated/prisma"
-  moduleFormat = "cjs"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["partialIndexes"]
+  moduleFormat    = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model chat_treatment {
+  id              String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  plan_id         String          @db.Uuid
+  user_message    String
+  ai_response     String
+  have_photo      Boolean         @default(false)
+  day_number      Int?
+  image_url       String?
+  image_key       String?
+  created_at      DateTime        @default(now()) @db.Timestamp(6)
+  treatment_plans treatment_plans @relation(fields: [plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([have_photo], map: "idx_chat_logs_have_photo", where: raw("(have_photo = true)"))
+  @@index([plan_id, created_at(sort: Desc)], map: "idx_chat_logs_plan")
+}
+
+model conversations {
+  id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id        String   @db.Uuid
+  message_user   String
+  user_photo_url String?
+  user_photo_key String?
+  analysis_photo String?
+  message_ai     String
+  created_at     DateTime @default(now()) @db.Timestamp(6)
+  users          users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_photo_url], map: "idx_conversations_have_photo", where: raw("(user_photo_url IS NOT NULL)"))
+  @@index([user_id, created_at(sort: Desc)], map: "idx_conversations_user")
+}
+
+model payments {
+  id              String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id         String         @db.Uuid
+  subscription_id String?        @db.Uuid
+  amount_mad      Decimal        @db.Decimal(8, 2)
+  method          payment_method
+  status          payment_status @default(pending)
+  provider_ref    String?        @unique @db.VarChar(255)
+  provider_meta   Json?          @default("{}")
+  paid_at         DateTime?      @db.Timestamp(6)
+  created_at      DateTime       @default(now()) @db.Timestamp(6)
+  subscriptions   subscriptions? @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users           users          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([status], map: "idx_payments_status", where: raw("(status = 'pending'::payment_status)"))
+  @@index([user_id, created_at(sort: Desc)], map: "idx_payments_user")
+}
+
+model skin_profiles {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id    String    @unique @db.Uuid
+  skin_type  skin_type
+  concerns   String[]  @default([])
+  allergies  String[]  @default([])
+  notes      String?
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id], map: "idx_skin_profiles_user")
+}
+
+model subscriptions {
+  id                String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name              plan_name  @unique
+  price_mad         Decimal    @default(0) @db.Decimal(8, 2)
+  analyses_limit    Int        @default(3)
+  treatment_plans   Boolean    @default(false)
+  product_checks    Int        @default(5)
+  progress_tracking Boolean    @default(false)
+  vip_consultation  Boolean    @default(false)
+  features          Json       @default("{}")
+  is_active         Boolean    @default(true)
+  created_at        DateTime   @default(now()) @db.Timestamp(6)
+  payments          payments[]
+}
+
+model treatment_plans {
+  id                String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id           String           @db.Uuid
+  title             String           @db.VarChar(200)
+  concern_type      concern_type
+  duration_days     Int              @default(28)
+  checkin_interval  Int              @default(4)
+  day_0_acne_count  Int?             @default(0)
+  status            plan_status      @default(active)
+  improvement_pct   Decimal?         @default(0) @db.Decimal(5, 2)
+  areas_treated     areas_treated
+  initial_photo_url String
+  initial_photo_key String
+  ai_diagnosis      String?
+  ai_model          String?          @default("gpt-4-vision-preview") @db.VarChar(100)
+  next_checkin_at   DateTime?        @db.Timestamp(6)
+  started_at        DateTime         @default(now()) @db.Timestamp(6)
+  completed_at      DateTime?        @db.Timestamp(6)
+  created_at        DateTime         @default(now()) @db.Timestamp(6)
+  updated_at        DateTime         @default(now()) @db.Timestamp(6)
+  chat_treatment    chat_treatment[]
+  users             users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([next_checkin_at], map: "idx_plans_next_checkin", where: raw("(status = 'active'::plan_status)"))
+  @@index([user_id, status], map: "idx_plans_user_active", where: raw("(status = 'active'::plan_status)"))
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  id              String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email           String?           @unique @db.VarChar(255)
+  phone           String?           @unique @db.VarChar(20)
+  country_code    String?           @db.VarChar(5)
+  city            String?           @db.VarChar(100)
+  date_of_birth   DateTime?         @db.Date
+  password_hash   String
+  google_provider Boolean           @default(false)
+  google_id       String?           @unique @db.VarChar(255)
+  full_name       String            @db.VarChar(100)
+  role            user_role         @default(user)
+  is_verified     Boolean           @default(false)
+  otp_code        String?           @db.VarChar(6)
+  otp_expires_at  DateTime?         @db.Timestamp(6)
+  last_login      DateTime?         @db.Timestamp(6)
+  created_at      DateTime          @default(now()) @db.Timestamp(6)
+  updated_at      DateTime          @default(now()) @db.Timestamp(6)
+  conversations   conversations[]
+  payments        payments[]
+  skin_profiles   skin_profiles?
+  treatment_plans treatment_plans[]
+
+  @@index([email], map: "idx_users_email", where: raw("(email IS NOT NULL)"))
+  @@index([phone], map: "idx_users_phone", where: raw("(phone IS NOT NULL)"))
+}
+
+enum areas_treated {
+  Face
+  Neck
+  Back
+  Scalp
+  Hair
+  Nails
+}
+
+enum concern_type {
+  acne
+  dryness
+  oiliness
+  pigmentation
+  wrinkles
+  sensitivity
+  pores
+}
+
+enum payment_method {
+  credit_card
+  paypal
+  bank_transfer
+}
+
+enum payment_status {
+  pending
+  completed
+  failed
+  refunded
+}
+
+enum plan_name {
+  free
+  premium
+  vip
+}
+
+enum plan_status {
+  active
+  completed
+  paused
+  cancelled
+}
+
+enum skin_type {
+  dry
+  oily
+  combination
+  normal
+  sensitive
+}
+
+enum user_role {
+  user
+  admin
+  tchker
 }

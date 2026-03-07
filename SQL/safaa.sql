@@ -1,4 +1,6 @@
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TYPE user_role AS ENUM ('user', 'admin','tchker');
 CREATE TYPE skin_type AS ENUM ('dry', 'oily', 'combination', 'normal', 'sensitive');
 CREATE TYPE plan_name AS ENUM ('free', 'premium', 'vip');
@@ -8,6 +10,13 @@ CREATE TYPE concern_type   AS ENUM ('acne', 'dryness', 'oiliness', 'pigmentation
 CREATE TYPE plan_status    AS ENUM ('active', 'completed', 'paused', 'cancelled');
 CREATE TYPE areas_treated  AS ENUM ('Face', 'Neck', 'Back', 'Scalp', 'Hair', 'Nails');
 
+CREATE OR REPLACE FUNCTION fn_update_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE TABLE users (
   id               UUID         PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -26,7 +35,7 @@ CREATE TABLE users (
   otp_expires_at   TIMESTAMP,
   last_login       TIMESTAMP,
   created_at       TIMESTAMP    NOT NULL DEFAULT NOW(),
-  updated_at       TIMESTAMP    NOT NULL DEFAULT NOW(),
+  updated_at       TIMESTAMP    NOT NULL DEFAULT NOW()
 
   CONSTRAINT chk_users_contact CHECK (email IS NOT NULL OR phone IS NOT NULL)
 );
@@ -55,11 +64,12 @@ CREATE TABLE skin_profiles (
 CREATE INDEX idx_skin_profiles_user ON skin_profiles(user_id);
 
 CREATE TRIGGER trg_skin_profiles_ts
-  BEFORE UPDATE ON skin_profiles
-  FOR EACH ROW EXECUTE FUNCTION fn_update_timestamp();
+BEFORE UPDATE ON skin_profiles
+FOR EACH ROW
+EXECUTE FUNCTION fn_update_timestamp();;
 
 
-CREATE TABLE subscription_plans (
+CREATE TABLE subscriptions(
   id                  UUID      PRIMARY KEY DEFAULT uuid_generate_v4(),
   name                plan_name NOT NULL UNIQUE,
   price_mad           DECIMAL(8,2) NOT NULL DEFAULT 0,
@@ -74,7 +84,7 @@ CREATE TABLE subscription_plans (
 );
 
 
-CREATE TABLE payments (
+CREATE TABLE payments(
   id               UUID           PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id          UUID           NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   subscription_id  UUID           REFERENCES subscriptions(id),
@@ -99,7 +109,7 @@ CREATE TABLE treatment_plans (
   concern_type       concern_type NOT NULL,
   duration_days      INTEGER      NOT NULL DEFAULT 28,
   checkin_interval   INTEGER      NOT NULL DEFAULT 4,
-  DAY_0_acne_count   INTEGER,     DEFAULT 0,
+  DAY_0_acne_count   INTEGER      DEFAULT 0,
   status             plan_status  NOT NULL DEFAULT 'active',
   improvement_pct    DECIMAL(5,2) DEFAULT 0,
   areas_treated      areas_treated NOT NuLL,
@@ -131,7 +141,7 @@ CREATE TABLE chat_treatment (
   ai_response     TEXT         NOT NULL,
   have_photo      BOOLEAN      NOT NULL DEFAULT FALSE,
   day_number      INTEGER,
-  image_url       TEXT,
+  image_url       TEXT,     -- only used if have_photo = TRUE, otherwise NULL
   image_key       TEXT,
   created_at      TIMESTAMP    NOT NULL DEFAULT NOW()
 );
@@ -154,47 +164,6 @@ CREATE INDEX idx_conversations_user ON conversations(user_id, created_at DESC);
 CREATE INDEX idx_conversations_have_photo ON conversations(user_photo_url) WHERE user_photo_url IS NOT NULL;
 
 
-CREATE VIEW v_checkin_progress AS
-SELECT
-  c.id,
-  c.plan_id,
-  c.user_id,
-  c.day_number,
-  c.acne_count,
-  prev.acne_count                  AS prev_acne_count,
-  (prev.acne_count - c.acne_count) AS acne_reduced,
-  c.redness_level,
-  c.glow_score,
-  c.improvement_pct,
-  c.ai_summary,                    -- text only — no photo URL exposed here
-  c.checked_at
-FROM treatment_checkins c
-LEFT JOIN treatment_checkins prev
-  ON  prev.plan_id    = c.plan_id
-  AND prev.day_number = c.day_number - 4;
 
 
 
-CREATE VIEW v_user_active_plan AS
-SELECT
-  u.id                    AS user_id,
-  u.full_name,
-  s.status                AS sub_status,
-  s.expires_at,
-  p.name                  AS plan_name,
-  p.analyses_limit,
-  p.treatment_plans,
-  p.product_checks        AS product_checks_limit,
-  p.progress_tracking,
-  p.vip_consultation,
-  COALESCE(uq.analyses_used, 0)       AS analyses_used,
-  COALESCE(uq.product_checks_used, 0) AS product_checks_used
-FROM users u
-LEFT JOIN subscriptions s
-  ON  s.user_id    = u.id
-  AND s.status     = 'active'
-  AND s.expires_at > NOW()
-LEFT JOIN subscription_plans p ON p.id = s.plan_id
-LEFT JOIN usage_quotas uq
-  ON  uq.user_id      = u.id
-  AND uq.period_start = DATE_TRUNC('month', NOW())::DATE;
