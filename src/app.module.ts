@@ -6,6 +6,7 @@ import { AiModule } from './ai/ai.module';
 import { ImageModule } from './image/image.module';
 import { ConfigModule } from '@nestjs/config';
 import {  ThrottlerModule } from '@nestjs/throttler';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {  ThrottlerModule } from '@nestjs/throttler';
     }),
     AiModule,
     ImageModule,
+    PrismaModule,
      ThrottlerModule.forRoot([
       {
         name: 'default',
