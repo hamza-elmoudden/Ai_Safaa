@@ -137,5 +137,71 @@ export class UsersService {
     }
 
 
+    async saveRefreshToken(userId: string, hashedToken: string): Promise<void> {
+    // await this.prisma.users.update({
+    //   where: { id: userId },
+    //   data:  { refresh_token: hashedToken },
+    // });
+  }
+
+  /** Clear refresh token on logout or rotation */
+  async clearRefreshToken(userId: string): Promise<void> {
+    // await this.prisma.users.update({
+    //   where: { id: userId },
+    // //   data:  { refresh_token: null },
+    // });
+  }
+
+  /** Update last_login timestamp */
+  async updateLastLogin(userId: string): Promise<void> {
+    await this.prisma.users.update({
+      where: { id: userId },
+      data:  { last_login: new Date() },
+    });
+  }
+
+
+    async findOrCreateGoogleUser(profile: {
+    googleId: string;
+    email:    string;
+    fullName: string;
+  }): Promise<User> {
+    // 1. already used Google before
+    let user = await this.prisma.users.findUnique({
+      where: { google_id: profile.googleId },
+    });
+    if (user) return this.ToMap(user);
+
+    // 2. registered with email before → link Google account
+    user = await this.prisma.users.findUnique({
+      where: { email: profile.email },
+    });
+    if (user) {
+      const updated = await this.prisma.users.update({
+        where: { id: user.id },
+        data: {
+          google_id:       profile.googleId,
+          google_provider: true,
+          is_verified:     true,
+        },
+      });
+      return this.ToMap(updated);
+    }
+
+    // 3. brand new user
+    const created = await this.prisma.users.create({
+      data: {
+        google_id:       profile.googleId,
+        email:           profile.email,
+        full_name:       profile.fullName,
+        google_provider: true,
+        is_verified:     true,
+        role:            'user',
+        password_hash:   'null',   // no password for Google users
+      },
+    });
+    return this.ToMap(created);
+  }
+
 
 }

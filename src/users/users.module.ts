@@ -13,6 +13,7 @@ import { FindByIdQuery } from './Query/impl/findbyid.query';
   ]
     ,
   controllers: [UsersController],
-  imports:[PrismaModule]
+  imports:[PrismaModule],
+  exports:[UsersService]
 })
 export class UsersModule {}
