@@ -7,6 +7,7 @@ import { ImageModule } from './image/image.module';
 import { ConfigModule } from '@nestjs/config';
 import {  ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PrismaModule } from './prisma/prisma.module';
         
       },
     ]),
+     UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
