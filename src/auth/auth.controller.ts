@@ -1,4 +1,114 @@
-import { Controller } from '@nestjs/common';
+// src/auth/auth.controller.ts
 
+import {
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Req,
+  Res,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+import { Response } from 'express';
+import { AuthService } from './auth.service';
+import { User } from '../users/Schema/user.schema';
+import { CurrentUser } from './decorators/decorators';
+import { GoogleAuthGuard, JwtAuthGuard, JwtRefreshGuard } from './guards/google-auth.guard';
+
+/**
+ *  Routes
+ *  ─────────────────────────────────────────────────────────────
+ *  GET  /auth/google             → redirect to Google consent
+ *  GET  /auth/google/callback    → Google returns here → issue tokens
+ *  POST /auth/refresh            → rotate (Bearer <refreshToken>)
+ *  POST /auth/logout             → revoke refresh token
+ *  GET  /auth/me                 → current user profile
+ */
 @Controller('auth')
-export class AuthController {}
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  // ─────────────────────────────────────────────────────────────
+  //  GET /auth/google
+  //  Passport redirects to Google consent screen — no body needed
+  // ─────────────────────────────────────────────────────────────
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  googleRedirect() {}
+
+  // ─────────────────────────────────────────────────────────────
+  //  GET /auth/google/callback
+  //  Google posts back here after user grants consent.
+  //  GoogleStrategy.validate() runs → user in req.user
+  // ─────────────────────────────────────────────────────────────
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  async googleCallback(@Req() req: any, @Res() res: Response) {
+    const tokens = await this.authService.googleLogin(req.user as User);
+
+    const base = process.env.FRONTEND_URL ?? 'http://localhost:3000';
+
+    // Redirect to frontend with tokens in query string
+    return res.redirect(
+      `${base}/auth/success` +
+      `?access_token=${tokens.accessToken}` +
+      `&refresh_token=${tokens.refreshToken}` +
+      `&expires_in=${tokens.expiresIn}`,
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  POST /auth/refresh
+  //  Header: Authorization: Bearer <refreshToken>
+  //
+  //  Flow:
+  //    JwtRefreshGuard → JwtRefreshStrategy:
+  //      1. Verifies JWT signature (JWT_REFRESH_SECRET)
+  //      2. Loads user from Prisma
+  //      3. Hashes incoming token → compares with DB hash
+  //      4. Sets req.user on success
+  //    Controller: calls rotateTokens()
+  //      - Deletes old hash immediately
+  //      - Issues new access + refresh pair
+  //
+  //  ⚠️ Client must save BOTH new tokens — old refreshToken is dead
+  // ─────────────────────────────────────────────────────────────
+  @Post('refresh')
+  @UseGuards(JwtRefreshGuard)
+  @HttpCode(HttpStatus.OK)
+  refresh(@CurrentUser() user: User) {
+    return this.authService.rotateTokens(user);
+    // returns: { accessToken, refreshToken, expiresIn }
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  POST /auth/logout
+  //  Header: Authorization: Bearer <accessToken>
+  //  Clears refresh token hash from DB via Prisma
+  // ─────────────────────────────────────────────────────────────
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  logout(@CurrentUser() user: User) {
+    return this.authService.logout(user.id);
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  GET /auth/me
+  //  Header: Authorization: Bearer <accessToken>
+  //  Returns safe public profile — strips sensitive fields
+  // ─────────────────────────────────────────────────────────────
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  me(@CurrentUser() user: User) {
+    const {
+      password_hash,
+      refresh_token,
+      otp_code,
+      fcm_token,
+      ...safe
+    } = user as any;
+    return safe;
+  }
+}
