@@ -2,9 +2,16 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { FindByIdQuery } from './Query/impl/findbyid.query';
 
 @Module({
-  providers: [UsersService],
+  providers: [
+    UsersService,
+
+    // Query
+    FindByIdQuery,
+  ]
+    ,
   controllers: [UsersController],
   imports:[PrismaModule]
 })
