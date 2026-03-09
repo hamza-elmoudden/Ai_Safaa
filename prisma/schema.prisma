@@ -133,6 +133,7 @@ model users {
   last_login      DateTime?         @db.Timestamp(6)
   created_at      DateTime          @default(now()) @db.Timestamp(6)
   updated_at      DateTime          @default(now()) @db.Timestamp(6)
+  refresh_token   String?
   conversations   conversations[]
   payments        payments[]
   skin_profiles   skin_profiles?

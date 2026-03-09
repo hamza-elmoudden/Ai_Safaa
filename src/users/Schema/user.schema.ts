@@ -26,6 +26,7 @@ export class User {
         public otp_expires_at: Date,
         public last_login: Date,
         public created_at: Date,
-        public updated_at: Date
+        public updated_at: Date,
+        public refresh_token: string
     ) {}
 }

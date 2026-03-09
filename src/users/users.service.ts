@@ -28,7 +28,8 @@ export class UsersService {
             user.otp_expires_at,
             user.last_login,
             user.created_at,
-            user.updated_at
+            user.updated_at,
+            user.refresh_token
         );
     }
 
@@ -87,7 +88,8 @@ export class UsersService {
                 otp_code: data.otp_code,
                 otp_expires_at: data.otp_expires_at,
                 last_login: data.last_login,
-                // updated_at: data.updated_at
+                refresh_token: data.refresh_token
+               
             }
         });
 
