@@ -1,8 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { AiService } from './ai.service';
 import { CommandBus } from '@nestjs/cqrs';
 import { generatetextcommand } from './Command/impl/generatechat.command';
-import { analyzefacecommend } from './Command/impl/analyzeface.commend';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadImageCommand } from 'src/image/commands/impl/upload-image.command';
 import { AiDto } from './dto/ai.dto';

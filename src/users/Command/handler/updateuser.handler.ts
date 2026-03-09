@@ -8,24 +8,29 @@ import { NotFoundException } from "@nestjs/common";
 
 @CommandHandler(UpdateUserCommand)
 export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   async execute(command: UpdateUserCommand): Promise<any> {
-    
-    const { id, phone, country_code, city, date_of_birth, password_hash, google_provider_id, google_id, full_name, role, is_verified } = command;
-    
+    try {
+      const { id, phone, country_code, city, date_of_birth, password_hash, google_provider_id, google_id, full_name, role, is_verified } = command;
 
-    const findUser = await this.usersService.findOneId(id);
 
-    if (!findUser) {
+      const findUser = await this.usersService.findOneId(id);
+
+      if (!findUser) {
         throw new NotFoundException('User not found');
+      }
+
+      const user = new User(id, findUser.email, phone, country_code, city, date_of_birth, password_hash, google_provider_id, google_id, full_name, role, is_verified, '', new Date(), new Date(), new Date(), new Date(), findUser.refresh_token);
+
+      const updatedUser = await this.usersService.update(user);
+
+      return updatedUser;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw new Error('Error updating user: ');
     }
 
-    const user = new User(id, findUser.email, phone, country_code, city, date_of_birth, password_hash, google_provider_id, google_id, full_name, role, is_verified, '',new Date(), new Date(), new Date(), new Date(),findUser.refresh_token );
-    
-    const updatedUser = await this.usersService.update(user);
-
-    return updatedUser;
   }
-}     
+}
 
