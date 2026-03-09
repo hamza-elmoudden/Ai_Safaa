@@ -112,6 +112,7 @@ export class AuthController {
       fcm_token,
       ...safe
     } = user as any;
+    
     return safe;
   }
 }

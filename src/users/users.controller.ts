@@ -1,9 +1,10 @@
-import { Body, Controller, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Put, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport'
 import { Roles } from 'src/auth/decorators/decorators';
 import { UpdateUserCommand } from './Command/impl/updateuser.command';
+import { FindByIdHandler } from './Query/handler/findbyid.handler';
 
 @Controller('users')
 export class UsersController {
@@ -20,7 +21,7 @@ export class UsersController {
     async updateUser(@Body() updateUserDto: UpdateUserDto, @Req() req: any) {
         const user = req.user
 
-        return await this.commandBus.execute(new UpdateUserCommand(
+        const data = await this.commandBus.execute(new UpdateUserCommand(
             user.id,
             updateUserDto.full_name,
             updateUserDto.phone,
@@ -28,6 +29,39 @@ export class UsersController {
             updateUserDto.city,
             updateUserDto.date_of_birth,
         ));
+
+
+        return {
+            message: 'User updated successfully',
+            data:{
+                name:data.full_name,
+                phone:data.phone,
+                country_code:data.country_code,
+                city:data.city,
+                date_of_birth:data.date_of_birth
+            }
+        }
+    }
+
+
+    @Get("me")
+    @UseGuards(AuthGuard('jwt'))
+    @Roles('user')
+    async me(@Req()req:any){
+        const user = req.user
+        
+        const result = await this.queryBus.execute(new FindByIdHandler(user.id))
+
+        return {
+            data:{
+                full_name:result.full_name,
+                phone:result.phone,
+                country_code:result.country_code,
+                city:result.city,
+                date_of_birth:result.date_of_birth
+            }
+        }
+
     }
 }
 

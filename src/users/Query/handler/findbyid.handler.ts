@@ -6,14 +6,19 @@ import { UsersService } from "src/users/users.service";
 
 @QueryHandler(FindByIdQuery)
 export class FindByIdHandler implements IQueryHandler<FindByIdQuery> {
-    constructor(
-        private readonly userService: UsersService
-    ) {}
+  constructor(
+    private readonly userService: UsersService
+  ) { }
   async execute(query: FindByIdQuery) {
     // Logic to find a user by ID
-    const userId = query.id;
+    try {
+      const userId = query.id;
 
-    return await this.userService.findOneId(userId);
-    
+      return await this.userService.findOneId(userId);
+    } catch (error) {
+      console.error(`Error finding user by ID: ${error.message}`);
+      throw new Error(`Failed to find user by ID:`);
+    }
+
   }
 }
