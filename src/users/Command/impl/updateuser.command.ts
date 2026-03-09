@@ -2,7 +2,7 @@ import { Role } from "src/users/Schema/user.schema";
 
 export class UpdateUserCommand {
   constructor(
-        public email: string,
+        public id: string,
         public phone:string,
         public country_code: string,
         public city: string,
@@ -14,4 +14,4 @@ export class UpdateUserCommand {
         public role: Role,
         public is_verified: boolean,
   ) {}
-}
+} 
