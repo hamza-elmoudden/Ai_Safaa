@@ -11,9 +11,10 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
   constructor(private readonly usersService: UsersService) {}
 
   async execute(command: UpdateUserCommand): Promise<any> {
+    
     const { id, phone, country_code, city, date_of_birth, password_hash, google_provider_id, google_id, full_name, role, is_verified } = command;
-    // Implement the logic to update the user using the usersService
-    // For example:
+    
+
     const findUser = await this.usersService.findOneId(id);
 
     if (!findUser) {

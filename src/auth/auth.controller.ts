@@ -14,7 +14,10 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../users/Schema/user.schema';
 import { CurrentUser } from './decorators/decorators';
-import { GoogleAuthGuard, JwtAuthGuard, JwtRefreshGuard } from './guards/google-auth.guard';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
+import { JwtStrategy } from './Jwt.strategy';
+
 
 /**
  *  Routes
@@ -75,7 +78,7 @@ export class AuthController {
   //  ⚠️ Client must save BOTH new tokens — old refreshToken is dead
   // ─────────────────────────────────────────────────────────────
   @Post('refresh')
-  @UseGuards(JwtRefreshGuard)
+  @UseGuards(JwtRefreshStrategy)
   @HttpCode(HttpStatus.OK)
   refresh(@CurrentUser() user: User) {
     return this.authService.rotateTokens(user);
@@ -88,7 +91,7 @@ export class AuthController {
   //  Clears refresh token hash from DB via Prisma
   // ─────────────────────────────────────────────────────────────
   @Post('logout')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtStrategy)
   @HttpCode(HttpStatus.NO_CONTENT)
   logout(@CurrentUser() user: User) {
     return this.authService.logout(user.id);
@@ -100,7 +103,7 @@ export class AuthController {
   //  Returns safe public profile — strips sensitive fields
   // ─────────────────────────────────────────────────────────────
   @Get('me')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtStrategy)
   me(@CurrentUser() user: User) {
     const {
       password_hash,

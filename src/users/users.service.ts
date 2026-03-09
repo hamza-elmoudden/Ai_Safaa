@@ -141,18 +141,18 @@ export class UsersService {
 
 
     async saveRefreshToken(userId: string, hashedToken: string): Promise<void> {
-        // await this.prisma.users.update({
-        //   where: { id: userId },
-        //   data:  { refresh_token: hashedToken },
-        // });
+        await this.prisma.users.update({
+          where: { id: userId },
+          data:  { refresh_token: hashedToken },
+        });
     }
 
     /** Clear refresh token on logout or rotation */
     async clearRefreshToken(userId: string): Promise<void> {
-        // await this.prisma.users.update({
-        //   where: { id: userId },
-        // //   data:  { refresh_token: null },
-        // });
+        await this.prisma.users.update({
+          where: { id: userId },
+          data:  { refresh_token: null },
+        });
     }
 
     /** Update last_login timestamp */
