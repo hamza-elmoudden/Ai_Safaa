@@ -18,7 +18,7 @@ import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
     JwtRefreshStrategy, 
   ],
   controllers: [AuthController],
-  imports: [UsersModule,PrismaModule,
+  imports: [UsersModule,PrismaModule, 
     PassportModule,
     ConfigModule,
     JwtModule.registerAsync({
@@ -26,7 +26,7 @@ import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
       inject:     [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret:      config.getOrThrow('JWT_SECRET'),
-        signOptions: { expiresIn: '15m' },
+        signOptions: { expiresIn: config.getOrThrow('JWT_EXPIRATION') },
       }),
     }),
 
