@@ -13,25 +13,32 @@ export class CompleteLoginHandler implements ICommandHandler<CompleteLoginComman
         private readonly usersService: UsersService,
     ) { }
 
-    async execute(command: CompleteLoginCommand): Promise<User> { 
-        
-            const { id, full_name, phone, country_code, city, date_of_birth } = command;
+    async execute(command: CompleteLoginCommand): Promise<User> {
 
-            const findUser = await this.usersService.findOneId(id);
+        const { id, full_name, phone, country_code, city, date_of_birth } = command;
+        let findUser: User;
 
-            if (!findUser) {
-                throw new NotFoundException('User not found');
-            }
+        try {
+            findUser = await this.usersService.findOneId(id);
+
+        } catch (error) {
+            console.error('Error finding user:', error);
+            throw new Error('Error finding user: ');
+        }
+
+        if (!findUser) {
+            throw new NotFoundException('User not found');
+        }
 
 
-            const user = new User(id, findUser.email, phone, country_code, city, date_of_birth, findUser.password_hash, findUser.google_provider, findUser.google_id, full_name, findUser.role, findUser.is_verified, '', new Date(), new Date(), new Date(), new Date(), findUser.refresh_token, findUser.is_complete_login);
+        const user = new User(id, findUser.email, phone, country_code, city, date_of_birth, findUser.password_hash, findUser.google_provider, findUser.google_id, full_name, findUser.role, findUser.is_verified, '', new Date(), new Date(), new Date(), new Date(), findUser.refresh_token, findUser.is_complete_login);
 
-            if(!user.alreadyCompleteLogin()){
-                throw new NotFoundException('User already completed login');
-            }
+        if (!user.is_complete_login) {
+            throw new NotFoundException('User already completed login');
+        }
 
-            return await this.usersService.completeUser(user);
+        return await this.usersService.completeUser(user);
 
-       
+
     }
 }

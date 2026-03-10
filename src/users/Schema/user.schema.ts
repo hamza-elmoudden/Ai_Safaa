@@ -34,9 +34,4 @@ export class User {
 
 
 
-
-    alreadyCompleteLogin() {
-
-        return this.is_complete_login;
-    }
 }
