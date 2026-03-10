@@ -35,9 +35,13 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
 
     }
 
-    const updatedUser = await this.usersService.update(user);
+    try {
+      const updatedUser = await this.usersService.update(user);
 
-    return updatedUser;
+      return updatedUser;
+    } catch (error) {
+      throw new Error('Error updating user: ' + error.message);
+    }
 
 
   }

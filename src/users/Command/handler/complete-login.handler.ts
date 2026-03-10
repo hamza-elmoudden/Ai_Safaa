@@ -37,7 +37,11 @@ export class CompleteLoginHandler implements ICommandHandler<CompleteLoginComman
             throw new NotFoundException('User already completed login');
         }
 
-        return await this.usersService.completeUser(user);
+        try {
+            return await this.usersService.completeUser(user);
+        } catch (error) {
+            throw new Error('Error completing user login: ' + error.message);
+        }
 
 
     }
