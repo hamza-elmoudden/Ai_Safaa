@@ -1,6 +1,7 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { FindByIdQuery } from "../impl/findbyid.query";
 import { UsersService } from "src/users/users.service";
+import { User } from "src/users/Schema/user.schema";
 
 
 
@@ -9,7 +10,7 @@ export class FindByIdHandler implements IQueryHandler<FindByIdQuery> {
   constructor(
     private readonly userService: UsersService
   ) { }
-  async execute(query: FindByIdQuery) {
+  async execute(query: FindByIdQuery):Promise<User> {
     // Logic to find a user by ID
     try {
       const userId = query.id;

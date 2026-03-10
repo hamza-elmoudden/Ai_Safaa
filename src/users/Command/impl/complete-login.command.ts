@@ -1,5 +1,6 @@
 
-export class UpdateUserCommand {
+
+export class CompleteLoginCommand {
   constructor(
     public id: string,
     public full_name: string,

@@ -102,6 +102,31 @@ export class UsersService {
         return await this.ToMap(user);
     }
 
+    async completeUser(data: User) {
+        const result = await this.prisma.users.update({
+            where: {
+                id: data.id,
+            },
+            data: {
+                full_name: data.full_name,
+                phone: data.phone,
+                country_code: data.country_code,
+                city: data.city,
+                date_of_birth: data.date_of_birth,
+                is_verified: true,
+                is_complete_login: true
+            }
+        });
+
+        const user = await this.prisma.users.findUnique({
+            where: {
+                id: result.id
+            }
+        });
+
+        return await this.ToMap(user);
+    }
+
     async findAll(page: number, limit: number) {
         const skip = (page - 1) * limit;
         return await this.prisma.users.findMany({

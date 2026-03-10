@@ -27,6 +27,7 @@ export class User {
         public last_login: Date,
         public created_at: Date,
         public updated_at: Date,
-        public refresh_token: string
+        public refresh_token: string,
+        public is_complete_login: boolean
     ) {}
 }
