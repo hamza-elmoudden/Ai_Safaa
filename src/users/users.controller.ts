@@ -5,6 +5,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { Roles } from 'src/auth/decorators/decorators';
 import { UpdateUserCommand } from './Command/impl/updateuser.command';
 import { FindByIdHandler } from './Query/handler/findbyid.handler';
+import { CompleteLoginCommand } from './Command/impl/complete-login.command';
 
 @Controller('users')
 export class UsersController {
@@ -49,7 +50,7 @@ export class UsersController {
     async completeProfile(@Body() updateUserDto: UpdateUserDto, @Req() req: any) {
         const user = req.user
 
-        const data = await this.commandBus.execute(new UpdateUserCommand(
+        const data = await this.commandBus.execute(new CompleteLoginCommand(
             user.id,
             updateUserDto.full_name,
             updateUserDto.phone,

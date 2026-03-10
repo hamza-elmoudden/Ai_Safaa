@@ -19,7 +19,7 @@ export class UsersService {
             user.city,
             user.date_of_birth,
             user.password_hash,
-            user.google_provider_id,
+            user.google_provider,
             user.google_id,
             user.full_name,
             user.role,
@@ -29,7 +29,8 @@ export class UsersService {
             user.last_login,
             user.created_at,
             user.updated_at,
-            user.refresh_token
+            user.refresh_token,
+            user.is_complete_login
         );
     }
 
@@ -42,7 +43,7 @@ export class UsersService {
                 city: data.city,
                 date_of_birth: data.date_of_birth,
                 password_hash: data.password_hash,
-                google_provider: data.google_provider_id,
+                google_provider: data.google_provider,
                 google_id: data.google_id,
                 full_name: data.full_name,
                 role: data.role,
@@ -80,7 +81,7 @@ export class UsersService {
                 city: data.city,
                 date_of_birth: data.date_of_birth,
                 password_hash: data.password_hash,
-                google_provider: data.google_provider_id,
+                google_provider: data.google_provider,
                 google_id: data.google_id,
                 full_name: data.full_name,
                 role: data.role,
@@ -146,13 +147,15 @@ export class UsersService {
     }
 
     async findOneId(id: string): Promise<User> {
+
         const user = await this.prisma.users.findUnique({
             where: {
                 id
             }
         });
 
-        return await this.ToMap(user);
+         return this.ToMap(user);
+       
     }
 
 
