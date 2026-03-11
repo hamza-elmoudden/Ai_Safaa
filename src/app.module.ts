@@ -10,6 +10,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SkinprofilesModule } from './skinprofiles/skinprofiles.module';
+import { TreatmentModule } from './treatment/treatment.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SkinprofilesModule } from './skinprofiles/skinprofiles.module';
      UsersModule,
      AuthModule,
      SkinprofilesModule,
+     TreatmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
