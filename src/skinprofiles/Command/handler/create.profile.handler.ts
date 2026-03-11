@@ -12,12 +12,13 @@ export class CreateProfileHandler implements ICommandHandler<CreateProfileComman
     ){}
 
     async execute(command:CreateProfileCommand):Promise<string>{
-        const {id,user_id,skin_type,concerns,allergies,notes} = command;
+        const {user_id,skin_type,concerns,allergies,notes} = command;
         //create a new profile using the service
-        const profile = new SkinProfile(id,user_id,skin_type,concerns,allergies,notes,new Date(),new Date());
+        const profile = new SkinProfile(crypto.randomUUID(),user_id,skin_type,concerns,allergies,notes,new Date(),new Date());
         
         //save the profile to the database
         let skinprofile;
+        
         try {
             skinprofile = await this.service.createProfile(profile);
         } catch (error) {
