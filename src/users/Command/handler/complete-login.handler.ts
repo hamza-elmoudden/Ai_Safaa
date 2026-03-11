@@ -40,6 +40,7 @@ export class CompleteLoginHandler implements ICommandHandler<CompleteLoginComman
         try {
             return await this.usersService.completeUser(user);
         } catch (error) {
+            console.error('Error completing user login:', error);
             throw new Error('Error completing user login: ' + error.message);
         }
 

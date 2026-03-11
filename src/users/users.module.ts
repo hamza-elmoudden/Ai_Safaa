@@ -3,9 +3,8 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { FindByIdQuery } from './Query/impl/findbyid.query';
-import { CompleteLoginCommand } from './Command/impl/complete-login.command';
-import { UpdateUserCommand } from './Command/impl/updateuser.command';
 import { CompleteLoginHandler } from './Command/handler/complete-login.handler';
+import { UpdateUserHandler } from './Command/handler/updateuser.handler';
 
 @Module({
   providers: [
@@ -13,7 +12,7 @@ import { CompleteLoginHandler } from './Command/handler/complete-login.handler';
     // Query
     FindByIdQuery,
     CompleteLoginHandler,
-    UpdateUserCommand,
+    UpdateUserHandler,
   ] 
     ,
   controllers: [UsersController],

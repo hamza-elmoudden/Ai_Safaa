@@ -9,6 +9,7 @@ import {  ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { SkinprofilesModule } from './skinprofiles/skinprofiles.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './auth/auth.module';
     ]),
      UsersModule,
      AuthModule,
+     SkinprofilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

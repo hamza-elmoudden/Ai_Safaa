@@ -136,7 +136,7 @@ export class UsersService {
         });
     }
 
-    async findOneEmail(email: string): Promise<User> {
+    async findOneEmail(email: string): Promise<User | null> {
         const user = await this.prisma.users.findUnique({
             where: {
                 email
