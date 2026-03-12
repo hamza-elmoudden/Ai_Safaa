@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { SkinprofilesModule } from './skinprofiles/skinprofiles.module';
 import { TreatmentModule } from './treatment/treatment.module';
 import { PaymentsModule } from './payments/payments.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { PaymentsModule } from './payments/payments.module';
      SkinprofilesModule,
      TreatmentModule,
      PaymentsModule,
+     SubscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
