@@ -77,7 +77,7 @@ model subscriptions {
   name              plan_name  @unique
   price_mad         Decimal    @default(0) @db.Decimal(8, 2)
   analyses_limit    Int        @default(3)
-  treatment_plans   Int
+  treatment_plans   Int        @default(1)
   product_checks    Int        @default(5)
   progress_tracking Boolean    @default(false)
   vip_consultation  Boolean    @default(false)
