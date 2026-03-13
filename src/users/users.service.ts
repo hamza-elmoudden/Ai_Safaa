@@ -143,10 +143,10 @@ export class UsersService {
             }
         });
 
-        return await this.ToMap(user);
+        return user ? this.ToMap(user) : null;
     }
 
-    async findOneId(id: string): Promise<User> {
+    async findOneId(id: string): Promise<User | null> {
 
         const user = await this.prisma.users.findUnique({
             where: {
@@ -154,7 +154,7 @@ export class UsersService {
             }
         });
 
-         return this.ToMap(user);
+         return user ? this.ToMap(user) : null;
        
     }
 

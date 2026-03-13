@@ -21,7 +21,7 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
         private readonly paymentService: PaymentsService,
         private readonly subscriptionService: SubscriptionsService,
     ) { }
-    async execute(command: CreateTreatmentCommand): Promise<any> {
+    async execute(command: CreateTreatmentCommand): Promise<Treatment> {
         let treatment: Treatment[];
         let user: User;
         let payments: Payment[];
@@ -74,6 +74,38 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
         ) {
             throw new BadRequestException('You have reached the maximum number of treatments allowed by your subscription plan');
         }
+
+
+        try {
+            const MapTreatment = new Treatment(
+                crypto.randomUUID(),
+                command.user_id,
+                command.title,
+                command.concern_type,
+                0,
+                0,
+                null,
+                command.status,
+                null,
+                command.areas_treated,
+                "",
+                "",
+                null,
+                null,
+                null,
+                new Date(),
+                null,
+                new Date(),
+                new Date(), 
+            );
+
+            const createTreatment = await this.treatmentService.createTreatment(MapTreatment);
+
+            return createTreatment;
+        }catch{
+            throw new Error(`Failed to create treatment for user`);
+        }
+            
+        
     }
-}
 }

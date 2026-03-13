@@ -25,8 +25,9 @@ export class SubscriptionsService {
         )
     }
 
-    async FindAll() {
-        return await this.prisma.subscriptions.findMany();
+    async FindAll():Promise<Subscription[] | []>  {
+        const data = await this.prisma.subscriptions.findMany();
+        return data.map((item) => this.mapToSubscription(item));
     }
 
     async FindOne(id: string):Promise<Subscription | null>  {

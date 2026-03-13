@@ -32,7 +32,7 @@ export class TreatmentService {
         );
     }
 
-    async createTreatment(data:Treatment){
+    async createTreatment(data:Treatment):Promise<Treatment>{
         const treatment = await this.prisma.treatment_plans.create({
             data:{
                 id:data.id,
@@ -54,20 +54,20 @@ export class TreatmentService {
                 completed_at:data.completed_at,
             }
         })
-        return treatment;
+        return this.mapTreatment(treatment);
     }
 
 
-    async findTreatmentById(id:string){
+    async findTreatmentById(id:string):Promise<Treatment | null>{
         const treatment = await this.prisma.treatment_plans.findUnique({
             where:{
                 id:id
             }
         })
-        return treatment;
+        return treatment ? this.mapTreatment(treatment) : null;
     }
 
-    async findTreatmentsByUserId(user_id: string): Promise<Treatment[]> {
+    async findTreatmentsByUserId(user_id: string): Promise<Treatment[] | []> {
         const treatments = await this.prisma.treatment_plans.findMany({
             where: {
                 user_id: user_id

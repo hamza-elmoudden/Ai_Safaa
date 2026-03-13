@@ -17,7 +17,7 @@ export enum plan_status {
   paused="paused",
   cancelled="cancelled"
 }
-
+ 
 
 export enum areas_treated {
   Face="Face",

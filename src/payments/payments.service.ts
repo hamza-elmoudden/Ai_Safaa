@@ -44,17 +44,17 @@ export class PaymentsService {
         return payment;
     }
 
-    async findPaymentById(id:string){
+    async findPaymentById(id:string):Promise<Payment | null>{
         const payment = await this.prisma.payments.findUnique({
             where:{
                 id:id
             }
         })
-        return payment;
+        return payment ? this.mapToPayment(payment) : null;
     }
 
 
-    async findPaymentsByUserId(user_id:string):Promise<Payment[]>{
+    async findPaymentsByUserId(user_id:string):Promise<Payment[] | []>{
         const payments = await this.prisma.payments.findMany({
             where: {
                 user_id: user_id,
