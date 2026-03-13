@@ -8,6 +8,29 @@ export class TreatmentService {
         private  readonly prisma:PrismaService
     ) {}
 
+    mapTreatment(treatment:any){  
+        return new Treatment(
+            treatment.id,
+            treatment.user_id,
+            treatment.title,
+            treatment.concern_type,
+            treatment.duration_days,
+            treatment.checkin_interval,
+            treatment.day_0_acne_count,
+            treatment.status,
+            treatment.improvement_pct,
+            treatment.areas_treated,
+            treatment.initial_photo_url,
+            treatment.initial_photo_key,
+            treatment.ai_diagnosis,
+            treatment.ai_model,
+            treatment.next_checkin_at,
+            treatment.started_at,
+            treatment.completed_at,
+            treatment.updated_at, // Add the missing 18th argument
+            treatment.deleted_at  // Add the missing 19th argument
+        );
+    }
 
     async createTreatment(data:Treatment){
         const treatment = await this.prisma.treatment_plans.create({
@@ -44,13 +67,14 @@ export class TreatmentService {
         return treatment;
     }
 
-    async findTreatmentsByUserId(user_id:string){
+    async findTreatmentsByUserId(user_id: string): Promise<Treatment[]> {
         const treatments = await this.prisma.treatment_plans.findMany({
-            where:{
-                user_id:user_id
+            where: {
+                user_id: user_id
             }
-        })
-        return treatments;
+        });
+        
+        return treatments.map(treatment => this.mapTreatment(treatment));
     }
 
     async deleteTreatment(id:string){
