@@ -1,6 +1,6 @@
 import { Decimal } from "@prisma/client/runtime/index-browser";
 
-enum concern_type {
+export enum concern_type {
   acne="acne",
   dryness="dryness",
   oiliness="oiliness",
@@ -11,7 +11,7 @@ enum concern_type {
 }
 
 
-enum plan_status {
+export enum plan_status {
   active="active",
   completed="completed",
   paused="paused",
@@ -19,7 +19,7 @@ enum plan_status {
 }
 
 
-enum areas_treated {
+export enum areas_treated {
   Face="Face",
   Neck="Neck",
   Back="Back",

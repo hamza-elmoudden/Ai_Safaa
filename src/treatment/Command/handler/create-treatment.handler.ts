@@ -25,7 +25,7 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
         let treatment: Treatment[];
         let user: User;
         let payments: Payment[];
-        let subscription: Subscription
+        let subscription: Subscription;
 
         try {
             treatment = await this.treatmentService.findTreatmentsByUserId(command.user_id);
@@ -49,7 +49,6 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
             throw new BadRequestException('Your subscription has expired, please renew it to access the treatment');
         }
 
-
         try {
             const subscriptionId = payments[0].subscription_id;
 
@@ -69,5 +68,12 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
             throw new Error(`Failed to fetch subscription for user ${command.user_id}`);
         }
 
+        if (
+            typeof subscription.treatment_plans === "number" &&
+            treatment.length >= subscription.treatment_plans && subscription.vip_consultation === false
+        ) {
+            throw new BadRequestException('You have reached the maximum number of treatments allowed by your subscription plan');
+        }
     }
+}
 }
