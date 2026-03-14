@@ -13,12 +13,12 @@ export class GetTreatmentByIdHandler implements IQueryHandler<GetTreatmentByIdQu
         let userTreatment:Treatment | null
 
         try {
-            userTreatment = await this.treatmentService.findTreatmentById(query.id)
+            userTreatment = await this.treatmentService.findTreatmentById(query.id,query.user_id)
         } catch (error) {
             console.error('Error In Get Treatment by id',error)
             throw new Error('Error In Get Treatment')
         }
-
+ 
         return userTreatment
     }
 }

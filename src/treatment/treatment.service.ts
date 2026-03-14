@@ -58,10 +58,11 @@ export class TreatmentService {
     }
 
 
-    async findTreatmentById(id:string):Promise<Treatment | null>{
+    async findTreatmentById(id:string,user_id:string):Promise<Treatment | null>{
         const treatment = await this.prisma.treatment_plans.findUnique({
             where:{
-                id:id
+                id:id,
+                user_id
             }
         })
         return treatment ? this.mapTreatment(treatment) : null;
