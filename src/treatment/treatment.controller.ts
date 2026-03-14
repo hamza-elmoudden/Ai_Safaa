@@ -1,17 +1,18 @@
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/auth/decorators/decorators';
 import { GetAllTreatmentByUserIdQuery } from './Query/impl/get-all-treatmentuser.impl';
 import { GetTreatmentByIdQuery } from './Query/impl/get-treatmentbyid.impl';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
+import { DeleteTreatmentQuery } from './Query/impl/delete-treatment.impl';
 
 @Controller('treatment')
 export class TreatmentController {
     constructor(
-        private readonly commandBus:CommandBus,
-        private readonly queryBus:QueryBus
-    ){}
+        private readonly commandBus: CommandBus,
+        private readonly queryBus: QueryBus
+    ) { }
 
 
 
@@ -19,17 +20,17 @@ export class TreatmentController {
     @UseGuards(AuthGuard('jwt'))
     @Roles('user')
     async CreateTreatment(
-        @Body() data:CreateTreatmentDto,
-        @Req() req:any
-    ){
-        
+        @Body() data: CreateTreatmentDto,
+        @Req() req: any
+    ) {
+
     }
 
 
     @Get('all')
     @UseGuards(AuthGuard('jwt'))
     @Roles('user')
-    async GetAllTreatment(@Req() req:any){
+    async GetAllTreatment(@Req() req: any) {
         const user = req.user
         return this.queryBus.execute(
             new GetAllTreatmentByUserIdQuery(user.id)
@@ -39,10 +40,24 @@ export class TreatmentController {
     @Get('my/:id')
     @UseGuards(AuthGuard('jwt'))
     @Roles('user')
-    async GetMyTreatment(@Req() req:any,@Param('id') id:string){
-        const user = req.user 
+    async GetMyTreatment(@Req() req: any, @Param('id') id: string) {
+        const user = req.user
         return this.queryBus.execute(
-            new GetTreatmentByIdQuery(user.id,id)
+            new GetTreatmentByIdQuery(user.id, id)
+        )
+    }
+
+    @Delete(":id")
+    @UseGuards(AuthGuard('jwt'))
+    @Roles('user')
+    async DeleteTreatment(
+        @Req() req: any,
+        @Param("id") id:string
+    ) {
+        const user = req.user
+
+        return this.queryBus.execute(
+            new DeleteTreatmentQuery(id,user.id)
         )
     }
 
