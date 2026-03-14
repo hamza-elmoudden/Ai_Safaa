@@ -6,6 +6,7 @@ import { GetAllTreatmentByUserIdQuery } from './Query/impl/get-all-treatmentuser
 import { GetTreatmentByIdQuery } from './Query/impl/get-treatmentbyid.impl';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
 import { DeleteTreatmentQuery } from './Query/impl/delete-treatment.impl';
+import { CreateTreatmentCommand } from './Command/impl/create-treatment.command';
 
 @Controller('treatment')
 export class TreatmentController {
@@ -23,7 +24,18 @@ export class TreatmentController {
         @Body() data: CreateTreatmentDto,
         @Req() req: any
     ) {
-
+        const user = req.user
+        return await this.commandBus.execute(
+            new CreateTreatmentCommand(
+                user.id,
+                data.title || `${user.id} ${Date.now()}`,
+                data.concern_type,
+                data.status,
+                data.areas_treated,
+                '',
+                ''
+            )
+        )
     }
 
 
