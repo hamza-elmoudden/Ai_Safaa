@@ -12,5 +12,5 @@ export class CreateTreatmentCommand {
         public areas_treated: areas_treated,
         public initial_photo_url: string,
         public initial_photo_key: string,
-    ) { }
+    ) {}
 }

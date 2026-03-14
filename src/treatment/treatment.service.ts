@@ -76,7 +76,8 @@ export class TreatmentService {
         });
         
         return treatments.map(treatment => this.mapTreatment(treatment));
-    }
+    } 
+    
 
     async deleteTreatment(id:string){
         await this.prisma.treatment_plans.delete({
@@ -85,6 +86,22 @@ export class TreatmentService {
             }
         })
     }
+
+
+    async addPhoto(Photo_url:string,Photo_key:string,treatment_id:string){
+        const photo = await this.prisma.treatment_plans.update({
+            where:{
+                id:treatment_id
+            },
+            data:{
+                initial_photo_key:Photo_key,
+                initial_photo_url:Photo_url
+            }
+        })
+
+        return photo.initial_photo_url
+    }
+
 
 
 }

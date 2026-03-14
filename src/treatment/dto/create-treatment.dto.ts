@@ -1,8 +1,13 @@
-import { IsEnum } from "class-validator";
+import { IsEnum, IsString } from "class-validator";
 import { areas_treated, concern_type, plan_status } from "../Schema/treatment.schema";
 
 
 export class CreateTreatmentDto{
+    
+    @IsString()
+    title:string
+
+
     @IsEnum(concern_type)
     concern_type:concern_type
 
