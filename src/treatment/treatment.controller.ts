@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/auth/decorators/decorators';
 import { GetAllTreatmentByUserIdQuery } from './Query/impl/get-all-treatmentuser.impl';
 import { GetTreatmentByIdQuery } from './Query/impl/get-treatmentbyid.impl';
+import { CreateTreatmentDto } from './dto/create-treatment.dto';
 
 @Controller('treatment')
 export class TreatmentController {
@@ -12,6 +13,17 @@ export class TreatmentController {
         private readonly queryBus:QueryBus
     ){}
 
+
+
+    @Post()
+    @UseGuards(AuthGuard('jwt'))
+    @Roles('user')
+    async CreateTreatment(
+        @Body() data:CreateTreatmentDto,
+        @Req() req:any
+    ){
+        
+    }
 
 
     @Get('all')
