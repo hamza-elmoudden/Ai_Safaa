@@ -73,7 +73,7 @@ model skin_profiles {
 
   @@index([user_id], map: "idx_skin_profiles_user")
 }
-
+ 
 model subscriptions {
   id                String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name              plan_name  @unique

@@ -75,7 +75,7 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
             throw new BadRequestException('You have reached the maximum number of treatments allowed by your subscription plan');
         }
 
-
+ 
         try {
             const MapTreatment = new Treatment(
                 crypto.randomUUID(),
