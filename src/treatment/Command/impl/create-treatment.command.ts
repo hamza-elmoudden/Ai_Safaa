@@ -10,5 +10,7 @@ export class CreateTreatmentCommand {
         public concern_type: concern_type,
         public status: plan_status,
         public areas_treated: areas_treated,
+        public initial_photo_url: string,
+        public initial_photo_key: string,
     ) { }
 }
