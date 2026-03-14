@@ -19,7 +19,7 @@ export class CreateProfileHandler implements ICommandHandler<CreateProfileComman
     async execute(command: CreateProfileCommand): Promise<string> {
         const { user_id, skin_type, concerns, allergies, notes } = command;
 
-        let user:User
+        let user:User | null
 
         try {
             user = await this.UsersService.findOneId(user_id);

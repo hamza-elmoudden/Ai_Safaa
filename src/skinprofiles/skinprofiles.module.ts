@@ -5,6 +5,7 @@ import { CreateProfileHandler } from './Command/handler/create.profile.handler';
 import { UsersModule } from 'src/users/users.module';
 import { UpdateProfileHandler } from './Command/handler/update.profile.handler';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { GetSkinProfileHandler } from './Query/handler/gitskin.profile.handler';
 
 
 
@@ -13,7 +14,8 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   providers: [
     SkinprofilesService,
     CreateProfileHandler,
-    UpdateProfileHandler
+    UpdateProfileHandler,
+    GetSkinProfileHandler
 
   ],
   controllers: [SkinprofilesController],
