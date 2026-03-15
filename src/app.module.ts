@@ -14,6 +14,7 @@ import { TreatmentModule } from './treatment/treatment.module';
 import { PaymentsModule } from './payments/payments.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConversationsModule } from './conversations/conversations.module';
+import { ChattreatmentModule } from './chattreatment/chattreatment.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ConversationsModule } from './conversations/conversations.module';
      PaymentsModule,
      SubscriptionsModule,
      ConversationsModule,
+     ChattreatmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
