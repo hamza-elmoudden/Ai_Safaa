@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Conversation } from './Schema/conversation.schema';
 
 @Injectable()
 export class ConversationsService {
@@ -7,6 +8,19 @@ export class ConversationsService {
         private readonly prismaService: PrismaService
     ) { }
 
+
+    mapToConversations(data:any){
+        return new Conversation(
+            data.id,
+            data.user_id,
+            data.message_user,
+            data.user_photo_url,
+            data.user_photo_key,
+            data.analysis_photo,
+            data.message_ai,
+            data.created_at
+        )
+    }
 
     async addMessage(user_id: string, user_text: string, ai_text: string, photo_url?: string, photo_kay?: string) {
         return await this.prismaService.conversations.create({
