@@ -35,15 +35,16 @@ export class ConversationsService {
     }
 
 
-    async getUserMessage(user_id: string, limit: number, page: number) {
+    async getUserMessage(user_id: string, limit: number=10, page: number=1) {
         const skip = (page - 1) * limit;
         return await this.prismaService.conversations.findMany({
             where: {
                 user_id
             },
             orderBy: {
-                created_at: "desc"
+                created_at: "asc"
             },
+            
             take: limit,
             skip: skip
         });
