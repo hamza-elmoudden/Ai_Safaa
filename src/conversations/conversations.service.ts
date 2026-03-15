@@ -22,7 +22,7 @@ export class ConversationsService {
         )
     }
 
-    async addMessage(user_id: string, user_text: string, ai_text: string, photo_url?: string, photo_kay?: string) {
+    async addConversation(user_id: string, user_text: string, ai_text: string, photo_url?: string, photo_kay?: string) {
         return await this.prismaService.conversations.create({
             data: {
                 user_id,
@@ -35,7 +35,7 @@ export class ConversationsService {
     }
 
 
-    async getUserMessage(user_id: string, limit: number=10, page: number=1) {
+    async getUserConversation(user_id: string, limit: number=10, page: number=1) {
         const skip = (page - 1) * limit;
         return await this.prismaService.conversations.findMany({
             where: {
