@@ -15,6 +15,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { ChattreatmentModule } from './chattreatment/chattreatment.module';
+import { TokenusageModule } from './tokenusage/tokenusage.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ChattreatmentModule } from './chattreatment/chattreatment.module';
      SubscriptionsModule,
      ConversationsModule,
      ChattreatmentModule,
+     TokenusageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
