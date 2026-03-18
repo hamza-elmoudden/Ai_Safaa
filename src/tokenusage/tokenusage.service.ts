@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PaymentsService } from 'src/payments/payments.service';
+import { Payment } from 'src/payments/Schema/payments.schema';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { token_source } from './Schema/tokenusage.schema';
 
 @Injectable()
 export class TokenusageService {
@@ -49,5 +51,37 @@ export class TokenusageService {
                 }),
             );
         }
+    }
+
+    async addTokenUsage(data: {
+        user_id: string;
+        source: token_source;
+        ref_id?: string;
+        tokens_input: number;
+        tokens_output: number;
+        ai_model?: string;
+    }) {
+        const tokens_total = data.tokens_input + data.tokens_output;
+
+        const costPerToken: Record<string, number> = {
+            'gpt-4o': 0.000005,
+            'gpt-4o-mini': 0.000001,
+            'gpt-4-vision-preview': 0.000005,
+        };
+
+        const cost_usd = tokens_total * (costPerToken[data.ai_model ?? ''] ?? 0.000005);
+
+        return await this.prismaService.token_usage.create({
+            data: {
+                user_id: data.user_id,
+                source: data.source,
+                ref_id: data.ref_id ?? null,
+                tokens_input: data.tokens_input,
+                tokens_output: data.tokens_output,
+                tokens_total,
+                ai_model: data.ai_model ?? null,
+                cost_usd,
+            },
+        });
     }
 }
