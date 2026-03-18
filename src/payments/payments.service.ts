@@ -4,74 +4,99 @@ import { Payment } from './Schema/payments.schema';
 
 @Injectable()
 export class PaymentsService {
-    constructor(
-        private  readonly prisma:PrismaService
-    ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
+  mapToPayment(data: any): Payment {
+    return new Payment(
+      data.id,
+      data.user_id,
+      data.amount_mad,
+      data.method,
+      data.status,
+      data.created_at,
+      data.provider_ref,
+      data.provider_meta,
+      data.subscription_id,
+      data.paid_at,
+      data.starts_at,
+      data.expires_at,
+    );
+  }
 
-    mapToPayment(data:any){
-        return new Payment(
-            data.id,
-            data.user_id,
-            data.amount_mad,
-            data.method,
-            data.status,
-            data.created_at,
-            data.provider_ref,
-            data.provider_meta,
-            data.subscription_id,
-            data.paid_at,
-            data.starts_at,
-            data.expires_at
-        )
-    }
+  async createPayment(data: Payment) {
+    return await this.prisma.payments.create({
+      data: {
+        user_id:         data.user_id,
+        amount_mad:      data.amount_mad,
+        method:          data.method,
+        status:          data.status,
+        provider_ref:    data.provider_ref,
+        provider_meta:   data.provider_meta,
+        subscription_id: data.subscription_id,
+        paid_at:         data.paid_at,
+        starts_at:       data.starts_at,
+        expires_at:      data.expires_at,
+      },
+    });
+  }
 
+  async findPaymentById(id: string): Promise<Payment | null> {
+    const payment = await this.prisma.payments.findUnique({
+      where: { id },
+      include: { subscriptions: true }, 
+    });
+    return payment ? this.mapToPayment(payment) : null;
+  }
 
-    async createPayment(data:Payment){
-        const payment = await this.prisma.payments.create({
-            data:{
-               id:data.id,
-               user_id:data.user_id,
-               amount_mad:data.amount_mad,
-               method:data.method,
-               status:data.status,
-               provider_ref:data.provider_ref,
-               provider_meta:data.provider_meta,
-               subscription_id:data.subscription_id,
-               paid_at:data.paid_at
-            }
-        })
-        return payment;
-    }
+  async findPaymentsByUserId(user_id: string): Promise<Payment[]> {
+    const payments = await this.prisma.payments.findMany({
+      where: {
+        user_id,
+        status: 'completed', 
+      },
+      orderBy: { paid_at: 'desc' },
+    });
+    return payments.map((p) => this.mapToPayment(p));
+  }
 
-    async findPaymentById(id:string):Promise<Payment | null>{
-        const payment = await this.prisma.payments.findUnique({
-            where:{
-                id:id
-            }
-        })
-        return payment ? this.mapToPayment(payment) : null;
-    }
+  async getActivePayment(user_id: string) {
+    return await this.prisma.payments.findFirst({
+      where: {
+        user_id,
+        status: 'completed',
+        starts_at: { lte: new Date() },
+        expires_at: { gt: new Date() },
+      },
+      include: { subscriptions: true }, 
+      orderBy: { expires_at: 'desc' },
+    });
+  }
 
+  getCurrentPeriod(startsAt: Date): { periodStart: Date; periodEnd: Date } {
+    const now = new Date();
+    const start = new Date(startsAt);
 
-    async findPaymentsByUserId(user_id:string):Promise<Payment[] | []>{
-        const payments = await this.prisma.payments.findMany({
-            where: {
-                user_id: user_id,
-                status: { equals: 'paid' as any }
-            },
-            orderBy: {
-                paid_at: 'desc'
-            }
-        });
-        return payments.map(payment => this.mapToPayment(payment));
-    }
+    const monthsElapsed = Math.floor(
+      (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30),
+    );
 
-     async deletePayment(id:string){
-        await this.prisma.payments.delete({
-            where:{
-                id:id
-            }
-        })
-    }
+    const periodStart = new Date(start);
+    periodStart.setMonth(periodStart.getMonth() + monthsElapsed);
+
+    const periodEnd = new Date(periodStart);
+    periodEnd.setMonth(periodEnd.getMonth() + 1);
+
+    return { periodStart, periodEnd };
+  }
+
+  getFreePeriod(): { periodStart: Date; periodEnd: Date } {
+    const now = new Date();
+    const periodStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const periodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    return { periodStart, periodEnd };
+  }
+
+  async deletePayment(id: string) {
+    await this.prisma.payments.delete({ where: { id } });
+  }
 }
