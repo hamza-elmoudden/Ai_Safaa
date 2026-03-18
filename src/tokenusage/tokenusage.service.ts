@@ -6,7 +6,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class TokenusageService {
     constructor(
         private readonly prismaService: PrismaService,
-        private readonly paymentsService:PaymentsService
+        private readonly paymentsService: PaymentsService
     ) { }
 
     async getUserPhotoUsage(userId: string) {
@@ -33,5 +33,21 @@ export class TokenusageService {
             resets_at: periodEnd,
             percentage: limit === -1 ? 0 : Math.round((used / limit) * 100),
         };
+    }
+
+
+
+    async checkPhotoLimit(userId: string): Promise<void> {
+        const { used, limit } = await this.getUserPhotoUsage(userId);
+
+        if (limit !== -1 && used >= limit) {
+            throw new Error(
+                JSON.stringify({
+                    code: 'PHOTO_LIMIT_EXCEEDED',
+                    used,
+                    limit,
+                }),
+            );
+        }
     }
 }
