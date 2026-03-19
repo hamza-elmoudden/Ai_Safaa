@@ -19,6 +19,7 @@ export class TokenUsage{
         public readonly tokens_input:string,
         public readonly tokens_output:string,
         public readonly tokens_total:string,
+        public readonly plan_id:string,
         public readonly ai_model:string,
         public readonly cost_usd:Decimal,
         public readonly created_at:Date,
