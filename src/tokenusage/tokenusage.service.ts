@@ -57,6 +57,7 @@ export class TokenusageService {
         user_id: string;
         source: token_source;
         ref_id?: string;
+        plan_id?:      string;      
         tokens_input: number;
         tokens_output: number;
         ai_model?: string;
@@ -78,6 +79,7 @@ export class TokenusageService {
                 ref_id: data.ref_id ?? null,
                 tokens_input: data.tokens_input,
                 tokens_output: data.tokens_output,
+                plan_id:data.plan_id ?? null,
                 tokens_total,
                 ai_model: data.ai_model ?? null,
                 cost_usd,
