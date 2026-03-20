@@ -29,7 +29,7 @@ export enum areas_treated {
 }
 
 
-
+ 
 export class Treatment {
     constructor(
         public id: string,
