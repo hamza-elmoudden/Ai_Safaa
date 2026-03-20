@@ -14,7 +14,7 @@ export class Subscription {
         public id: string,
         public name: plan_name,
         public price_mad: number,
-        public analyses_limit: number,
+        public limit_photo_treatment: number,
         public treatment_plans: boolean,
         public product_checks: number,
         public progress_tracking: boolean,
