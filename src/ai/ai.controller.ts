@@ -34,6 +34,7 @@ export class AiController {
 
 
                     const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
                     if (!allowedMimeTypes.includes(file.mimetype))
                         throw new BadRequestException('Only image files allowed');
 
@@ -43,8 +44,8 @@ export class AiController {
 
                     prompt.image = typeof url.url === 'string' ? url.url : undefined;
                 } catch (error) {
-                    
-                    console.error('Error Upload Image ',error)
+
+                    console.error('Error Upload Image ', error)
 
                     res.status(401).send('Error On Upload Image')
                 }
