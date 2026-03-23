@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import { ConversationsController } from './conversations.controller';
+import { GetConversationsHandler } from './Query/handler/get-conversation.handler';
 
 @Module({
-  providers: [ConversationsService],
+  providers: [
+    ConversationsService,
+    GetConversationsHandler,
+  ],
   controllers: [ConversationsController]
 })
 export class ConversationsModule {}
