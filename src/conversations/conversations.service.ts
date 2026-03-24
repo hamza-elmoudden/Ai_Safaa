@@ -50,10 +50,16 @@ export class ConversationsService {
         });
     }
 
-    async getFormattedMessages(user_id: string) {
+    async getFormattedMessages(user_id: string,limit=20,page=1) {
+
+        const skip = (page - 1 )* limit
+
         const conversations = await this.prismaService.conversations.findMany({
             where: { user_id },
-            orderBy: { created_at: 'asc' }
+            orderBy: { created_at: 'asc' },
+            take:limit,
+            skip:skip,
+            
         });
 
         const messages = conversations.flatMap(conv => {
