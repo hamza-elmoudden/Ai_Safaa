@@ -141,6 +141,36 @@ export class TreatmentService {
         return photo.initial_photo_url
     }
 
+    async updateDiagnosis(id: string, data: {
+        ai_diagnosis: string;
+        day_0_acne_count: number;
+        ai_model: string;
+        next_checkin_at: Date;
+    }) {
+        return await this.prisma.treatment_plans.update({
+            where: { id },
+            data: {
+                ai_diagnosis: data.ai_diagnosis,
+                day_0_acne_count: data.day_0_acne_count,
+                ai_model: data.ai_model,
+                next_checkin_at: data.next_checkin_at,
+                updated_at: new Date(),
+            },
+        });
+    }
 
+    async updateProgress(id: string, data: {
+        improvement_pct: number;
+        next_checkin_at: Date;
+    }) {
+        return await this.prisma.treatment_plans.update({
+            where: { id },
+            data: {
+                improvement_pct: data.improvement_pct,
+                next_checkin_at: data.next_checkin_at,
+                updated_at: new Date(),
+            },
+        });
+    }
 
 }
