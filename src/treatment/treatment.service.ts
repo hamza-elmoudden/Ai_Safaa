@@ -91,9 +91,12 @@ export class TreatmentService {
     }
 
     async deleteTreatment(id:string){
-        await this.prisma.treatment_plans.delete({
+        await this.prisma.treatment_plans.update({
             where:{
                 id:id
+            } ,
+            data:{
+                status:'cancelled'
             }
         })
     }

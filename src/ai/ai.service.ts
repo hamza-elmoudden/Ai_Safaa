@@ -258,6 +258,8 @@ export class AiService {
         role: 'user',
         content: analysisBlock
       });
+
+
       const result = streamText({
         model: this.chat.chat('openai/gpt-4.1'),
         system: this.SYSTEM_PROMPT,

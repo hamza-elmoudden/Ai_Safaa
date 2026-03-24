@@ -18,7 +18,6 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
 
             let text_ai: string | undefined 
 
-
             if (command?.image_url) {
                 text_ai = await this.commandbus.execute(new analyzefacecommend(
                     command.image_url,
