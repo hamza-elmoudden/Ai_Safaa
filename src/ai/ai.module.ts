@@ -6,11 +6,15 @@ import { generatetexthandler } from './Command/handler/generatechat.handler';
 import { ImageModule } from 'src/image/image.module';
 import { ChatMemoryService } from './chat-memory.service';
 import { AiProductsService } from './ai.products.service';
+import { TreatmentModule } from 'src/treatment/treatment.module';
 
 @Module({
 
 
-  imports: [ImageModule],
+  imports: [
+    ImageModule,
+    TreatmentModule
+  ],
   providers:
     [
       AiService,

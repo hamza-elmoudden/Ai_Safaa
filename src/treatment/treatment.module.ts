@@ -25,6 +25,7 @@ import { GetTreatmentByIdHandler } from './Query/handler/get-treatmentbyid.handl
     PaymentsModule,
     UsersModule,
     PrismaModule
-  ]
+  ],
+  exports:[TreatmentService]
 })
 export class TreatmentModule {}
