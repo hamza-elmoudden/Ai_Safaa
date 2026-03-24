@@ -5,10 +5,10 @@ import { Treatment } from './Schema/treatment.schema';
 @Injectable()
 export class TreatmentService {
     constructor(
-        private  readonly prisma:PrismaService
-    ) {}
+        private readonly prisma: PrismaService
+    ) { }
 
-    mapTreatment(treatment:any){  
+    mapTreatment(treatment: any) {
         return new Treatment(
             treatment.id,
             treatment.user_id,
@@ -32,36 +32,36 @@ export class TreatmentService {
         );
     }
 
-    async createTreatment(data:Treatment):Promise<Treatment>{
+    async createTreatment(data: Treatment): Promise<Treatment> {
         const treatment = await this.prisma.treatment_plans.create({
-            data:{
-                id:data.id,
-                user_id:data.user_id,
-                title:data.title,
-                concern_type:data.concern_type,
-                duration_days:data.duration_days,
-                checkin_interval:data.checkin_interval,
-                day_0_acne_count:data.day_0_acne_count,
-                status:data.status,
-                improvement_pct:data.improvement_pct,
-                areas_treated:data.areas_treated,
-                initial_photo_url:data.initial_photo_url,
-                initial_photo_key:data.initial_photo_key,
-                ai_diagnosis:data.ai_diagnosis,
-                ai_model:data.ai_model,
-                next_checkin_at:data.next_checkin_at,
-                started_at:data.started_at,
-                completed_at:data.completed_at,
+            data: {
+                id: data.id,
+                user_id: data.user_id,
+                title: data.title,
+                concern_type: data.concern_type,
+                duration_days: data.duration_days,
+                checkin_interval: data.checkin_interval,
+                day_0_acne_count: data.day_0_acne_count,
+                status: data.status,
+                improvement_pct: data.improvement_pct,
+                areas_treated: data.areas_treated,
+                initial_photo_url: data.initial_photo_url,
+                initial_photo_key: data.initial_photo_key,
+                ai_diagnosis: data.ai_diagnosis,
+                ai_model: data.ai_model,
+                next_checkin_at: data.next_checkin_at,
+                started_at: data.started_at,
+                completed_at: data.completed_at,
             }
         })
         return this.mapTreatment(treatment);
     }
 
 
-    async findTreatmentById(id:string,user_id:string):Promise<Treatment | null>{
+    async findTreatmentById(id: string, user_id: string): Promise<Treatment | null> {
         const treatment = await this.prisma.treatment_plans.findUnique({
-            where:{
-                id:id,
+            where: {
+                id: id,
                 user_id
             }
         })
@@ -74,42 +74,67 @@ export class TreatmentService {
                 user_id: user_id
             }
         });
-        
-        return treatments.map(treatment => this.mapTreatment(treatment));
-    } 
-    
 
-    async findTreatmentByIdAndUserId(user_id:string,id:string):Promise<Treatment | null>{
+        return treatments.map(treatment => this.mapTreatment(treatment));
+    }
+
+
+    async findTreatmentByIdAndUserId(user_id: string, id: string): Promise<Treatment | null> {
         const treatment = await this.prisma.treatment_plans.findUnique({
-            where:{
+            where: {
                 id,
                 user_id
             }
         })
 
-        return treatment ? this.mapTreatment(treatment) : null 
+        return treatment ? this.mapTreatment(treatment) : null
     }
 
-    async deleteTreatment(id:string){
+    async deleteTreatment(id: string) {
         await this.prisma.treatment_plans.update({
-            where:{
-                id:id
-            } ,
-            data:{
-                status:'cancelled'
+            where: {
+                id: id
+            },
+            data: {
+                status: 'cancelled'
             }
         })
     }
 
-
-    async addPhoto(Photo_url:string,Photo_key:string,treatment_id:string){
-        const photo = await this.prisma.treatment_plans.update({
-            where:{
-                id:treatment_id
+    async countActiveTreatments(user_id: string): Promise<number> {
+        return await this.prisma.treatment_plans.count({
+            where: {
+                user_id,
+                // status: 'active',
             },
-            data:{
-                initial_photo_key:Photo_key,
-                initial_photo_url:Photo_url
+        });
+    }
+
+    async countTreatmentsInCurrentPeriod(
+        user_id: string,
+        periodStart: Date,
+        periodEnd: Date,
+    ): Promise<number> {
+        return await this.prisma.treatment_plans.count({
+            where: {
+                user_id,
+                created_at: {
+                    gte: periodStart,
+                    lt: periodEnd,
+                },
+            },
+        });
+    }
+
+
+    async addPhoto(Photo_url: string, Photo_key: string, treatment_id: string) {
+        const photo = await this.prisma.treatment_plans.update({
+            where: {
+                id: treatment_id
+            },
+            data: {
+                initial_photo_key: Photo_key,
+                initial_photo_url: Photo_url
             }
         })
 
