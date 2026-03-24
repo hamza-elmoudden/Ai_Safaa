@@ -9,7 +9,7 @@ export class ConversationsService {
     ) { }
 
 
-    mapToConversations(data:any){
+    mapToConversations(data: any) {
         return new Conversation(
             data.id,
             data.user_id,
@@ -35,7 +35,7 @@ export class ConversationsService {
     }
 
 
-    async getUserConversation(user_id: string, limit: number=10, page: number=1) {
+    async getUserConversation(user_id: string, limit: number = 10, page: number = 1) {
         const skip = (page - 1) * limit;
         return await this.prismaService.conversations.findMany({
             where: {
@@ -44,9 +44,48 @@ export class ConversationsService {
             orderBy: {
                 created_at: "asc"
             },
-            
+
             take: limit,
             skip: skip
         });
+    }
+
+    async getFormattedMessages(user_id: string) {
+        const conversations = await this.prismaService.conversations.findMany({
+            where: { user_id },
+            orderBy: { created_at: 'asc' }
+        });
+
+        const messages = conversations.flatMap(conv => {
+            const result:any[] = [];
+
+            if (conv.message_user) {
+                result.push({
+                    role: "user",
+                    content: [
+                        {
+                            type: "text",
+                            text: conv.message_user
+                        }
+                    ]
+                });
+            }
+
+            if (conv.message_ai && conv.message_ai.trim() !== "") {
+                result.push({
+                    role: "assistant",
+                    content: [
+                        {
+                            type: "text",
+                            text: conv.message_ai
+                        }
+                    ]
+                });
+            }
+
+            return result;
+        });
+
+        return messages;
     }
 }

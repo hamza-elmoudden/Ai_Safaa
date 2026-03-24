@@ -8,6 +8,7 @@ import { GetConversationsHandler } from './Query/handler/get-conversation.handle
     ConversationsService,
     GetConversationsHandler,
   ],
-  controllers: [ConversationsController]
+  controllers: [ConversationsController],
+  exports:[ConversationsService]
 })
 export class ConversationsModule {}

@@ -360,7 +360,7 @@ export class AiService {
 
     if (user_image) {
       content.push({
-        type: 'image_url',
+        type: 'image',
         image_url: {
           url: user_image,
         },

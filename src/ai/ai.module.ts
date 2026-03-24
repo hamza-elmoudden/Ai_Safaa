@@ -7,13 +7,15 @@ import { ImageModule } from 'src/image/image.module';
 import { ChatMemoryService } from './chat-memory.service';
 import { AiProductsService } from './ai.products.service';
 import { TreatmentModule } from 'src/treatment/treatment.module';
+import { TokenusageModule } from 'src/tokenusage/tokenusage.module';
 
 @Module({
 
 
   imports: [
     ImageModule,
-    TreatmentModule
+    TreatmentModule,
+    TokenusageModule
   ],
   providers:
     [
