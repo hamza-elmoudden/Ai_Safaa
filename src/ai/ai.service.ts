@@ -4,6 +4,7 @@ import { generateText, streamText } from 'ai';
 import { ChatMemoryService } from './chat-memory.service';
 import { ConfigService } from '@nestjs/config';
 import { AiProductsService } from './ai.products.service';
+import { Role } from 'src/users/Schema/user.schema';
 
 
 
@@ -345,5 +346,40 @@ export class AiService {
     }
   }
 
+  async treatmentAnalysis(
+    history: [],
+    user_text: string,
+    user_image?: any
+  ) {
+    const content: any[] = [
+      {
+        type: 'text',
+        text: user_text,
+      },
+    ];
+
+    if (user_image) {
+      content.push({
+        type: 'image_url',
+        image_url: {
+          url: user_image,
+        },
+      });
+    }
+
+    const result = streamText({
+      model: this.chat.chat('openai/gpt-4.1'),
+      system: "",
+      messages: [
+        ...history,
+        {
+          role: 'user',
+          content,
+        },
+      ],
+    });
+
+    return result;
+  }
 
 }
