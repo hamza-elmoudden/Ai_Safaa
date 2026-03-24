@@ -89,15 +89,48 @@ export class TokenusageService {
 
 
 
-    async countTreatmentPhotos(user_id: string, plan_id?: string) {
+
+    async countTreatmentPhotosByPlan(user_id: string, plan_id: string) {
         const count = await this.prismaService.token_usage.count({
             where: {
                 user_id,
-                source: 'treatment_photo' as token_source,
-                ...(plan_id && { plan_id }),  
+                plan_id,
+                source: 'treatment_photo' 
+                ,
             },
         });
 
-        return { plan_id: plan_id ?? 'all', total_photos: count };
+        return {
+            plan_id,
+            total_photos: count,
+        };
     }
+
+    async countUserPhotos(user_id: string) {
+        const payment = await this.paymentsService.getActivePayment(user_id);
+
+        const { periodStart, periodEnd } = payment?.starts_at
+            ? this.paymentsService.getCurrentPeriod(payment.starts_at)
+            : this.paymentsService.getFreePeriod();
+
+        const chatPhotos = await this.prismaService.token_usage.count({
+            where: {
+                user_id,
+                source: 'conversation_photo',
+                created_at: { gte: periodStart, lt: periodEnd },
+            },
+        });
+
+
+        return {
+            chat_photos: chatPhotos,
+            period: {
+                from: periodStart,
+                to: periodEnd,
+            },
+        };
+    }
+
+
+    
 }
