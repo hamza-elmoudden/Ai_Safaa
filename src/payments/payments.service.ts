@@ -17,7 +17,6 @@ export class PaymentsService {
       data.provider_ref,
       data.provider_meta,
       data.subscription_id,
-      data.paid_at,
       data.starts_at,
       data.expires_at,
     );
@@ -33,7 +32,6 @@ export class PaymentsService {
         provider_ref:    data.provider_ref,
         provider_meta:   data.provider_meta,
         subscription_id: data.subscription_id,
-        paid_at:         data.paid_at,
         starts_at:       data.starts_at,
         expires_at:      data.expires_at,
       },
@@ -52,9 +50,9 @@ export class PaymentsService {
     const payments = await this.prisma.payments.findMany({
       where: {
         user_id,
-        status: 'completed', 
+        status: 'active', 
       },
-      orderBy: { paid_at: 'desc' },
+      orderBy: { starts_at: 'asc' },
     });
     return payments.map((p) => this.mapToPayment(p));
   }
@@ -63,12 +61,12 @@ export class PaymentsService {
     return await this.prisma.payments.findFirst({
       where: {
         user_id,
-        status: 'completed',
+        status: 'active',
         starts_at: { lte: new Date() },
         expires_at: { gt: new Date() },
       },
       include: { subscriptions: true }, 
-      orderBy: { expires_at: 'desc' },
+      orderBy: { expires_at: 'asc' },
     });
   }
 
