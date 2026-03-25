@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Subscription } from './Schema/subscriptions.schema';
-import { plan_name } from 'generated/prisma/enums';
 
 @Injectable()
 export class SubscriptionsService {
