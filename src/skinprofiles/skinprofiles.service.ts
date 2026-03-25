@@ -43,7 +43,7 @@ export class SkinprofilesService {
                 user_id
             }
         })
-        return this.ToMap(profile);
+        return profile ? this.ToMap(profile) : null;
     }
 
 

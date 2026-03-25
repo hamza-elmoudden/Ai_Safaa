@@ -201,6 +201,7 @@ export class UsersService {
         let user = await this.prisma.users.findUnique({
             where: { google_id: profile.googleId },
         });
+        
         if (user) return this.ToMap(user);
 
         // 2. registered with email before → link Google account
