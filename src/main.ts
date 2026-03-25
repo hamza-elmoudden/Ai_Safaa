@@ -12,23 +12,17 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: 'Content-Type, Accept',
   });
+
   app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-    }),
+   new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true })
   );
 
   await app.listen(process.env.PORT ?? 3000);
 
 
-  // await app.init();
-  // return app;
+
 }
 
 bootstrap()
 
 
-// export default async (req, res) => {
-//   const app = await bootstrap();
-//   return app.getHttpAdapter().getInstance()(req, res);
-// };
