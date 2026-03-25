@@ -11,6 +11,9 @@ import { GetChatTreatmentHandler } from './Query/handler/get-chat_treatment.hand
     GetChatTreatmentHandler
   ],
   controllers: [ChattreatmentController],
-  imports:[PrismaModule,TreatmentModule]
+  imports:[PrismaModule,TreatmentModule],
+  exports:[
+    ChattreatmentService
+  ]
 })
 export class ChattreatmentModule {}

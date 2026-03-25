@@ -6,14 +6,14 @@ import { Subscription } from './Schema/subscriptions.schema';
 export class SubscriptionsService {
     constructor(
         private readonly prisma: PrismaService,
-    ) {}
+    ) { }
 
-    mapToSubscription(data:any){
+    mapToSubscription(data: any) {
         return new Subscription(
             data.id,
             data.name,
-            data.price_number,
-            data.analyses_limit,
+            data.price_mad,              
+            data.limit_photo_treatment, 
             data.treatment_plans,
             data.product_checks,
             data.progress_tracking,
@@ -24,12 +24,12 @@ export class SubscriptionsService {
         )
     }
 
-    async FindAll():Promise<Subscription[] | []>  {
+    async FindAll(): Promise<Subscription[] | []> {
         const data = await this.prisma.subscriptions.findMany();
         return data.map((item) => this.mapToSubscription(item));
     }
 
-    async FindOne(id: string):Promise<Subscription | null>  {
+    async FindOne(id: string): Promise<Subscription | null> {
         const data = await this.prisma.subscriptions.findUnique({
             where: { id },
         });
@@ -37,5 +37,5 @@ export class SubscriptionsService {
     }
 
 
-    
+
 }
