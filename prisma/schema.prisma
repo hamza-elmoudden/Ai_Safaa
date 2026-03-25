@@ -49,7 +49,6 @@ model payments {
   status          payment_status @default(pending)
   provider_ref    String?        @unique @db.VarChar(255)
   provider_meta   Json?          @default("{}")
-  paid_at         DateTime?      @db.Timestamp(6)
   created_at      DateTime       @default(now()) @db.Timestamp(6)
   starts_at       DateTime?      @db.Timestamp(6)
   expires_at      DateTime?      @db.Timestamp(6)
