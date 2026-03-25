@@ -14,10 +14,10 @@ export class PaymentsService {
       data.method,
       data.status,
       data.created_at,
+      data.starts_at,
       data.provider_ref,
       data.provider_meta,
       data.subscription_id,
-      data.starts_at,
       data.expires_at,
     );
   }

@@ -15,4 +15,4 @@ export class Payment {
         public subscription_id?:string,
         public expires_at?:Date,
     ){}
-} 
+}  
