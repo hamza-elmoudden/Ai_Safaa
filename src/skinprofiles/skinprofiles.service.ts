@@ -5,27 +5,27 @@ import { SkinProfile } from './Schema/skin.profile.schema';
 @Injectable()
 export class SkinprofilesService {
     constructor(
-        private readonly servicePrisma:PrismaService
-    ){}
+        private readonly servicePrisma: PrismaService
+    ) { }
 
 
-    ToMap(profile:any){
-        return new SkinProfile(  
-            profile.id, 
-            profile.user_id, 
-            profile.skin_type, 
-            profile.concerns, 
-            profile.allergies, 
+    ToMap(profile: any) {
+        return new SkinProfile(
+            profile.id,
+            profile.user_id,
+            profile.skin_type,
+            profile.concerns,
+            profile.allergies,
             profile.notes,
             profile.created_at,
             profile.updated_at
         );
     }
-            
 
-    async createProfile(data:SkinProfile):Promise<SkinProfile>{
+
+    async createProfile(data: SkinProfile): Promise<SkinProfile> {
         const profile = await this.servicePrisma.skin_profiles.create({
-            data:{
+            data: {
                 user_id: data.user_id,
                 skin_type: data.skin_type,
                 concerns: data.concerns,
@@ -37,9 +37,9 @@ export class SkinprofilesService {
     }
 
 
-    async getProfileByUserId(user_id:string):Promise<SkinProfile | null>{
+    async getProfileByUserId(user_id: string): Promise<SkinProfile | null> {
         const profile = await this.servicePrisma.skin_profiles.findUnique({
-            where:{
+            where: {
                 user_id
             }
         })
@@ -47,14 +47,17 @@ export class SkinprofilesService {
     }
 
 
-    async updateProfile(data:SkinProfile):Promise<SkinProfile>{
+    async updateProfile(data: SkinProfile): Promise<SkinProfile> {
         const profile = await this.servicePrisma.skin_profiles.update({
-            where:{
-                user_id: data.user_id
-            },
-            data
+            where: { user_id: data.user_id },
+            data: {
+                skin_type: data.skin_type,
+                concerns: data.concerns,
+                allergies: data.allergies,
+                notes: data.notes,
+                updated_at: new Date()
+            }
         })
         return this.ToMap(profile);
     }
-
 }

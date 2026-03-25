@@ -5,12 +5,13 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { FindByIdQuery } from './Query/impl/findbyid.query';
 import { CompleteLoginHandler } from './Command/handler/complete-login.handler';
 import { UpdateUserHandler } from './Command/handler/updateuser.handler';
+import { FindByIdHandler } from './Query/handler/findbyid.handler';
 
 @Module({
   providers: [
     UsersService,
     // Query
-    FindByIdQuery,
+    FindByIdHandler,
     CompleteLoginHandler,
     UpdateUserHandler,
   ] 

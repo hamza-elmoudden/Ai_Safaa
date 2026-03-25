@@ -52,7 +52,7 @@ export class PaymentsService {
         user_id,
         status: 'active',
       },
-      orderBy: { starts_at: 'asc' },
+      orderBy: { starts_at: 'desc' },
     });
     return payments.map((p) => this.mapToPayment(p));
   }
@@ -66,7 +66,7 @@ export class PaymentsService {
         expires_at: { gt: new Date() },
       },
       include: { subscriptions: true },
-      orderBy: { expires_at: 'asc' },
+      orderBy: { expires_at: 'desc' },
     });
   }
 
