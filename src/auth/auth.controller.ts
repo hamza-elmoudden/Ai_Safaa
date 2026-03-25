@@ -15,8 +15,6 @@ import { AuthService } from './auth.service';
 import { User } from '../users/Schema/user.schema';
 import { CurrentUser } from './decorators/decorators';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
-import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
-import { JwtStrategy } from './Jwt.strategy';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 

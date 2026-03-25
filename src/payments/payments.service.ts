@@ -70,6 +70,7 @@ export class PaymentsService {
     });
   }
 
+  
   getCurrentPeriod(startsAt: Date): { periodStart: Date; periodEnd: Date } {
     const now = new Date();
     const start = new Date(startsAt);

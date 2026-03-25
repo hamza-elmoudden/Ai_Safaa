@@ -2,6 +2,7 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { UpdateProfileCommand } from "../impl/update.profile.command";
 import { SkinprofilesService } from "src/skinprofiles/skinprofiles.service";
 import { SkinProfile } from "src/skinprofiles/Schema/skin.profile.schema";
+import { BadRequestException } from "@nestjs/common";
 
 
 
@@ -16,16 +17,11 @@ export class UpdateProfileHandler implements ICommandHandler<UpdateProfileComman
   async execute(command: UpdateProfileCommand): Promise<SkinProfile | null> {
     const {user_id,skin_type, concerns, allergies, notes } = command;
     
-    let profile: SkinProfile | null = null;
-
-    try {
-        profile = await this.service.getProfileByUserId(user_id);
-    } catch (error) {
-        console.error('Error fetching skin profile:', error);
-    }
-
+    const profile: SkinProfile | null  = await this.service.getProfileByUserId(user_id);
+   
+  
     if (!profile) {
-      throw new Error('Skin profile not found');
+      throw new BadRequestException('Skin profile not found');
     }
 
     const skinProfile = new SkinProfile(

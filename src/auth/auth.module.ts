@@ -11,25 +11,28 @@ import { JwtStrategy } from './Jwt.strategy';
 import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
 
 @Module({
-  providers: [AuthService,
-     AuthService,
+  providers: [
+
+    AuthService,
     GoogleStrategy,       // GET /auth/google/callback
     JwtStrategy,          // Bearer access token
-    JwtRefreshStrategy, 
+    JwtRefreshStrategy,
   ],
   controllers: [AuthController],
-  imports: [UsersModule,PrismaModule, 
+  imports: [
+    UsersModule,
+    PrismaModule,
     PassportModule,
     ConfigModule,
     JwtModule.registerAsync({
-      imports:    [ConfigModule],
-      inject:     [ConfigService],
+      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret:      config.getOrThrow('JWT_SECRET'),
+        secret: config.getOrThrow('JWT_SECRET'),
         signOptions: { expiresIn: config.getOrThrow('JWT_EXPIRATION') },
       }),
     }),
 
   ],
 })
-export class AuthModule {}
+export class AuthModule { }
