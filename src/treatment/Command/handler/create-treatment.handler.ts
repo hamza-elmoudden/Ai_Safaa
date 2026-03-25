@@ -1,13 +1,9 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { CreateTreatmentCommand } from "../impl/create-treatment.command";
 import { Treatment } from "src/treatment/Schema/treatment.schema";
-import { User } from "src/users/Schema/user.schema";
-import { Payment } from "src/payments/Schema/payments.schema";
 import { TreatmentService } from "src/treatment/treatment.service";
-import { UsersService } from "src/users/users.service";
 import { PaymentsService } from "src/payments/payments.service";
 import { BadRequestException } from "@nestjs/common";
-import { Subscription } from "src/subscriptions/Schema/subscriptions.schema";
 import { SubscriptionsService } from "src/subscriptions/subscriptions.service";
 
 

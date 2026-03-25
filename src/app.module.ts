@@ -16,6 +16,8 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { ChattreatmentModule } from './chattreatment/chattreatment.module';
 import { TokenusageModule } from './tokenusage/tokenusage.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -45,6 +47,9 @@ import { TokenusageModule } from './tokenusage/tokenusage.module';
      TokenusageModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: RolesGuard }
+  ],
 })
 export class AppModule {}

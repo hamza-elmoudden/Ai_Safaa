@@ -30,7 +30,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
  */
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   // ─────────────────────────────────────────────────────────────
   //  GET /auth/google
@@ -38,7 +38,7 @@ export class AuthController {
   // ─────────────────────────────────────────────────────────────
   @Get('google')
   @UseGuards(GoogleAuthGuard)
-  googleRedirect() {}
+  googleRedirect() { }
 
   // ─────────────────────────────────────────────────────────────
   //  GET /auth/google/callback
@@ -51,14 +51,26 @@ export class AuthController {
     const tokens = await this.authService.googleLogin(req.user as User);
 
     const base = process.env.FRONTEND_URL ?? 'http://localhost:3000';
+    const isProd = process.env.NODE_ENV === 'production';
 
-    // Redirect to frontend with tokens in query string
-    return res.redirect(
-      `${base}/auth/success` +
-      `?access_token=${tokens.accessToken}` +
-      `&refresh_token=${tokens.refreshToken}` +
-      `&expires_in=${tokens.expiresIn}`,
-    );
+    // access token في cookie
+    res.cookie('access_token', tokens.accessToken, {
+      httpOnly: true,   // JavaScript لا يستطيع قراءتها
+      secure: isProd,   // HTTPS فقط في production
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000, // 15 دقيقة
+    });
+
+    // refresh token في cookie
+    res.cookie('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 أيام
+    });
+
+    // redirect بدون tokens في URL
+    return res.redirect(`${base}/auth/success`);
   }
 
   // ─────────────────────────────────────────────────────────────
@@ -112,7 +124,7 @@ export class AuthController {
       fcm_token,
       ...safe
     } = user as any;
-    
+
     return safe;
   }
 }
