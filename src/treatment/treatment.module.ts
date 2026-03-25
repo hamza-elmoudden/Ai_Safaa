@@ -21,7 +21,6 @@ import { GetTreatmentByIdHandler } from './Query/handler/get-treatmentbyid.handl
   controllers: [TreatmentController],
   imports: [
     SubscriptionsModule,
-    TreatmentModule,
     PaymentsModule,
     UsersModule,
     PrismaModule

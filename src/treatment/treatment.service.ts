@@ -27,8 +27,8 @@ export class TreatmentService {
             treatment.next_checkin_at,
             treatment.started_at,
             treatment.completed_at,
-            treatment.updated_at, // Add the missing 18th argument
-            treatment.deleted_at  // Add the missing 19th argument
+            treatment.created_at,  
+            treatment.updated_at,
         );
     }
 
