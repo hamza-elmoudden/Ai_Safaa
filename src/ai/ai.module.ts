@@ -10,6 +10,7 @@ import { TreatmentModule } from 'src/treatment/treatment.module';
 import { TokenusageModule } from 'src/tokenusage/tokenusage.module';
 import { ConversationsModule } from 'src/conversations/conversations.module';
 import { ChattreatmentModule } from 'src/chattreatment/chattreatment.module';
+import { SkinprofilesModule } from 'src/skinprofiles/skinprofiles.module';
 
 @Module({
 
@@ -19,7 +20,8 @@ import { ChattreatmentModule } from 'src/chattreatment/chattreatment.module';
     TreatmentModule,
     TokenusageModule,
     ConversationsModule,
-    ChattreatmentModule
+    ChattreatmentModule,
+    SkinprofilesModule
   ],
   providers:
     [
@@ -27,7 +29,8 @@ import { ChattreatmentModule } from 'src/chattreatment/chattreatment.module';
       analyzefacehandler,
       generatetexthandler,
       ChatMemoryService,
-      AiProductsService
+      AiProductsService,
+      
 
     ],
   controllers: [AiController],

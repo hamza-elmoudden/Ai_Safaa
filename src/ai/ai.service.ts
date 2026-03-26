@@ -347,10 +347,11 @@ export class AiService {
   }
 
   async treatmentAnalysis(
-    history: [],
+    history: any[],
     user_text: string,
     user_image?: any
   ) {
+
     const content: any[] = [
       {
         type: 'text',
