@@ -10,7 +10,7 @@ export class FindByIdHandler implements IQueryHandler<FindByIdQuery> {
   constructor(
     private readonly userService: UsersService
   ) { }
-  async execute(query: FindByIdQuery):Promise<User> {
+  async execute(query: FindByIdQuery):Promise<User | null> {
     // Logic to find a user by ID
     try {
       const userId = query.id;

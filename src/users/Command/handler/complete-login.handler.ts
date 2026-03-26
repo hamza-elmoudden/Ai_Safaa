@@ -16,7 +16,7 @@ export class CompleteLoginHandler implements ICommandHandler<CompleteLoginComman
     async execute(command: CompleteLoginCommand): Promise<User> {
 
         const { id, full_name, phone, country_code, city, date_of_birth } = command;
-        let findUser: User;
+        let findUser: User | null;
 
         try {
             findUser = await this.usersService.findOneId(id);
