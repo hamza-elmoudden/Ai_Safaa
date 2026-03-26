@@ -141,6 +141,18 @@ export class TreatmentService {
         return photo.initial_photo_url
     }
 
+
+    async getPhotoInitial(user_id:string,treatment_id:string):Promise<string | null>{
+        const photo = await this.prisma.treatment_plans.findUnique({
+            where:{
+                user_id,
+                id:treatment_id
+            }
+        })
+
+        return photo?.initial_photo_url ? photo.initial_photo_url : null
+    }
+
     async updateDiagnosis(id: string, data: {
         ai_diagnosis: string;
         day_0_acne_count: number;
