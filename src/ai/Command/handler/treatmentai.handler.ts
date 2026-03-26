@@ -4,6 +4,7 @@ import { AiService } from "src/ai/ai.service";
 import { TreatmentService } from "src/treatment/treatment.service";
 import { BadRequestException } from "@nestjs/common";
 import { ChattreatmentService } from "src/chattreatment/chattreatment.service";
+import { TokenusageService } from "src/tokenusage/tokenusage.service";
 
 
 @CommandHandler(TreatmentAiCommand)
@@ -12,24 +13,70 @@ export class TreatmentAiHandler implements ICommandHandler<TreatmentAiCommand> {
         private readonly aiService: AiService,
         private readonly treatmentService: TreatmentService,
         private readonly chatTreatmentService: ChattreatmentService,
+        private readonly tokenusageService: TokenusageService,
     ) { }
 
 
     async execute(command: TreatmentAiCommand): Promise<any> {
 
-        let message: any[]
+        let history: any[]
 
-        const treatment = await this.treatmentService.findTreatmentByIdAndUserId(command.user_id, command.treatment_id)
+        const treatment = await this.treatmentService.findTreatmentByIdAndUserId(
+            command.user_id,
+            command.treatment_id
+        );
 
-        if (treatment) {
-
-            throw new BadRequestException("You Dent Have Any Treatment")
-
+        if (!treatment) {
+            throw new BadRequestException("Treatment plan not found");
         }
- 
-        message = await this.chatTreatmentService.getFormattedMessages(command.treatment_id, command.limit = 10000, command.page = 1)
 
+        if (command.user_image) {
+            await this.tokenusageService.checkPhotoLimit(command.user_id);
+        }
 
-        return this.aiService.treatmentAnalysis(message,command.user_message,command.user_image)
+        history = await this.chatTreatmentService.getFormattedMessages(
+            command.treatment_id,
+            command.limit ?? 50,
+            command.page ?? 1
+        );
+
+        const stream = await this.aiService.treatmentAnalysis(
+            history,
+            command.user_message,
+            command.user_image
+        );
+
+        let fullResponse = '';
+
+        const uiStream = stream.toUIMessageStream({
+            onFinish: async ({ responseMessage }) => {
+                const textPart = responseMessage.parts?.find(p => p.type === 'text');
+                fullResponse = textPart?.text ?? '';
+
+                await this.chatTreatmentService.addChat({
+                    plan_id: command.treatment_id,
+                    user_message: command.user_message,
+                    ai_response: fullResponse,
+                    have_photo: !!command.user_image,
+                    image_url: command.user_image ?? null,
+                    image_key: null,
+                    day_number: null,
+                } as any);
+
+                if (command.user_image) {
+                    await this.tokenusageService.addTokenUsage({
+                        user_id: command.user_id,
+                        source: 'conversation_photo' as any,
+                        ref_id: command.treatment_id,
+                        plan_id: command.treatment_id,
+                        tokens_input: 0,
+                        tokens_output: 0,
+                        ai_model: 'openai/gpt-4.1',
+                    });
+                }
+            }
+        });
+
+        return uiStream;
     }
 }

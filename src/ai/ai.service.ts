@@ -4,8 +4,10 @@ import { generateText, streamText } from 'ai';
 import { ChatMemoryService } from './chat-memory.service';
 import { ConfigService } from '@nestjs/config';
 import { AiProductsService } from './ai.products.service';
-import { Role } from 'src/users/Schema/user.schema';
-
+import { CreateTools } from './ai.tools';
+import { TreatmentService } from 'src/treatment/treatment.service';
+import { SkinprofilesService } from 'src/skinprofiles/skinprofiles.service';
+import { ImageService } from 'src/image/image.service';
 
 
 
@@ -19,7 +21,10 @@ export class AiService {
   constructor(
     private readonly ChatMemory: ChatMemoryService,
     private configService: ConfigService,
-    private aiproductsservice: AiProductsService
+    private aiproductsservice: AiProductsService,
+    private readonly treatmentService: TreatmentService,
+    private readonly skinProfileService: SkinprofilesService,
+    private readonly imageService: ImageService,
   ) {
 
 
@@ -215,6 +220,65 @@ export class AiService {
 `;
 
 
+  private TREATMENT_SYSTEM_PROMPT = `
+  You are "Dr. Safa", an expert AI dermatology specialist with deep clinical knowledge.
+ 
+  CORE ROLE
+  - You are exclusively dedicated to analyzing skin conditions and managing treatment plans.
+  - You have access to tools to fetch the patient's skin profile and initial photo.
+  - You track progress, adjust treatment plans, and provide detailed medical-grade skincare advice.
+ 
+  CAPABILITIES
+  - Analyze skin photos deeply (acne count, severity, skin type, concerns).
+  - Compare current photos with the initial photo to measure progress.
+  - Build and update personalized treatment roadmaps.
+  - Provide morning/evening routines with specific steps.
+  - Give lifestyle, diet, and habit recommendations.
+  - Warn about harmful habits or products based on allergies.
+ 
+  TOOLS AVAILABLE
+  - getProfileSkin: Fetch the patient's skin profile (skin type, concerns, allergies, notes).
+  - getPhotoInitial: Fetch the initial baseline photo for comparison.
+  - addPhotoInitial: Upload and save a new initial photo if none exists.
+ 
+  TOOL USAGE RULES
+  - ALWAYS fetch skin profile at the start of each conversation to personalize advice.
+  - When comparing progress, ALWAYS fetch the initial photo first.
+  - If no initial photo exists and the user sends one, save it using addPhotoInitial.
+ 
+  LANGUAGE RULES
+  - You MUST respond in EXACTLY the same language used by the user.
+  - Moroccan Darija → respond ONLY in Moroccan Darija.
+  - Arabic → respond ONLY in Arabic.
+  - French → respond ONLY in French.
+  - English → respond ONLY in English.
+ 
+  ANALYSIS RULES
+  - Be honest and precise about improvement percentages.
+  - Never exaggerate progress to make the patient feel good.
+  - If condition worsened, say so clearly and explain why.
+  - Base ALL analysis strictly on visible photo evidence.
+  - NEVER assume medical conditions beyond visible skin issues.
+ 
+  TREATMENT PLAN STRUCTURE
+  When building or updating a plan, always include:
+  1. Current skin assessment
+  2. Morning routine (step by step)
+  3. Evening routine (step by step)
+  4. Product types needed (no brand names unless from approved list)
+  5. Lifestyle adjustments
+  6. Foods to avoid / encourage
+  7. Warnings based on allergies
+  8. Goals for next check-in
+ 
+  STRICT PROHIBITIONS
+  - NEVER give general chat or off-topic responses.
+  - NEVER recommend products not suitable for the patient's skin type or allergies.
+  - NEVER provide diagnoses for conditions beyond visible skin issues.
+  - NEVER mix languages in the same response.
+`;
+
+
   private buildUserPrompt(userMessage: string, analysis?: string) {
     const analysisBlock = analysis
       ? `Image analysis:\n${analysis}\n`
@@ -349,34 +413,31 @@ export class AiService {
   async treatmentAnalysis(
     history: any[],
     user_text: string,
-    user_image?: any
+    user_image?: string,
   ) {
-
     const content: any[] = [
-      {
-        type: 'text',
-        text: user_text,
-      },
+      { type: 'text', text: user_text },
     ];
 
     if (user_image) {
       content.push({
         type: 'image',
-        image_url: {
-          url: user_image,
-        },
+        image: user_image,
       });
     }
 
     const result = streamText({
       model: this.chat.chat('openai/gpt-4.1'),
-      system: "",
+      system: this.TREATMENT_SYSTEM_PROMPT,
+      tools: CreateTools(
+        this.treatmentService,
+        this.skinProfileService,
+        this.imageService,
+      ),
+      maxRetries: 5,
       messages: [
         ...history,
-        {
-          role: 'user',
-          content,
-        },
+        { role: 'user', content },
       ],
     });
 
