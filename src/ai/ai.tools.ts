@@ -3,7 +3,7 @@ import { ImageService } from "src/image/image.service"
 import { SkinprofilesService } from "src/skinprofiles/skinprofiles.service"
 import { TreatmentService } from "src/treatment/treatment.service"
 import { z } from "zod"
-import { th } from "zod/v4/locales"
+
 
 type SkinProfileResult = {
     error?: string
