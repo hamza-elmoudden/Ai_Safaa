@@ -5,7 +5,7 @@ import { Skin_type } from "../Schema/skin.profile.schema"
 export class CreateSkinProfileDto {
 
     @IsEnum(Skin_type)
-    kin_type: Skin_type
+    skin_type: Skin_type
 
     @IsString({ each: true })
     concerns: string[]

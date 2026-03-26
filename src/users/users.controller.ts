@@ -4,8 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport'
 import { Roles } from 'src/auth/decorators/decorators';
 import { UpdateUserCommand } from './Command/impl/updateuser.command';
-import { FindByIdHandler } from './Query/handler/findbyid.handler';
 import { CompleteLoginCommand } from './Command/impl/complete-login.command';
+import { FindByIdQuery } from './Query/impl/findbyid.query';
 
 @Controller('users')
 export class UsersController {
@@ -78,7 +78,7 @@ export class UsersController {
 
         const user = req.user
 
-        const result = await this.queryBus.execute(new FindByIdHandler(user.id))
+        const result = await this.queryBus.execute(new FindByIdQuery(user.id))
 
         return {
             message: 'User retrieved successfully',

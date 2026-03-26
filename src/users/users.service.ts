@@ -56,14 +56,7 @@ export class UsersService {
             }
         });
 
-
-        const user = await this.prisma.users.findUnique({
-            where: {
-                id: result.id
-            }
-        });
-
-        return await this.ToMap(user);
+        return await this.ToMap(result);
     }
 
 
@@ -94,13 +87,7 @@ export class UsersService {
             }
         });
 
-        const user = await this.prisma.users.findUnique({
-            where: {
-                id: result.id
-            }
-        });
-
-        return await this.ToMap(user);
+        return await this.ToMap(result);
     }
 
     async completeUser(data: User) {
@@ -119,13 +106,8 @@ export class UsersService {
             }
         });
 
-        const user = await this.prisma.users.findUnique({
-            where: {
-                id: result.id
-            }
-        });
 
-        return await this.ToMap(user);
+        return await this.ToMap(result);
     }
 
     async findAll(page: number, limit: number) {

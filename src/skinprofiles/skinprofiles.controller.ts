@@ -30,7 +30,7 @@ export class SkinprofilesController {
     @Roles('user')
     async createSkinProfile(@Body()data :CreateSkinProfileDto,@Req() req:any) {
         const user = req.user
-        return await this.commandBus.execute(new CreateProfileCommand(user.id,data.kin_type,data.concerns,data.allergies,data.notes));
+        return await this.commandBus.execute(new CreateProfileCommand(user.id,data.skin_type,data.concerns,data.allergies,data.notes));
     }
 
 
@@ -42,6 +42,6 @@ export class SkinprofilesController {
         @Req() req:any
     ){
         const user = req.user
-        return await this.commandBus.execute(new UpdateProfileCommand(user.id,data.kin_type,data.concerns,data.allergies,data.notes))
+        return await this.commandBus.execute(new UpdateProfileCommand(user.id,data.skin_type,data.concerns,data.allergies,data.notes))
     }
 }
