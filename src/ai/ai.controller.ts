@@ -17,45 +17,28 @@ export class AiController {
         private readonly commandbus: CommandBus
     ) { }
 
-
     @Post('chat')
     @UseInterceptors(FileInterceptor('image'))
     async generatetext(
         @Body() prompt: AiDto,
         @UploadedFile() file: Express.Multer.File,
         @Res() res: Response,
-        @Query('userId') userId: string
+        @Query('userId') userId: string,
     ) {
         try {
 
             if (file) {
+                const maxSize = 5 * 1024 * 1024;
+                if (file.size > maxSize)
+                    throw new BadRequestException('Image too large');
 
-                try {
-                    const maxSize = 5 * 1024 * 1024;
-                    if (file.size > maxSize) throw new BadRequestException('Image too large');
-
-
-                    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-
-                    if (!allowedMimeTypes.includes(file.mimetype))
-                        throw new BadRequestException('Only image files allowed');
-
-                    const url = await this.commandbus.execute(
-                        new UploadImageCommand(file.originalname, file.buffer, file.mimetype)
-                    );
-
-                    prompt.image = typeof url.url === 'string' ? url.url : undefined;
-                } catch (error) {
-
-                    console.error('Error Upload Image ', error)
-
-                    res.status(401).send('Error On Upload Image')
-                }
-
+                const allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                if (!allowed.includes(file.mimetype))
+                    throw new BadRequestException('Only image files allowed');
             }
 
             const stream = await this.commandbus.execute(
-                new generatetextcommand(prompt.text, userId, prompt.image)
+                new generatetextcommand(prompt.text, userId, file)
             );
 
             res.status(200);
@@ -64,23 +47,19 @@ export class AiController {
             res.setHeader('Connection', 'keep-alive');
 
             for await (const chunk of stream) {
-
                 if (chunk.type === 'text-delta' && chunk.delta) {
-
                     res.write(chunk.delta);
                 }
-
             }
 
-            res.end()
+            res.end();
 
         } catch (error) {
             console.error('Stream error:', error);
             if (!res.headersSent) {
-                res.status(500).json({
+                res.status(error.status ?? 500).json({
                     success: false,
-                    error: 'An error occurred in processing the request',
-                    message: process.env.NODE_ENV === 'development' ? error.message : undefined
+                    error: error.message ?? 'An error occurred',
                 });
             } else {
                 res.end();
@@ -96,7 +75,7 @@ export class AiController {
         @Body() prompt: AiDto,
         @UploadedFile() file: Express.Multer.File,
         @Res() res: Response,
-        @Req() req:any,
+        @Req() req: any,
         @Query('treatmentId') treatmentId: string,
         @Query('limit') limit?: number,
         @Query('page') page?: number,
@@ -105,7 +84,7 @@ export class AiController {
 
             const userId = req.user.id
 
-            
+
             if (!treatmentId) throw new BadRequestException('treatmentId is required');
 
             const stream = await this.commandbus.execute(

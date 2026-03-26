@@ -26,7 +26,7 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
 
             text_ai = await this.commandbus.execute(
                 new analyzefacecommend(command.image_url, command.text)
-            );
+             );
         }
 
         const history = await this.conversationsService.getFormattedMessages(

@@ -315,31 +315,25 @@ export class AiService {
     text: string,
     text_ai?: string,
     userId: string = '',
-    history: any[] = [],
+    history: any[] = [],  
   ) {
     const analysisBlock = this.buildUserPrompt(text, text_ai);
-
+ 
     try {
       const result = streamText({
         model: this.chat.chat('openai/gpt-4.1'),
         system: this.SYSTEM_PROMPT,
         messages: [
-          ...history,
+          ...history,  
           {
             role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: analysisBlock,
-              },
-            ],
+            content: [{ type: 'text', text: analysisBlock }],
           },
         ],
       });
-
+ 
       return result;
-
-
+ 
     } catch (error) {
       console.error('Error Generate Text', error);
       throw new Error('Error generating recommendation');
@@ -347,48 +341,32 @@ export class AiService {
   }
 
 
-  async analyzeFaceFromUrl(prompt: string = 'Analyze this image', imageUrl: string | undefined) {
-
+    async analyzeFromBuffer(
+    buffer: Buffer,
+    mimetype: string,
+    userText: string,
+  ): Promise<string> {
     try {
-      let imgBase64
-
-      if (imageUrl) {
-        imgBase64 = await this.urlToDataUrl(imageUrl)
-
-      }
-
-      const base64Data = imgBase64.split(',')[1]
-
-
       const result = await generateText({
         model: this.faceImage.chat('openai/gpt-4.1-mini'),
         system: this.AnalysisPrompt,
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: prompt,
-              },
-              {
-                type: 'image',
-                image: Buffer.from(base64Data, "base64"),
-              },
-            ],
-          }
-        ],
-
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'text', text: userText },
+            { type: 'image', image: buffer },  // ← buffer مباشرة
+          ],
+        }],
       });
-
-
-      return result.text
-
+ 
+      return result.text?.trim() ?? 'image_low_quality';
+ 
     } catch (error) {
-      console.error(`Error Ai Service Analyze Face `, error);
-      throw new Error('Error analyzing face from URL');
+      console.error('Error analyzeFromBuffer:', error);
+      throw new Error('Failed to analyze image');
     }
   }
+
 
   async treatmentAnalysis(
     history: any[],
