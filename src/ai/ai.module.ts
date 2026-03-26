@@ -8,6 +8,8 @@ import { ChatMemoryService } from './chat-memory.service';
 import { AiProductsService } from './ai.products.service';
 import { TreatmentModule } from 'src/treatment/treatment.module';
 import { TokenusageModule } from 'src/tokenusage/tokenusage.module';
+import { ConversationsModule } from 'src/conversations/conversations.module';
+import { ChattreatmentModule } from 'src/chattreatment/chattreatment.module';
 
 @Module({
 
@@ -15,7 +17,9 @@ import { TokenusageModule } from 'src/tokenusage/tokenusage.module';
   imports: [
     ImageModule,
     TreatmentModule,
-    TokenusageModule
+    TokenusageModule,
+    ConversationsModule,
+    ChattreatmentModule
   ],
   providers:
     [

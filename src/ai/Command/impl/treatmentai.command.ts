@@ -5,6 +5,8 @@ export class TreatmentAiCommand{
         public readonly user_id:string,
         public readonly treatment_id:string,
         public readonly user_message:string,
-        public readonly user_image:string
+        public readonly user_image:string,
+        public readonly limit?:number,
+        public readonly page?:number
     ){}
 }
