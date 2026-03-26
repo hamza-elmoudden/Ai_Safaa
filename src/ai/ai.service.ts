@@ -311,60 +311,40 @@ export class AiService {
   }
 
 
-  async generatetext(text: string, text_ai?: string, userId: string = '') {
-
+  async generatetext(
+    text: string,
+    text_ai?: string,
+    userId: string = '',
+    history: any[] = [],
+  ) {
     const analysisBlock = this.buildUserPrompt(text, text_ai);
 
-    const message = this.ChatMemory.getMessages(userId)
-
     try {
-
-      this.ChatMemory.saveMessage(userId, {
-        role: 'user',
-        content: analysisBlock
-      });
-
-
       const result = streamText({
         model: this.chat.chat('openai/gpt-4.1'),
         system: this.SYSTEM_PROMPT,
         messages: [
-          ...message,
+          ...history,
           {
-            role: "user",
+            role: 'user',
             content: [
               {
                 type: 'text',
-                text: analysisBlock
+                text: analysisBlock,
               },
             ],
           },
         ],
       });
 
+      return result;
 
-      let stream = result.toUIMessageStream({
-        onFinish: async ({ responseMessage }) => {
-
-          const textPart = responseMessage.parts.find(
-            (p) => p.type === "text"
-          );
-
-          this.ChatMemory.saveMessage(userId, {
-            role: responseMessage.role,
-            content: textPart?.text ?? ""
-          })
-        }
-      })
-
-      return stream
 
     } catch (error) {
-      console.error(`Error Generate Text `, error);
-      throw new Error("Error generating recommendation");
+      console.error('Error Generate Text', error);
+      throw new Error('Error generating recommendation');
     }
   }
-
 
 
   async analyzeFaceFromUrl(prompt: string = 'Analyze this image', imageUrl: string | undefined) {

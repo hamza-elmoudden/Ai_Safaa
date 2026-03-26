@@ -11,6 +11,7 @@ import { TokenusageModule } from 'src/tokenusage/tokenusage.module';
 import { ConversationsModule } from 'src/conversations/conversations.module';
 import { ChattreatmentModule } from 'src/chattreatment/chattreatment.module';
 import { SkinprofilesModule } from 'src/skinprofiles/skinprofiles.module';
+import { TreatmentAiHandler } from './Command/handler/treatmentai.handler';
 
 @Module({
 
@@ -29,6 +30,7 @@ import { SkinprofilesModule } from 'src/skinprofiles/skinprofiles.module';
       analyzefacehandler,
       generatetexthandler,
       ChatMemoryService,
+      TreatmentAiHandler,
       AiProductsService,
       
 
