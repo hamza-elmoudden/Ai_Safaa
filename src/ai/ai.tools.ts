@@ -112,5 +112,37 @@ export const CreateTools = (
     }
 }
 
+export const CreateToolsTwo = (
+    profileSkinService: SkinprofilesService,
+) => {
+    return {
+        getProfileSkin: tool<{ userId: string }, SkinProfileResult>({
 
- 
+            description: "Get Skin Profiles",
+
+            inputSchema: z.object({
+                userId: z.string()
+            }),
+
+            execute: async ({ userId }) => {
+
+                const profile = await profileSkinService.getProfileByUserId(userId)
+
+                if (!profile) {
+                    return { error: "Profile Skin Not Found" }
+                }
+
+                return {
+                    profileSkin: {
+                        skin_type: profile.skin_type,
+                        concerns: profile.concerns,
+                        allergies: profile.allergies,
+                        notes: profile.notes
+                    }
+                }
+
+            }
+
+        }),
+    }
+}
