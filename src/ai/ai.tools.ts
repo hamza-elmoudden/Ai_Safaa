@@ -2,6 +2,7 @@ import { tool } from "ai"
 import { ImageService } from "src/image/image.service"
 import { SkinprofilesService } from "src/skinprofiles/skinprofiles.service"
 import { TreatmentService } from "src/treatment/treatment.service"
+import { UsersService } from "src/users/users.service"
 import { z } from "zod"
 
 
@@ -24,10 +25,16 @@ type AddPhotoInitial = {
     url_initial_photo: string
 }
 
+type GetCountry = {
+    error?: string
+    country?:string
+}
+
 export const CreateTools = (
     treatmentService: TreatmentService,
     profileSkinService: SkinprofilesService,
-    imageService: ImageService
+    imageService: ImageService,
+    userService:UsersService
 ) => {
     return {
         getProfileSkin: tool<{ userId: string }, SkinProfileResult>({
@@ -107,6 +114,26 @@ export const CreateTools = (
                     url_initial_photo: result.url
                 }
             }
+        }),
+
+        getUserCountry:tool<{userId:string},GetCountry>({
+            description : " Get User Country",
+
+            inputSchema:z.object({
+                userId:z.string()
+            }),
+
+            execute:async ({userId}) =>{
+                const country = await userService.findCountry(userId)
+
+                if(!country){
+                    return {error:"no country found"}
+                }
+
+                return {
+                    country:country
+                }
+            }
         })
 
     }
@@ -114,6 +141,7 @@ export const CreateTools = (
 
 export const CreateToolsTwo = (
     profileSkinService: SkinprofilesService,
+    userService:UsersService
 ) => {
     return {
         getProfileSkin: tool<{ userId: string }, SkinProfileResult>({
@@ -144,5 +172,25 @@ export const CreateToolsTwo = (
             }
 
         }),
+
+        getUserCountry:tool<{userId:string},GetCountry>({
+            description : " Get User Country",
+
+            inputSchema:z.object({
+                userId:z.string()
+            }),
+
+            execute:async ({userId}) =>{
+                const country = await userService.findCountry(userId)
+
+                if(!country){
+                    return {error:"no country found"}
+                }
+
+                return {
+                    country:country
+                }
+            }
+        })
     }
 }
