@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PaymentsService } from 'src/payments/payments.service';
 import { Payment } from 'src/payments/Schema/payments.schema';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -40,16 +40,16 @@ export class TokenusageService {
 
 
     async checkPhotoLimit(userId: string): Promise<void> {
-        const { used, limit } = await this.getUserPhotoUsage(userId);
+        const { used, limit, resets_at } = await this.getUserPhotoUsage(userId);
 
         if (limit !== -1 && used >= limit) {
-            throw new Error(
-                JSON.stringify({
-                    code: 'PHOTO_LIMIT_EXCEEDED',
-                    used,
-                    limit,
-                }),
-            );
+            throw new BadRequestException({
+                code: 'PHOTO_LIMIT_EXCEEDED',
+                message: `You have reached your monthly photo limit (${used}/${limit})`,
+                used,
+                limit,
+                resets_at,
+            });
         }
     }
 
@@ -95,7 +95,7 @@ export class TokenusageService {
             where: {
                 user_id,
                 plan_id,
-                source: 'treatment_photo' 
+                source: 'treatment_photo'
                 ,
             },
         });
@@ -132,5 +132,5 @@ export class TokenusageService {
     }
 
 
-    
+
 }
