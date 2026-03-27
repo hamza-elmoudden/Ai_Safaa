@@ -402,4 +402,32 @@ export class AiService {
     return result;
   }
 
+
+    async analyzeFaceFromUrl(prompt: string = 'Analyze this image', imageUrl: string | undefined) {
+    try {
+      if (!imageUrl) throw new Error('No image URL provided');
+ 
+      const imgBase64 = await this.urlToDataUrl(imageUrl);
+      const base64Data = imgBase64.split(',')[1];
+ 
+      const result = await generateText({
+        model: this.faceImage.chat('openai/gpt-4.1-mini'),
+        system: this.AnalysisPrompt,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'text', text: prompt },
+            { type: 'image', image: Buffer.from(base64Data, 'base64') },
+          ],
+        }],
+      });
+ 
+      return result.text;
+ 
+    } catch (error) {
+      console.error('Error Ai Service Analyze Face', error);
+      throw new Error('Error analyzing face from URL');
+    }
+  }
+
 }

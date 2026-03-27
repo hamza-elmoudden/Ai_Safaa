@@ -65,7 +65,7 @@ export class PaymentsService {
         starts_at: { lte: new Date() },
         expires_at: { gt: new Date() },
       },
-      include: { subscriptions: true },
+      include: { subscriptions: true},
       orderBy: { expires_at: 'desc' },
     });
   }

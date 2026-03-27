@@ -2,9 +2,10 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { generatetextcommand } from "../impl/generatechat.command";
 import { AiService } from "src/ai/ai.service";
 import { CommandBus } from "@nestjs/cqrs";
-import { analyzefacecommend } from "../impl/analyzeface.commend";
 import { ConversationsService } from "src/conversations/conversations.service";
 import { TokenusageService } from "src/tokenusage/tokenusage.service";
+import { ImageService } from "src/image/image.service";
+import { BadRequestException } from "@nestjs/common";
 
 
 @CommandHandler(generatetextcommand)
@@ -15,47 +16,62 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
         private readonly commandbus: CommandBus,
         private readonly conversationsService: ConversationsService,
         private readonly tokenusageService: TokenusageService,
+        private readonly imageService: ImageService,
     ) { }
 
     async execute(command: generatetextcommand): Promise<any> {
 
         let text_ai: string | undefined;
+        let photo_url: string | undefined;
+        let photo_key: string | undefined;
 
-        if (command.image_url) {
-            await this.tokenusageService.checkPhotoLimit(command.user_id);
+        const userId = command.user_id as string;
 
-            text_ai = await this.commandbus.execute(
-                new analyzefacecommend(command.image_url, command.text)
-             );
+        if (command.file) {
+
+            await this.tokenusageService.checkPhotoLimit(userId);
+
+            text_ai = await this.Aiservice.analyzeFromBuffer(
+                command.file.buffer,
+                command.file.mimetype,
+                command.text,
+            );
+
+            if (text_ai === 'image_low_quality') {
+                throw new BadRequestException(
+                    'The image is unclear. Please send a clearer photo.'
+                );
+            }
+
+            const uploaded = await this.imageService.uploadFile(
+                command.file.buffer,
+                command.file.originalname,
+                command.file.mimetype,
+            );
+            photo_url = uploaded.url;
+            photo_key = uploaded.key;
         }
 
         const history = await this.conversationsService.getFormattedMessages(
-            command.user_id,
+            userId,
             50,
-            1
+            1,
         );
 
         const result = await this.Aiservice.generatetext(
             command.text,
             text_ai,
-            command.user_id,
+            userId,
             history,
         );
 
         return result.toUIMessageStream({
             onFinish: async ({ responseMessage }) => {
-
                 const textPart = responseMessage.parts?.find(p => p.type === 'text');
-                const aiText = textPart?.text ?? '';
 
-                let photo_url: string | undefined;
-                let photo_key: string | undefined;
-
-                if (command.image_url) {
-                    photo_url = command.image_url;
-
+                if (photo_url) {
                     await this.tokenusageService.addTokenUsage({
-                        user_id:       command.user_id,
+                        user_id:       userId,
                         source:        'conversation_photo' as any,
                         tokens_input:  0,
                         tokens_output: 0,
@@ -64,9 +80,9 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
                 }
 
                 await this.conversationsService.addConversation(
-                    command.user_id,
+                    userId,
                     command.text,
-                    aiText,
+                    textPart?.text ?? '',
                     photo_url,
                     photo_key,
                 );
