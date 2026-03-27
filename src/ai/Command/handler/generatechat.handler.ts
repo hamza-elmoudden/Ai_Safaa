@@ -19,7 +19,7 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
         private readonly tokenusageService: TokenusageService,
         private readonly imageService: ImageService,
         private readonly paymentsService: PaymentsService
-    ) { }
+    ) { } 
 
     async execute(command: generatetextcommand): Promise<any> {
 

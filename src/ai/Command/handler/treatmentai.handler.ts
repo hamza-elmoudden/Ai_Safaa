@@ -5,6 +5,7 @@ import { TreatmentService } from "src/treatment/treatment.service";
 import { BadRequestException } from "@nestjs/common";
 import { ChattreatmentService } from "src/chattreatment/chattreatment.service";
 import { TokenusageService } from "src/tokenusage/tokenusage.service";
+import { PaymentsService } from "src/payments/payments.service";
 
 
 @CommandHandler(TreatmentAiCommand)
@@ -14,12 +15,28 @@ export class TreatmentAiHandler implements ICommandHandler<TreatmentAiCommand> {
         private readonly treatmentService: TreatmentService,
         private readonly chatTreatmentService: ChattreatmentService,
         private readonly tokenusageService: TokenusageService,
+        private readonly paymentsService: PaymentsService
+        
     ) { }
 
 
     async execute(command: TreatmentAiCommand): Promise<any> {
 
         let history: any[]
+        let payments
+
+        const userId = command.user_id as string
+
+        payments = await this.paymentsService.getActivePayment(userId)
+        
+                if (
+                    !payments
+                ) {
+                    throw new BadRequestException(
+                        'Your subscription has expired or is not active. Please renew to continue.'
+                    );
+                }
+        
 
         const treatment = await this.treatmentService.findTreatmentByIdAndUserId(
             command.user_id,
