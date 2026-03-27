@@ -57,8 +57,8 @@ export class PaymentsService {
     return payments.map((p) => this.mapToPayment(p));
   }
 
-  async getActivePayment(user_id: string) {
-    return await this.prisma.payments.findFirst({
+  async getActivePayment(user_id: string):Promise<Payment| null> {
+     const payments = await this.prisma.payments.findFirst({
       where: {
         user_id,
         status: 'active',
@@ -68,6 +68,8 @@ export class PaymentsService {
       include: { subscriptions: true},
       orderBy: { expires_at: 'desc' },
     });
+
+    return payments ? this.mapToPayment(payments) : null
   }
 
   

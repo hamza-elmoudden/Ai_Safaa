@@ -6,6 +6,7 @@ import { ConversationsService } from "src/conversations/conversations.service";
 import { TokenusageService } from "src/tokenusage/tokenusage.service";
 import { ImageService } from "src/image/image.service";
 import { BadRequestException } from "@nestjs/common";
+import { PaymentsService } from "src/payments/payments.service";
 
 
 @CommandHandler(generatetextcommand)
@@ -17,6 +18,7 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
         private readonly conversationsService: ConversationsService,
         private readonly tokenusageService: TokenusageService,
         private readonly imageService: ImageService,
+        private readonly paymentsService: PaymentsService
     ) { }
 
     async execute(command: generatetextcommand): Promise<any> {
@@ -24,8 +26,19 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
         let text_ai: string | undefined;
         let photo_url: string | undefined;
         let photo_key: string | undefined;
+        let payments
 
         const userId = command.user_id as string;
+
+        payments = await this.paymentsService.getActivePayment(userId)
+
+        if (
+            !payments
+        ) {
+            throw new BadRequestException(
+                'Your subscription has expired or is not active. Please renew to continue.'
+            );
+        }
 
         if (command.file) {
 
@@ -71,11 +84,11 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
 
                 if (photo_url) {
                     await this.tokenusageService.addTokenUsage({
-                        user_id:       userId,
-                        source:        'conversation_photo' as any,
-                        tokens_input:  0,
+                        user_id: userId,
+                        source: 'conversation_photo' as any,
+                        tokens_input: 0,
                         tokens_output: 0,
-                        ai_model:      'openai/gpt-4.1',
+                        ai_model: 'openai/gpt-4.1',
                     });
                 }
 
