@@ -12,6 +12,8 @@ import { ConversationsModule } from 'src/conversations/conversations.module';
 import { ChattreatmentModule } from 'src/chattreatment/chattreatment.module';
 import { SkinprofilesModule } from 'src/skinprofiles/skinprofiles.module';
 import { TreatmentAiHandler } from './Command/handler/treatmentai.handler';
+import { PaymentsModule } from 'src/payments/payments.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
 
@@ -22,7 +24,9 @@ import { TreatmentAiHandler } from './Command/handler/treatmentai.handler';
     TokenusageModule,
     ConversationsModule,
     ChattreatmentModule,
-    SkinprofilesModule
+    SkinprofilesModule,
+    PaymentsModule,
+    UsersModule
   ],
   providers:
     [
