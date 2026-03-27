@@ -218,4 +218,17 @@ export class UsersService {
     }
 
 
+    async findCountry(userId:string):Promise<string| null>{
+        const user = await this.prisma.users.findUnique({
+            where :{
+                id:userId
+            },
+            
+        })
+
+        return user ? user.country_code : null
+    }
+
+
+
 }
