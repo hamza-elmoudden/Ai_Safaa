@@ -79,7 +79,7 @@ model subscriptions {
   price_mad             Decimal    @default(0) @db.Decimal(8, 2)
   limit_photo_treatment Int        @default(5)
   treatment_plans       Int        @default(1)
-  product_checks        Int        @default(5)
+  limit_photo_check     Int        @default(5)
   progress_tracking     Boolean    @default(false)
   vip_consultation      Boolean    @default(false)
   features              Json       @default("{}")
