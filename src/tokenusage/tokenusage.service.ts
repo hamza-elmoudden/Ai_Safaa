@@ -3,13 +3,15 @@ import { PaymentsService } from 'src/payments/payments.service';
 import { Payment } from 'src/payments/Schema/payments.schema';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { token_source } from './Schema/tokenusage.schema';
+import { SubscriptionsService } from 'src/subscriptions/subscriptions.service';
 
 @Injectable()
 export class TokenusageService {
     constructor(
         private readonly prismaService: PrismaService,
-        private readonly paymentsService: PaymentsService
-    ) { }
+        private readonly paymentsService: PaymentsService,
+        private readonly subscriptionsService:SubscriptionsService
+    ) { } 
 
     async getUserPhotoUsage(userId: string) {
         const payment = await this.paymentsService.getActivePayment(userId);
@@ -18,8 +20,17 @@ export class TokenusageService {
             ? this.paymentsService.getCurrentPeriod(payment.starts_at)
             : this.paymentsService.getFreePeriod();
 
-        const limit = payment?.subscriptions?.photos_per_month ?? 3;
+        if(!payment){
+            throw new BadRequestException("You Dent Have Any Payment")
+        }
 
+        const subscription = await this.subscriptionsService.FindOne(payment.subscription_id);
+
+        if(!subscription){
+            throw new BadRequestException("No Subscriptions found")
+        }
+        
+        
         const used = await this.prismaService.token_usage.count({
             where: {
                 user_id: userId,
@@ -28,19 +39,18 @@ export class TokenusageService {
             },
         });
 
+        const limit = subscription.limit_photo_check
+
         return {
             used,
             limit,
-            remaining: limit === -1 ? -1 : limit - used,
-            resets_at: periodEnd,
-            percentage: limit === -1 ? 0 : Math.round((used / limit) * 100),
         };
     }
 
-
+ 
 
     async checkPhotoLimit(userId: string): Promise<void> {
-        const { used, limit, resets_at } = await this.getUserPhotoUsage(userId);
+        const { used, limit } = await this.getUserPhotoUsage(userId);
 
         if (limit !== -1 && used >= limit) {
             throw new BadRequestException({
@@ -48,7 +58,21 @@ export class TokenusageService {
                 message: `You have reached your monthly photo limit (${used}/${limit})`,
                 used,
                 limit,
-                resets_at,
+            });
+        }
+    }
+
+
+
+    async checkTreatmentPhotoLimit(userId: string,planId:string): Promise<void> {
+        const { used, limit } = await this.countTreatmentPhotos(userId,planId);
+
+        if (limit !== -1 && used >= limit) {
+            throw new BadRequestException({
+                code: 'PHOTO_LIMIT_EXCEEDED',
+                message: `You have reached your monthly photo limit (${used}/${limit})`,
+                used,
+                limit,
             });
         }
     }
@@ -90,47 +114,56 @@ export class TokenusageService {
 
 
 
-    async countTreatmentPhotosByPlan(user_id: string, plan_id: string) {
-        const count = await this.prismaService.token_usage.count({
-            where: {
-                user_id,
-                plan_id,
-                source: 'treatment_photo'
-                ,
-            },
-        });
+    // async countTreatmentPhotosByPlan(user_id: string, plan_id: string) {
+    //     const count = await this.prismaService.token_usage.count({
+    //         where: {
+    //             user_id,
+    //             plan_id,
+    //             source: 'treatment_photo'
+    //             ,
+    //         },
+    //     });
 
-        return {
-            plan_id,
-            total_photos: count,
-        };
-    }
+    //     return {
+    //         plan_id,
+    //         total_photos: count,
+    //     };
+    // }
 
-    async countUserPhotos(user_id: string) {
-        const payment = await this.paymentsService.getActivePayment(user_id);
+    async countTreatmentPhotos(userId: string,planId:string) {
+      const payment = await this.paymentsService.getActivePayment(userId);
 
-        const { periodStart, periodEnd } = payment?.starts_at
+        const { periodStart, periodEnd } = payment && payment.starts_at
             ? this.paymentsService.getCurrentPeriod(payment.starts_at)
             : this.paymentsService.getFreePeriod();
 
-        const chatPhotos = await this.prismaService.token_usage.count({
+        if(!payment){
+            throw new BadRequestException("You Dent Have Any Payment")
+        }
+
+        const subscription = await this.subscriptionsService.FindOne(payment.subscription_id);
+
+        if(!subscription){
+            throw new BadRequestException("No Subscriptions found")
+        }
+        
+
+        const used = await this.prismaService.token_usage.count({
             where: {
-                user_id,
-                source: 'conversation_photo',
+                user_id:userId,
+                plan_id:planId,
+                source: 'treatment_photo',
                 created_at: { gte: periodStart, lt: periodEnd },
             },
         });
-
+        const limit = subscription.limit_photo_treatment
 
         return {
-            chat_photos: chatPhotos,
-            period: {
-                from: periodStart,
-                to: periodEnd,
-            },
+            used,
+            limit,
         };
-    }
-
-
-
+    };
 }
+
+
+

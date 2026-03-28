@@ -3,6 +3,7 @@ import { TokenusageService } from './tokenusage.service';
 import { TokenusageController } from './tokenusage.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { PaymentsModule } from 'src/payments/payments.module';
+import { SubscriptionsModule } from 'src/subscriptions/subscriptions.module';
 
 @Module({
   providers: [TokenusageService],
@@ -10,7 +11,8 @@ import { PaymentsModule } from 'src/payments/payments.module';
   exports:[TokenusageService],
   imports:[
     PaymentsModule,
-    PrismaModule
+    PrismaModule,
+    SubscriptionsModule
   ]
 })
 export class TokenusageModule {}
