@@ -19,13 +19,15 @@ export class AiController {
 
     @Post('chat')
     @UseInterceptors(FileInterceptor('image'))
+    @UseGuards(AuthGuard('jwt'))
     async generatetext(
         @Body() prompt: AiDto,
         @UploadedFile() file: Express.Multer.File,
         @Res() res: Response,
-        @Query('userId') userId: string,
+        @Req() req:any
     ) {
         try {
+            const userId = req.user.id
 
             if (file) {
                 const maxSize = 5 * 1024 * 1024;
