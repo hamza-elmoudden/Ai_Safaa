@@ -50,7 +50,7 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
                 command.text,
             );
 
-            if (text_ai === 'image_low_quality') {
+            if (text_ai.trim() === 'image_low_quality') {
                 throw new BadRequestException(
                     'The image is unclear. Please send a clearer photo.'
                 );
