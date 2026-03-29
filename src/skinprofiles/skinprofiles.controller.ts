@@ -1,11 +1,11 @@
 import { Controller, Get, Req, UseGuards,Post, Body, Put } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { GetSkinProfileHandler } from './Query/handler/gitskin.profile.handler';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/auth/decorators/decorators';
 import { CreateSkinProfileDto } from './dto/create.skinprofile.dto';
 import { CreateProfileCommand } from './Command/impl/create.profile.command';
 import { UpdateProfileCommand } from './Command/impl/update.profile.command';
+import { GetSkinProfileQuery } from './Query/impl/getskin.profile.query';
 
 @Controller('skinprofiles')
 export class SkinprofilesController {
@@ -22,7 +22,7 @@ export class SkinprofilesController {
     @Roles('user')
     async getSkinProfiles(@Req()req:any) {
         const user = req.user
-        return await this.queryBus.execute(new GetSkinProfileHandler(user.id));
+        return await this.queryBus.execute(new GetSkinProfileQuery(user.id));
     }
 
     @Post()

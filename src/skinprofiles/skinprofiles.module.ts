@@ -16,7 +16,6 @@ import { GetSkinProfileHandler } from './Query/handler/gitskin.profile.handler';
     CreateProfileHandler,
     UpdateProfileHandler,
     GetSkinProfileHandler
-
   ],
   controllers: [SkinprofilesController],
   exports:[SkinprofilesService]
