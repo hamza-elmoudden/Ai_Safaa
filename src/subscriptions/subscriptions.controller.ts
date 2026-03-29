@@ -1,4 +1,17 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { SubscriptionsService } from './subscriptions.service';
 
 @Controller('subscriptions')
-export class SubscriptionsController {}
+export class SubscriptionsController {
+    
+    constructor(
+        private readonly subscriptionsService: SubscriptionsService
+    ){}
+
+
+
+    @Get()
+    getSubscriptions() {
+        return this.subscriptionsService.getSubscriptions();
+    }
+}

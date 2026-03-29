@@ -7,7 +7,7 @@ export class SubscriptionsService {
     constructor(
         private readonly prisma: PrismaService,
     ) { }
-
+ 
     mapToSubscription(data: any) {
         return new Subscription(
             data.id,
@@ -15,7 +15,7 @@ export class SubscriptionsService {
             data.price_mad,              
             data.limit_photo_treatment, 
             data.treatment_plans,
-            data.product_checks,
+            data.limit_photo_check,
             data.progress_tracking,
             data.vip_consultation,
             data.features,
@@ -33,6 +33,7 @@ export class SubscriptionsService {
         const data = await this.prisma.subscriptions.findUnique({
             where: { id },
         });
+
         return data ? this.mapToSubscription(data) : null;
     }
 
