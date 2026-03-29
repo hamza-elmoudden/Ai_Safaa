@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Put, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport'
-import { Roles } from 'src/auth/decorators/decorators';
+import { Roles, UserRole } from 'src/auth/decorators/decorators';
 import { UpdateUserCommand } from './Command/impl/updateuser.command';
 import { CompleteLoginCommand } from './Command/impl/complete-login.command';
 import { FindByIdQuery } from './Query/impl/findbyid.query';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('users')
 export class UsersController {
@@ -16,11 +17,14 @@ export class UsersController {
 
 
 
-    @Put()
+    @Patch()
     @UseGuards(AuthGuard('jwt'))
     @Roles('user')
     async updateUser(@Body() updateUserDto: UpdateUserDto, @Req() req: any) {
         const user = req.user
+
+        console.log("controller",user.role)
+
 
         const data = await this.commandBus.execute(new UpdateUserCommand(
             user.id,
@@ -31,6 +35,7 @@ export class UsersController {
             updateUserDto.date_of_birth,
         ));
 
+        console.log('Updated User Data:', data);
         return {
             message: 'User updated successfully',
             data: {
@@ -70,10 +75,10 @@ export class UsersController {
             }
         }
     }
-
+ 
     @Get("me")
-    @UseGuards(AuthGuard('jwt'))
-    @Roles('user')
+    @UseGuards(AuthGuard('jwt'),RolesGuard)
+    @Roles(UserRole.USER)
     async me(@Req() req: any) {
 
         const user = req.user

@@ -68,26 +68,14 @@ export class UsersService {
                 google_provider: true
             },
             data: {
-                email: data.email,
                 phone: data.phone,
                 country_code: data.country_code,
                 city: data.city,
-                date_of_birth: data.date_of_birth,
-                password_hash: data.password_hash,
-                google_provider: data.google_provider,
-                google_id: data.google_id,
-                full_name: data.full_name,
-                role: data.role,
-                is_verified: data.is_verified,
-                otp_code: data.otp_code,
-                otp_expires_at: data.otp_expires_at,
-                last_login: data.last_login,
-                refresh_token: data.refresh_token
-               
+                full_name: data.full_name  
             }
         });
 
-        return await this.ToMap(result);
+        return this.ToMap(result);
     }
 
     async completeUser(data: User) {
