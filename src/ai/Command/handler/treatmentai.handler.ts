@@ -48,7 +48,7 @@ export class TreatmentAiHandler implements ICommandHandler<TreatmentAiCommand> {
         }
 
         if (command.user_image) {
-            await this.tokenusageService.checkPhotoLimit(command.user_id);
+            await this.tokenusageService.checkTreatmentPhotoLimit(command.user_id,command.treatment_id);
         }
 
         history = await this.chatTreatmentService.getFormattedMessages(
