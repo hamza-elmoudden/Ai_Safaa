@@ -70,6 +70,7 @@ export class AuthController {
     });
 
     // redirect بدون tokens في URL
+    console.log('Google login successful, redirecting to frontend...', tokens);
     return res.redirect(`${base}/auth/success`);
   }
 
@@ -93,6 +94,8 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @HttpCode(HttpStatus.OK)
   refresh(@CurrentUser() user: User) {
+
+    console.log('Refreshing tokens for user:', user);
     return this.authService.rotateTokens(user);
     // returns: { accessToken, refreshToken, expiresIn }
   }

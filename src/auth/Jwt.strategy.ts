@@ -6,11 +6,12 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
 
+
 export interface JwtPayload {
-  sub:   string;   // user UUID
+  sub: string;   // user UUID
   email: string;
-  role:  string;
-}
+  role: string;
+} 
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -19,15 +20,20 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     private readonly usersService: UsersService,
   ) {
     super({
-      jwtFromRequest:   ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey:      config.getOrThrow('JWT_SECRET'),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => req?.cookies?.access_token,           // 👈 من cookie
+        ExtractJwt.fromAuthHeaderAsBearerToken(),     // 👈 fallback من header
+      ]),
+      secretOrKey: config.getOrThrow('JWT_SECRET'),
       ignoreExpiration: false,
     });
   }
 
   async validate(payload: JwtPayload) {
     const user = await this.usersService.findOneId(payload.sub);
+
     if (!user) throw new UnauthorizedException('User not found');
+
     return user;  // → req.user
   }
 }
