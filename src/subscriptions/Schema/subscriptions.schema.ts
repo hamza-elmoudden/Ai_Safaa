@@ -1,13 +1,9 @@
 
-
-
-
-
 enum plan_name {
   free="free",
   premium="premium",
   vip="vip"
-}  
+}   
 
 export class Subscription {
     constructor(
@@ -16,7 +12,7 @@ export class Subscription {
         public price_mad: number,
         public limit_photo_treatment: number,
         public treatment_plans: number,
-        public product_checks: number,
+        public limit_photo_check: number,
         public progress_tracking: boolean,
         public vip_consultation: boolean,
         public features: object,
