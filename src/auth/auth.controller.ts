@@ -70,7 +70,6 @@ export class AuthController {
     });
 
     // redirect بدون tokens في URL
-    console.log('Google login successful, redirecting to frontend...', tokens);
     return res.redirect(`${base}/auth/success`);
   }
 
