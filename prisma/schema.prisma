@@ -49,14 +49,12 @@ model payments {
   status          payment_status @default(pending)
   provider_ref    String?        @unique @db.VarChar(255)
   provider_meta   Json?          @default("{}")
-  created_at      DateTime       @default(now()) @db.Timestamp(6)
-  starts_at       DateTime?      @db.Timestamp(6)
-  expires_at      DateTime?      @db.Timestamp(6)
+  starts_at       DateTime?      @db.Timestamptz(6)
+  expires_at      DateTime?      @db.Timestamptz(6)
   subscriptions   subscriptions? @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users           users          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([status], map: "idx_payments_status", where: raw("(status = 'pending'::payment_status)"))
-  @@index([user_id, created_at(sort: Desc)], map: "idx_payments_user")
 }
 
 model skin_profiles {
@@ -85,7 +83,6 @@ model subscriptions {
   features              Json       @default("{}")
   is_active             Boolean    @default(true)
   created_at            DateTime   @default(now()) @db.Timestamp(6)
-  photos_per_month      Int        @default(3)
   payments              payments[]
 }
 
