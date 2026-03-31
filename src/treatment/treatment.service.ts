@@ -180,7 +180,7 @@ export class TreatmentService {
         });
     }
 
-
+ 
     async addPathTreatment(user_id: string, treatment_id : string,path:any) {
         return await this.prisma.treatment_plans.update({
             where: {
@@ -193,6 +193,23 @@ export class TreatmentService {
             select: {
                 path: true
             }
+        })
+    }
+
+
+    async addDurationDays(user_id: string, treatment_id: string, duration: number) {
+        return await this.prisma.treatment_plans.update({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            data: {
+                duration_days: duration
+            },
+            select: {
+                duration_days: true
+            }
+
         })
     }
 
