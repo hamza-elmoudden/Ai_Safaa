@@ -13,22 +13,29 @@ export class TreatmentService {
             treatment.id,
             treatment.user_id,
             treatment.title,
-            treatment.concern_type,
-            treatment.duration_days,
-            treatment.checkin_interval,
-            treatment.day_0_acne_count,
             treatment.status,
-            treatment.improvement_pct,
+
+            treatment.improvement_pct ?? 0,
+
             treatment.areas_treated,
+
+            treatment.duration_days ?? 0,
+
             treatment.initial_photo_url,
             treatment.initial_photo_key,
-            treatment.ai_diagnosis,
-            treatment.ai_model,
-            treatment.next_checkin_at,
+
+            treatment.ai_diagnosis ?? null,
+            treatment.ai_model ?? "gpt-4-vision-preview",
+
+            treatment.next_checkin_at ?? null,
+
             treatment.started_at,
-            treatment.completed_at,
-            treatment.created_at,  
+            treatment.completed_at ?? null,
+
+            treatment.created_at,
             treatment.updated_at,
+
+            treatment.path ?? null
         );
     }
 
@@ -37,21 +44,9 @@ export class TreatmentService {
             data: {
                 id: data.id,
                 user_id: data.user_id,
-                title: data.title,
-                concern_type: data.concern_type,
-                duration_days: data.duration_days,
-                checkin_interval: data.checkin_interval,
-                day_0_acne_count: data.day_0_acne_count,
-                status: data.status,
-                improvement_pct: data.improvement_pct,
+                title: `${data.areas_treated} - ${new Date().toLocaleDateString()}`,
                 areas_treated: data.areas_treated,
-                initial_photo_url: data.initial_photo_url,
-                initial_photo_key: data.initial_photo_key,
-                ai_diagnosis: data.ai_diagnosis,
                 ai_model: data.ai_model,
-                next_checkin_at: data.next_checkin_at,
-                started_at: data.started_at,
-                completed_at: data.completed_at,
             }
         })
         return this.mapTreatment(treatment);
@@ -127,7 +122,7 @@ export class TreatmentService {
     }
 
 
-    async addPhoto(Photo_url: string, Photo_key: string, treatment_id: string,user_id:string) {
+    async addPhoto(Photo_url: string, Photo_key: string, treatment_id: string, user_id: string) {
         const photo = await this.prisma.treatment_plans.update({
             where: {
                 id: treatment_id,
@@ -143,11 +138,11 @@ export class TreatmentService {
     }
 
 
-    async getPhotoInitial(user_id:string,treatment_id:string):Promise<string | null>{
+    async getPhotoInitial(user_id: string, treatment_id: string): Promise<string | null> {
         const photo = await this.prisma.treatment_plans.findUnique({
-            where:{
+            where: {
                 user_id,
-                id:treatment_id
+                id: treatment_id
             }
         })
 
@@ -164,7 +159,6 @@ export class TreatmentService {
             where: { id },
             data: {
                 ai_diagnosis: data.ai_diagnosis,
-                day_0_acne_count: data.day_0_acne_count,
                 ai_model: data.ai_model,
                 next_checkin_at: data.next_checkin_at,
                 updated_at: new Date(),
@@ -184,6 +178,22 @@ export class TreatmentService {
                 updated_at: new Date(),
             },
         });
+    }
+
+
+    async addPathTreatment(user_id: string, treatment_id : string,path:any) {
+        return await this.prisma.treatment_plans.update({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            data: {
+                path
+            },
+            select: {
+                path: true
+            }
+        })
     }
 
 }
