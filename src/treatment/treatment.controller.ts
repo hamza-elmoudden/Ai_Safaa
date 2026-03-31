@@ -16,7 +16,7 @@ export class TreatmentController {
     ) { }
 
 
-
+ 
     @Post()
     @UseGuards(AuthGuard('jwt'))
     @Roles('user')
@@ -28,12 +28,7 @@ export class TreatmentController {
         return await this.commandBus.execute(
             new CreateTreatmentCommand(
                 user.id,
-                data.title || `${user.id} ${Date.now()}`,
-                data.concern_type,
-                data.status,
                 data.areas_treated,
-                '',
-                ''
             )
         )
     }

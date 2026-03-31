@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { CreateTreatmentCommand } from "../impl/create-treatment.command";
-import { Treatment } from "src/treatment/Schema/treatment.schema";
+import { plan_status, Treatment } from "src/treatment/Schema/treatment.schema";
 import { TreatmentService } from "src/treatment/treatment.service";
 import { PaymentsService } from "src/payments/payments.service";
 import { BadRequestException } from "@nestjs/common";
@@ -15,7 +15,7 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
     private readonly treatmentService: TreatmentService,
     private readonly paymentService: PaymentsService,
     private readonly subscriptionService: SubscriptionsService,
-  ) {}
+  ) { }
 
   async execute(command: CreateTreatmentCommand): Promise<Treatment> {
 
@@ -55,17 +55,22 @@ export class CreateTreatmentHandler implements ICommandHandler<CreateTreatmentCo
       const newTreatment = new Treatment(
         crypto.randomUUID(),
         command.user_id,
-        command.title,
-        command.concern_type,
-        0, 0, null,
-        command.status,
+        'title',
+        plan_status.active,
         null,
         command.areas_treated,
-        command.initial_photo_url,
-        command.initial_photo_key,
-        null, null, null,
-        new Date(), null,
-        new Date(), new Date(),
+        0,
+        '',
+        '',
+        '',
+        '',
+        null,
+        new Date(),
+        null,
+        new Date(),
+        new Date(),
+        null,
+
       );
 
       return await this.treatmentService.createTreatment(newTreatment);
