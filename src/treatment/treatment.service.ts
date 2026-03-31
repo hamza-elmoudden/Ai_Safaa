@@ -196,6 +196,20 @@ export class TreatmentService {
         })
     }
 
+    async getPathTreatment(user_id: string, treatment_id : string) {
+        const treatment = await this.prisma.treatment_plans.findUnique({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            select: {
+                path: true
+            }
+        })
+
+        return treatment?.path || null
+    }
+
 
     async addDurationDays(user_id: string, treatment_id: string, duration: number) {
         return await this.prisma.treatment_plans.update({
@@ -213,7 +227,7 @@ export class TreatmentService {
         })
     }
 
-
+ 
     async addCompletedAt(user_id: string, treatment_id: string, completed_at: Date) {
         return await this.prisma.treatment_plans.update({
             where: {
@@ -232,7 +246,7 @@ export class TreatmentService {
         })
     }
 
-    
+
     async addTitle(user_id: string, treatment_id: string, title: string) {
         return await this.prisma.treatment_plans.update({
             where: {
