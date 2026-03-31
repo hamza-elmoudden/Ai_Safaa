@@ -15,9 +15,9 @@ export class PaymentsService {
       data.status,
       data.created_at,
       data.starts_at,
+      data.subscription_id,
       data.provider_ref,
       data.provider_meta,
-      data.subscription_id,
       data.expires_at,
     );
   }
@@ -57,27 +57,33 @@ export class PaymentsService {
     return payments.map((p) => this.mapToPayment(p));
   }
 
-  async getActivePayment(user_id: string):Promise<Payment| null> {
-     const payments = await this.prisma.payments.findFirst({
-      where: {
-        user_id,
-        status: 'active',
-        starts_at: { lte: new Date() },
-        expires_at: { gt: new Date() },
-      },
-      include: { subscriptions: true},
-      orderBy: { expires_at: 'desc' },
-    });
+  async getActivePayment(user_id: string): Promise<Payment | null> {
+    console.log("NOW JS:", new Date());
 
-    return payments ? this.mapToPayment(payments) : null
+    const now = new Date();
+
+    const [paymentRow]: any[] = await this.prisma.$queryRaw`
+                  SELECT *
+                  FROM payments
+                  WHERE user_id = ${user_id}
+                    AND status = 'active'
+                    AND starts_at <= NOW()
+                    AND expires_at > NOW()
+                  ORDER BY expires_at DESC
+                  LIMIT 1;
+`;
+    if (!paymentRow) return null;
+
+    const payment = this.mapToPayment(paymentRow);
+
+    return payment;
   }
 
-  
+
   getCurrentPeriod(startsAt: Date): { periodStart: Date; periodEnd: Date } {
     const now = new Date();
     const start = new Date(startsAt);
 
-    // حساب الأشهر المنقضية بدقة
     const monthsElapsed =
       (now.getFullYear() - start.getFullYear()) * 12 +
       (now.getMonth() - start.getMonth());
@@ -85,7 +91,6 @@ export class PaymentsService {
     const periodStart = new Date(start);
     periodStart.setMonth(periodStart.getMonth() + monthsElapsed);
 
-    // إذا تجاوزنا يوم اليوم، ارجع شهراً للوراء
     if (periodStart > now) {
       periodStart.setMonth(periodStart.getMonth() - 1);
     }
