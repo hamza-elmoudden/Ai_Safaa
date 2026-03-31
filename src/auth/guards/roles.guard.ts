@@ -18,7 +18,6 @@ export class RolesGuard implements CanActivate {
     const user = request.user;
 
     if (!user) {
-      console.log('RolesGuard: no user found in request');
       return false;
     }
 

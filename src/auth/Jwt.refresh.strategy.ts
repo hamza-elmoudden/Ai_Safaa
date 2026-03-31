@@ -15,16 +15,19 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
     private readonly usersService: UsersService,
   ) {
     super({
-      jwtFromRequest:    ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey:       config.getOrThrow('JWT_REFRESH_SECRET'),
-      ignoreExpiration:  false,
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req: Request) => req?.cookies?.refresh_token ?? null, 
+        ExtractJwt.fromAuthHeaderAsBearerToken(),                
+      ]),
+      secretOrKey: config.getOrThrow('JWT_REFRESH_SECRET'),
+      ignoreExpiration: false,
       passReqToCallback: true,   // need raw token to compare with DB hash
     });
   }
 
   async validate(req: Request, payload: { sub: string }) {
     // 1. get raw token from Authorization header
-    const raw = req.get('Authorization')?.replace('Bearer ', '').trim();
+    const raw =  req.cookies?.refresh_token || req.get('Authorization')?.replace('Bearer ', '').trim();
     if (!raw) throw new UnauthorizedException('No refresh token provided');
 
     // 2. load user from DB via Prisma

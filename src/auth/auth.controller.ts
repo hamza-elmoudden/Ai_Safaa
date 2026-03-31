@@ -92,10 +92,27 @@ export class AuthController {
   @Post('refresh')
   @UseGuards(JwtRefreshGuard)
   @HttpCode(HttpStatus.OK)
-  refresh(@CurrentUser() user: User) {
+  async refresh(@CurrentUser() user: User, @Res({ passthrough: true }) res: Response) {
 
-    console.log('Refreshing tokens for user:', user);
-    return this.authService.rotateTokens(user);
+    const tokens = await this.authService.rotateTokens(user);
+
+    const isProd = process.env.NODE_ENV === 'production';
+
+    res.cookie('access_token', tokens.accessToken, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return tokens;
     // returns: { accessToken, refreshToken, expiresIn }
   }
 
