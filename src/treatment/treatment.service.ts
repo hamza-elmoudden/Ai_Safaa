@@ -227,6 +227,8 @@ export class TreatmentService {
         })
     }
 
+    
+
  
     async addCompletedAt(user_id: string, treatment_id: string, completed_at: Date) {
         return await this.prisma.treatment_plans.update({
@@ -262,5 +264,21 @@ export class TreatmentService {
 
         })
     }
+
+
+    async getTitle(user_id: string, treatment_id: string) {
+        const treatment = await this.prisma.treatment_plans.findUnique({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            select: {
+                title: true ,
+            }
+        })
+
+        return treatment?.title || null 
+    }
+    
 
 }
