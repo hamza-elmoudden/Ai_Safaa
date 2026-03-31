@@ -213,4 +213,23 @@ export class TreatmentService {
         })
     }
 
+
+    async addCompletedAt(user_id: string, treatment_id: string, completed_at: Date) {
+        return await this.prisma.treatment_plans.update({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            data: {
+                completed_at,
+                status: 'completed'
+            },
+            select: {
+                completed_at: true,
+                status: true
+            }
+
+        })
+    }
+
 }
