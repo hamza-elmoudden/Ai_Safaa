@@ -232,4 +232,20 @@ export class TreatmentService {
         })
     }
 
+    async addTitle(user_id: string, treatment_id: string, title: string) {
+        return await this.prisma.treatment_plans.update({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            data: {
+                title
+            },
+            select: {
+                title: true
+            }
+
+        })
+    }
+
 }
