@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Payment } from './Schema/payments.schema';
+import { payment_method, payment_status } from 'generated/prisma/browser';
 
 @Injectable()
 export class PaymentsService {
@@ -111,4 +112,28 @@ export class PaymentsService {
   async deletePayment(id: string) {
     await this.prisma.payments.delete({ where: { id } });
   }
+
+ 
+
+  async createFree(user_id: string, subscription_id: string) {
+
+    const now = new Date()
+
+    const expires = new Date()
+    expires.setMonth(expires.getMonth() + 1)
+
+    const result = await this.prisma.payments.create({
+      data: {
+        user_id,
+        subscription_id,
+        amount_mad: 0,
+        method: payment_method.credit_card,
+        status: payment_status.active,
+        starts_at: now,
+        expires_at: expires
+
+      }
+    })
+  }
+  
 }
