@@ -23,7 +23,6 @@ export class UsersController {
     async updateUser(@Body() updateUserDto: UpdateUserDto, @Req() req: any) {
         const user = req.user
 
-        console.log("controller",user.role)
 
 
         const data = await this.commandBus.execute(new UpdateUserCommand(
@@ -35,7 +34,6 @@ export class UsersController {
             updateUserDto.date_of_birth,
         ));
 
-        console.log('Updated User Data:', data);
         return {
             message: 'User updated successfully',
             data: {

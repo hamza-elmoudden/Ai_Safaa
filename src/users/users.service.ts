@@ -40,6 +40,7 @@ export class UsersService {
                 email: data.email,
                 phone: data.phone,
                 country_code: data.country_code,
+                is_complete_login: true,
                 city: data.city,
                 date_of_birth: data.date_of_birth,
                 password_hash: data.password_hash,
@@ -71,7 +72,7 @@ export class UsersService {
                 phone: data.phone,
                 country_code: data.country_code,
                 city: data.city,
-                full_name: data.full_name  
+                full_name: data.full_name
             }
         });
 
@@ -124,8 +125,8 @@ export class UsersService {
             }
         });
 
-         return user ? this.ToMap(user) : null;
-       
+        return user ? this.ToMap(user) : null;
+
     }
 
 
@@ -140,16 +141,16 @@ export class UsersService {
 
     async saveRefreshToken(userId: string, hashedToken: string): Promise<void> {
         await this.prisma.users.update({
-          where: { id: userId },
-          data:  { refresh_token: hashedToken },
+            where: { id: userId },
+            data: { refresh_token: hashedToken },
         });
     }
 
     /** Clear refresh token on logout or rotation */
     async clearRefreshToken(userId: string): Promise<void> {
         await this.prisma.users.update({
-          where: { id: userId },
-          data:  { refresh_token: null },
+            where: { id: userId },
+            data: { refresh_token: null },
         });
     }
 
@@ -166,18 +167,25 @@ export class UsersService {
         googleId: string;
         email: string;
         fullName: string;
-    }): Promise<User> {
-        // 1. already used Google before
+    }): Promise<{ user: User; isNew: boolean }> {
+
+        // 1. user already used Google before
         let user = await this.prisma.users.findUnique({
             where: { google_id: profile.googleId },
         });
-        
-        if (user) return this.ToMap(user);
 
-        // 2. registered with email before → link Google account
+        if (user) {
+            return {
+                user: await this.ToMap(user),
+                isNew: false,
+            };
+        }
+
+        // 2. user exists with email → link Google
         user = await this.prisma.users.findUnique({
             where: { email: profile.email },
         });
+
         if (user) {
             const updated = await this.prisma.users.update({
                 where: { id: user.id },
@@ -187,7 +195,11 @@ export class UsersService {
                     is_verified: true,
                 },
             });
-            return this.ToMap(updated);
+
+            return {
+                user: await this.ToMap(updated),
+                isNew: false,
+            };
         }
 
         // 3. brand new user
@@ -199,19 +211,26 @@ export class UsersService {
                 google_provider: true,
                 is_verified: true,
                 role: 'user',
-                password_hash: 'null',   // no password for Google users
+                password_hash: '', // أحسن من 'null'
             },
         });
-        return this.ToMap(created);
+
+        return {
+            user: await this.ToMap(created),
+            isNew: true,
+        };
     }
 
 
-    async findCountry(userId:string):Promise<string| null>{
+    async findCountry(userId: string): Promise<string | null> {
         const user = await this.prisma.users.findUnique({
-            where :{
-                id:userId
+            where: {
+                id: userId
             },
-            
+            select: {
+                country_code: true
+            }
+
         })
 
         return user ? user.country_code : null
