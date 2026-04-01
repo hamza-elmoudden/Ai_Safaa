@@ -15,11 +15,14 @@ export class ChattreatmentController {
     @UseGuards(AuthGuard('jwt'))
     @Roles('user')
     async GetChat(@Req() req:any,@Query('limit') limit:number,@Query('page') page:number,@Param('id')id:string){
+
         const user = req.user
-        return this.queryBus.execute(
+
+        const chats = await this.queryBus.execute(
             new GetChatTreatmentQuery(
                 user.id,id,page,limit
             )
         )
+        return chats
     }
 }

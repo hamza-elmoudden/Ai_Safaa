@@ -28,7 +28,7 @@ export class ChattreatmentService {
 
 
 
-    async getChat(treatment_id: string, limit: number = 10, page: number = 1) {
+    async getChat(treatment_id: string, limit: number = 10000, page: number = 1) {
 
         const skip = (page - 1) * limit
 
@@ -47,7 +47,7 @@ export class ChattreatmentService {
     }
 
 
-    async getFormattedMessages(treatment_id: string, limit = 20, page = 1) {
+    async getFormattedMessages(treatment_id: string, limit = 1000, page = 1) {
         const skip = (page - 1) * limit;
 
         const chat = await this.prismaService.chat_treatment.findMany({
@@ -61,7 +61,7 @@ export class ChattreatmentService {
             skip: skip     
         });
 
-        const messages = chat.flatMap(ch => {
+    const messages = chat.flatMap(ch => {
             const result: any[] = [];
 
             if (ch.user_message) {

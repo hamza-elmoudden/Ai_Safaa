@@ -9,6 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './Google.strategy';
 import { JwtStrategy } from './Jwt.strategy';
 import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
+import { PaymentsModule } from 'src/payments/payments.module';
+import { SubscriptionsModule } from 'src/subscriptions/subscriptions.module';
 
 
 @Module({
@@ -33,6 +35,8 @@ import { JwtRefreshStrategy } from './Jwt.refresh.strategy';
         signOptions: { expiresIn: config.getOrThrow('JWT_EXPIRATION') },
       }),
     }),
+    PaymentsModule,
+    SubscriptionsModule
 
   ],
 })

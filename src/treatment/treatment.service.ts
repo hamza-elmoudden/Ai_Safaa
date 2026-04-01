@@ -227,6 +227,30 @@ export class TreatmentService {
         })
     }
 
+
+    async getDurationAndStart(user_id: string, treatment_id: string) {
+
+        const treatment = await this.prisma.treatment_plans.findUnique({
+            where: {
+                id: treatment_id,
+                user_id
+            },
+            select: {
+                duration_days: true,
+                started_at: true
+             }
+
+        })
+
+        if(!treatment){
+            return null
+        }
+
+        return {
+            duration_days:treatment.duration_days,
+            started_at:treatment.started_at
+         }  
+    }
     
 
  
@@ -248,6 +272,8 @@ export class TreatmentService {
         })
     }
 
+
+    
 
     async addTitle(user_id: string, treatment_id: string, title: string) {
         return await this.prisma.treatment_plans.update({

@@ -17,20 +17,19 @@ export class GetChatTreatmentHandler implements IQueryHandler<GetChatTreatmentQu
     async execute(query: GetChatTreatmentQuery): Promise<any> {
         let treatment: Treatment | null
 
-        try {
-            treatment = await this.treatmentService.findTreatmentByIdAndUserId(query.user_id,query.plan_id)
+        
+        treatment = await this.treatmentService.findTreatmentByIdAndUserId(query.user_id,query.plan_id)
 
-        } catch (error) {
-            console.error("Error in get treatment chat ",error)
-            throw new Error("Error in get treatment chat ")
-        }
 
         if(!treatment){
             throw new BadGatewayException("You dent have In Treatment chat")
         }
 
 
-        return await this.chatTreatmentService.getChat(treatment.id,query.limit,query.page)
+        const chats = await this.chatTreatmentService.getChat(treatment.id,query.limit,query.page)
+
+
+        return chats
     }
 
 }
