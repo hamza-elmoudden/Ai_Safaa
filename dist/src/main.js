@@ -7,12 +7,13 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const dotenv_1 = require("dotenv");
+const config_1 = require("@nestjs/config");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    (0, dotenv_1.config)();
+    const configService = app.get(config_1.ConfigService);
+    const frontendUrl = configService.get('FRONTEND_URL');
     app.enableCors({
-        origin: process.env.FRONTEND_URL,
+        origin: ['*'],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
         allowedHeaders: 'Content-Type, Accept,Authorization',
