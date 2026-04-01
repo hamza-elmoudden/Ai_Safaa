@@ -55,10 +55,10 @@ export class AuthController {
 
     // access token في cookie
     res.cookie('access_token', tokens.accessToken, {
-      httpOnly: true,   // JavaScript لا يستطيع قراءتها
+      httpOnly: true,   
       secure: isProd,   // HTTPS فقط في production
       sameSite: 'lax',
-      maxAge: 15 * 60 * 1000, // 15 دقيقة
+      maxAge: 15 * 60 * 1000, 
     });
 
     // refresh token في cookie
@@ -66,10 +66,9 @@ export class AuthController {
       httpOnly: true,
       secure: isProd,
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 أيام
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // redirect بدون tokens في URL
     return res.redirect(`${base}/auth/success`);
   }
 
