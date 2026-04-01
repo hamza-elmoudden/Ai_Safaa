@@ -1,4 +1,5 @@
 import { tool } from "ai"
+import { get } from "http"
 import { ImageService } from "src/image/image.service"
 import { SkinprofilesService } from "src/skinprofiles/skinprofiles.service"
 import { TreatmentService } from "src/treatment/treatment.service"
@@ -16,6 +17,10 @@ type SkinProfileResult = {
     }
 }
 
+type PathTreatment = {
+    path?:any
+}
+
 
 type GetPhotoInitial = {
     url_initial_photo: string | null
@@ -29,7 +34,7 @@ type GetCountry = {
     error?: string
     country?:string
 }
-
+ 
 export const CreateTools = (
     treatmentService: TreatmentService,
     profileSkinService: SkinprofilesService,
@@ -134,17 +139,50 @@ export const CreateTools = (
                     country:country
                 }
             }
+        }),
+
+        // add and get path treatment
+        addPathTreatment:tool<{userId:string,treatmentId:string,path:any},PathTreatment>({
+            description:'add path treatment',
+            inputSchema:z.object({
+                userId:z.string(),
+                treatmentId:z.string(),
+                path:z.any()
+            }),
+
+            execute:async ({userId,treatmentId,path}) =>{
+                const Path = await treatmentService.addPathTreatment(userId,treatmentId,path)
+                return{path:Path}
+            }
+
+        }),
+
+        getTreatmentPath:tool<{userId:string,treatmentId:string},PathTreatment>({
+            description:'get path treatment',
+            inputSchema:z.object({
+                userId:z.string(),
+                treatmentId:z.string()
+            }),
+
+            execute:async ({userId,treatmentId}) =>{
+                const Path = await treatmentService.getPathTreatment(userId,treatmentId)
+                return{path:Path}
+            }
+
         })
+        // end of add and get path treatment
+
 
     }
 }
 
-export const CreateToolsTwo = (
+export const CreateToolsTwo =  (
     profileSkinService: SkinprofilesService,
     userService:UsersService
 ) => {
     return {
         getProfileSkin: tool<{ userId: string }, SkinProfileResult>({
+
 
             description: "Get Skin Profiles",
 
@@ -191,6 +229,12 @@ export const CreateToolsTwo = (
                     country:country
                 }
             }
-        })
+
+        }),
+
+        
+
+
     }
 }
+

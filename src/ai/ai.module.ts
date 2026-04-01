@@ -12,6 +12,7 @@ import { SkinprofilesModule } from 'src/skinprofiles/skinprofiles.module';
 import { TreatmentAiHandler } from './Command/handler/treatmentai.handler';
 import { PaymentsModule } from 'src/payments/payments.module';
 import { UsersModule } from 'src/users/users.module';
+import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
 
@@ -24,7 +25,8 @@ import { UsersModule } from 'src/users/users.module';
     ChattreatmentModule,
     SkinprofilesModule,
     PaymentsModule,
-    UsersModule
+    UsersModule,
+    RedisModule
   ],
   providers:
     [

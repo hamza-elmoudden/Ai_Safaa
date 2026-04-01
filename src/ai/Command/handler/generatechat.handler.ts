@@ -7,6 +7,7 @@ import { TokenusageService } from "src/tokenusage/tokenusage.service";
 import { ImageService } from "src/image/image.service";
 import { BadRequestException } from "@nestjs/common";
 import { PaymentsService } from "src/payments/payments.service";
+import { RedisService } from "src/redis/redis.service";
 
 
 @CommandHandler(generatetextcommand)
@@ -18,8 +19,9 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
         private readonly conversationsService: ConversationsService,
         private readonly tokenusageService: TokenusageService,
         private readonly imageService: ImageService,
-        private readonly paymentsService: PaymentsService
-    ) { } 
+        private readonly paymentsService: PaymentsService,
+        private readonly redisService:RedisService
+    ) { }
 
     async execute(command: generatetextcommand): Promise<any> {
 
@@ -27,10 +29,12 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
         let photo_url: string | undefined;
         let photo_key: string | undefined;
         let payments
+        let history: any[]
 
         const userId = command.user_id as string;
 
         payments = await this.paymentsService.getActivePayment(userId)
+
 
         if (
             !payments
@@ -61,15 +65,25 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
                 command.file.originalname,
                 command.file.mimetype,
             );
+
             photo_url = uploaded.url;
             photo_key = uploaded.key;
+
+            text_ai = await this.Aiservice.analyzeFaceFromUrl(
+                command.text,
+                photo_url,
+            );
+
         }
 
-        const history = await this.conversationsService.getFormattedMessages(
+
+        history = await this.conversationsService.getFormattedMessages(
             userId,
             50,
             1,
         );
+
+        
 
         const result = await this.Aiservice.generatetext(
             command.text,
@@ -99,6 +113,7 @@ export class generatetexthandler implements ICommandHandler<generatetextcommand>
                     photo_url,
                     photo_key,
                 );
+
             }
         });
     }

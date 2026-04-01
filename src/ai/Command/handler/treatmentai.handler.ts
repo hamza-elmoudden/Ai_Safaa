@@ -53,14 +53,16 @@ export class TreatmentAiHandler implements ICommandHandler<TreatmentAiCommand> {
 
         history = await this.chatTreatmentService.getFormattedMessages(
             command.treatment_id,
-            command.limit ?? 50,
+            command.limit ?? 10000,
             command.page ?? 1
         );
 
         const stream = await this.aiService.treatmentAnalysis(
             history,
             command.user_message,
-            command.user_image
+            command.user_image,
+            command.user_id,
+            command.treatment_id
         );
 
         let fullResponse = '';
