@@ -18,6 +18,7 @@ import { ChattreatmentModule } from './chattreatment/chattreatment.module';
 import { TokenusageModule } from './tokenusage/tokenusage.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/guards/roles.guard';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -45,11 +46,12 @@ import { RolesGuard } from './auth/guards/roles.guard';
      ConversationsModule,
      ChattreatmentModule,
      TokenusageModule,
+     RedisModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    { provide: APP_GUARD, useClass: RolesGuard }
+    // { provide: APP_GUARD, useClass: RolesGuard }
   ],
 })
 export class AppModule {}
