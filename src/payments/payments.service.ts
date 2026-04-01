@@ -59,7 +59,6 @@ export class PaymentsService {
   }
 
   async getActivePayment(user_id: string): Promise<Payment | null> {
-    console.log("NOW JS:", new Date());
 
     const now = new Date();
 
