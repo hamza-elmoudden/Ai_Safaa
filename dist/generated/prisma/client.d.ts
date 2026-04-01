@@ -1,0 +1,16 @@
+import * as runtime from "@prisma/client/runtime/client";
+import * as $Class from "./internal/class";
+import * as Prisma from "./internal/prismaNamespace";
+export * as $Enums from './enums';
+export * from "./enums";
+export declare const PrismaClient: $Class.PrismaClientConstructor;
+export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>;
+export { Prisma };
+export type chat_treatment = Prisma.chat_treatmentModel;
+export type conversations = Prisma.conversationsModel;
+export type payments = Prisma.paymentsModel;
+export type skin_profiles = Prisma.skin_profilesModel;
+export type subscriptions = Prisma.subscriptionsModel;
+export type treatment_plans = Prisma.treatment_plansModel;
+export type users = Prisma.usersModel;
+export type token_usage = Prisma.token_usageModel;

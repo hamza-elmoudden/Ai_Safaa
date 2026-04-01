@@ -1,0 +1,12 @@
+import * as Prisma from './internal/prismaNamespaceBrowser';
+export { Prisma };
+export * as $Enums from './enums';
+export * from './enums';
+export type chat_treatment = Prisma.chat_treatmentModel;
+export type conversations = Prisma.conversationsModel;
+export type payments = Prisma.paymentsModel;
+export type skin_profiles = Prisma.skin_profilesModel;
+export type subscriptions = Prisma.subscriptionsModel;
+export type treatment_plans = Prisma.treatment_plansModel;
+export type users = Prisma.usersModel;
+export type token_usage = Prisma.token_usageModel;
