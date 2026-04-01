@@ -3,6 +3,7 @@ import { ConversationsService } from './conversations.service';
 import { ConversationsController } from './conversations.controller';
 import { GetConversationsHandler } from './Query/handler/get-conversation.handler';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
   providers: [
@@ -12,7 +13,8 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   controllers: [ConversationsController],
   exports:[ConversationsService],
   imports:[
-    PrismaModule
+    PrismaModule,
+    RedisModule
   ]
 })
 export class ConversationsModule {}

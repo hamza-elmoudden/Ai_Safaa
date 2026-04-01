@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Conversation } from './Schema/conversation.schema';
+import { Prisma } from 'generated/prisma/browser';
 
 @Injectable()
 export class ConversationsService {
@@ -35,14 +36,15 @@ export class ConversationsService {
     }
 
 
-    async getUserConversation(user_id: string, limit: number = 200, page: number = 1) {
+    async getUserConversation(user_id: string, limit: number = 200, page: number = 1, sort: Prisma.SortOrder = 'asc') {
         const skip = (page - 1) * limit;
         return await this.prismaService.conversations.findMany({
             where: {
                 user_id
             },
+
             orderBy: {
-                created_at: "asc"
+                created_at: sort
             },
 
             take: limit,
@@ -94,4 +96,7 @@ export class ConversationsService {
 
         return messages;
     }
+
+
+    
 }
