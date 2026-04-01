@@ -11,7 +11,7 @@ export class SubscriptionsController {
 
 
     @Get()
-    getSubscriptions() {
-        return this.subscriptionsService.getSubscriptions();
+    async getSubscriptions() {
+        return await this.subscriptionsService.FindAll();
     }
 }
