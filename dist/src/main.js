@@ -12,8 +12,9 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
     const frontendUrl = configService.get('FRONTEND_URL');
+    const localFrontendUrl = configService.get('LOCAL_FRONTEND_URL');
     app.enableCors({
-        origin: ['*'],
+        origin: [frontendUrl, localFrontendUrl],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
         allowedHeaders: 'Content-Type, Accept,Authorization',

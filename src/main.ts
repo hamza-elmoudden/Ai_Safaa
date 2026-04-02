@@ -8,13 +8,14 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   const configService = app.get(ConfigService)
 
   const frontendUrl = configService.get<string>('FRONTEND_URL')
+  const localFrontendUrl = configService.get<string>('LOCAL_FRONTEND_URL')
   
   app.enableCors({
-    origin: ['*'],
+    origin: [frontendUrl,localFrontendUrl],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: 'Content-Type, Accept,Authorization',
