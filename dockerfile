@@ -1,4 +1,4 @@
-FROM node:20-alpine as one
+FROM node:20-alpine AS deploy
 
 WORKDIR /ai_app
 
@@ -20,9 +20,9 @@ FROM node:20-alpine
 
 WORKDIR /app 
 
-COPY --from=one  /ai_app/dist ./dist
-COPY --from=one  /ai_app/node_modules ./node_modules
+COPY --from=deploy  /ai_app/dist ./dist
+COPY --from=deploy  /ai_app/node_modules ./node_modules
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
