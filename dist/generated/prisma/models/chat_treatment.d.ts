@@ -132,7 +132,7 @@ export type Chat_treatmentGroupByOutputType = {
     _min: Chat_treatmentMinAggregateOutputType | null;
     _max: Chat_treatmentMaxAggregateOutputType | null;
 };
-type GetChat_treatmentGroupByPayload<T extends chat_treatmentGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Chat_treatmentGroupByOutputType, T['by']> & {
+export type GetChat_treatmentGroupByPayload<T extends chat_treatmentGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Chat_treatmentGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof Chat_treatmentGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], Chat_treatmentGroupByOutputType[P]> : Prisma.GetScalarType<T[P], Chat_treatmentGroupByOutputType[P]>;
 }>>;
 export type chat_treatmentWhereInput = {
@@ -727,4 +727,3 @@ export type chat_treatmentDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
     omit?: Prisma.chat_treatmentOmit<ExtArgs> | null;
     include?: Prisma.chat_treatmentInclude<ExtArgs> | null;
 };
-export {};

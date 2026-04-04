@@ -13,6 +13,7 @@ async function bootstrap() {
     const configService = app.get(config_1.ConfigService);
     const frontendUrl = configService.get('FRONTEND_URL');
     const localFrontendUrl = configService.get('LOCAL_FRONTEND_URL');
+    console.log(frontendUrl, localFrontendUrl);
     app.enableCors({
         origin: [frontendUrl, localFrontendUrl],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

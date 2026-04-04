@@ -25,20 +25,17 @@ let CreateProfileHandler = class CreateProfileHandler {
     }
     async execute(command) {
         const { user_id, skin_type, concerns, allergies, notes } = command;
-        let user;
-        try {
-            user = await this.UsersService.findOneId(user_id);
-            if (!user) {
-                throw new common_1.NotFoundException(`User with id ${user_id} not found`);
-            }
-        }
-        catch (error) {
-            console.error('Error fetching user:', error);
-            throw new Error('Failed to fetch user');
+        let user = await this.UsersService.findOneId(user_id);
+        if (!user) {
+            throw new common_1.NotFoundException(`User with id ${user_id} not found`);
         }
         const profile = new skin_profile_schema_1.SkinProfile(crypto.randomUUID(), user.id, skin_type, concerns, allergies, notes, new Date(), new Date());
         let skinprofile;
         try {
+            skinprofile = await this.service.getProfileByUserId(command.user_id);
+            if (skinprofile) {
+                throw new common_1.BadRequestException("Profile is exist");
+            }
             skinprofile = await this.service.createProfile(profile);
         }
         catch (error) {

@@ -28,7 +28,7 @@ let AuthController = class AuthController {
     googleRedirect() { }
     async googleCallback(req, res) {
         const tokens = await this.authService.googleLogin(req.user);
-        const base = process.env.FRONTEND_URL ?? 'http://localhost:3000';
+        const base = process.env.FRONTEND_URL ?? 'http://localhost:3001';
         const isProd = process.env.NODE_ENV === 'production';
         res.cookie('access_token', tokens.accessToken, {
             httpOnly: true,

@@ -136,7 +136,7 @@ export type PaymentsGroupByOutputType = {
     _min: PaymentsMinAggregateOutputType | null;
     _max: PaymentsMaxAggregateOutputType | null;
 };
-type GetPaymentsGroupByPayload<T extends paymentsGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<PaymentsGroupByOutputType, T['by']> & {
+export type GetPaymentsGroupByPayload<T extends paymentsGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<PaymentsGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof PaymentsGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], PaymentsGroupByOutputType[P]> : Prisma.GetScalarType<T[P], PaymentsGroupByOutputType[P]>;
 }>>;
 export type paymentsWhereInput = {
@@ -895,4 +895,3 @@ export type paymentsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Interna
     omit?: Prisma.paymentsOmit<ExtArgs> | null;
     include?: Prisma.paymentsInclude<ExtArgs> | null;
 };
-export {};
