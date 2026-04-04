@@ -14,6 +14,8 @@ async function bootstrap() {
   const frontendUrl = configService.get<string>('FRONTEND_URL')
   const localFrontendUrl = configService.get<string>('LOCAL_FRONTEND_URL')
   
+  console.log(frontendUrl,localFrontendUrl)
+
   app.enableCors({
     origin: [frontendUrl,localFrontendUrl],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
