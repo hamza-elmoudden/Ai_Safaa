@@ -22,10 +22,10 @@ export declare class TreatmentService {
         path: import("@prisma/client/runtime/client").JsonValue | null;
         id: string;
         created_at: Date;
-        user_id: string;
-        status: import("../../generated/prisma/enums").plan_status;
         updated_at: Date;
+        user_id: string;
         title: string;
+        status: import("../../generated/prisma/enums").plan_status;
         improvement_pct: import("@prisma/client-runtime-utils").Decimal | null;
         areas_treated: import("../../generated/prisma/enums").areas_treated;
         initial_photo_url: string | null;
@@ -44,10 +44,10 @@ export declare class TreatmentService {
         path: import("@prisma/client/runtime/client").JsonValue | null;
         id: string;
         created_at: Date;
-        user_id: string;
-        status: import("../../generated/prisma/enums").plan_status;
         updated_at: Date;
+        user_id: string;
         title: string;
+        status: import("../../generated/prisma/enums").plan_status;
         improvement_pct: import("@prisma/client-runtime-utils").Decimal | null;
         areas_treated: import("../../generated/prisma/enums").areas_treated;
         initial_photo_url: string | null;

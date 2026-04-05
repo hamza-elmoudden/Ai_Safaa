@@ -5,6 +5,7 @@ export declare class ChattreatmentService {
     constructor(prismaService: PrismaService);
     addChat(data: ChatTreatment): Promise<{
         id: string;
+        created_at: Date;
         plan_id: string;
         user_message: string;
         ai_response: string;
@@ -12,10 +13,10 @@ export declare class ChattreatmentService {
         day_number: number | null;
         image_url: string | null;
         image_key: string | null;
-        created_at: Date;
     }>;
     getChat(treatment_id: string, limit?: number, page?: number): Promise<{
         id: string;
+        created_at: Date;
         plan_id: string;
         user_message: string;
         ai_response: string;
@@ -23,7 +24,6 @@ export declare class ChattreatmentService {
         day_number: number | null;
         image_url: string | null;
         image_key: string | null;
-        created_at: Date;
     }[]>;
     getFormattedMessages(treatment_id: string, limit?: number, page?: number): Promise<any[]>;
 }

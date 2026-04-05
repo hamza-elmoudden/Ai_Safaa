@@ -8,14 +8,14 @@ export declare class PaymentsService {
     createPayment(data: Payment): Promise<{
         id: string;
         user_id: string;
-        subscription_id: string | null;
+        status: payment_status;
         amount_mad: import("@prisma/client-runtime-utils").Decimal;
         method: payment_method;
-        status: payment_status;
         provider_ref: string | null;
         provider_meta: import("@prisma/client/runtime/client").JsonValue | null;
         starts_at: Date | null;
         expires_at: Date | null;
+        subscription_id: string | null;
     }>;
     findPaymentById(id: string): Promise<Payment | null>;
     findPaymentsByUserId(user_id: string): Promise<Payment[]>;

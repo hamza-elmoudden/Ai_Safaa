@@ -23,11 +23,11 @@ export declare class TokenusageService {
         ai_model?: string;
     }): Promise<{
         id: string;
-        plan_id: string | null;
         created_at: Date | null;
         user_id: string;
         ai_model: string | null;
         source: import("../../generated/prisma/enums").token_source;
+        plan_id: string | null;
         ref_id: string | null;
         tokens_input: number | null;
         tokens_output: number | null;
