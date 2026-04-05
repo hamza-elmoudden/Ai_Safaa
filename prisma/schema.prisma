@@ -117,7 +117,7 @@ model users {
   id                String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   email             String?           @unique @db.VarChar(255)
   phone             String?           @unique @db.VarChar(20)
-  country_code      String?           @db.VarChar(5)
+  country_code      String?           @db.VarChar(100)
   city              String?           @db.VarChar(100)
   date_of_birth     DateTime?         @db.Date
   password_hash     String
