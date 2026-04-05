@@ -171,7 +171,7 @@ export type Skin_profilesGroupByOutputType = {
   _max: Skin_profilesMaxAggregateOutputType | null
 }
 
-export type GetSkin_profilesGroupByPayload<T extends skin_profilesGroupByArgs> = Prisma.PrismaPromise<
+type GetSkin_profilesGroupByPayload<T extends skin_profilesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Skin_profilesGroupByOutputType, T['by']> &
       {
@@ -1186,11 +1186,6 @@ export type skin_profilesFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` skin_profiles.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of skin_profiles.
-   */
   distinct?: Prisma.Skin_profilesScalarFieldEnum | Prisma.Skin_profilesScalarFieldEnum[]
 }
 

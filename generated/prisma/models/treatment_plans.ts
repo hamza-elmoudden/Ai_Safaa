@@ -276,7 +276,7 @@ export type Treatment_plansGroupByOutputType = {
   _max: Treatment_plansMaxAggregateOutputType | null
 }
 
-export type GetTreatment_plansGroupByPayload<T extends treatment_plansGroupByArgs> = Prisma.PrismaPromise<
+type GetTreatment_plansGroupByPayload<T extends treatment_plansGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Treatment_plansGroupByOutputType, T['by']> &
       {
@@ -1912,11 +1912,6 @@ export type treatment_plansFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Skip the first `n` treatment_plans.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of treatment_plans.
-   */
   distinct?: Prisma.Treatment_plansScalarFieldEnum | Prisma.Treatment_plansScalarFieldEnum[]
 }
 
