@@ -7,4 +7,5 @@ export declare class PaymentsController {
         expiresAt: Date | null;
         subscriptionId: string | null;
     }>;
+    getNameSub(req: any): Promise<String | null>;
 }

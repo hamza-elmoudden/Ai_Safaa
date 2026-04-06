@@ -98,7 +98,7 @@ export type Skin_profilesGroupByOutputType = {
     _min: Skin_profilesMinAggregateOutputType | null;
     _max: Skin_profilesMaxAggregateOutputType | null;
 };
-export type GetSkin_profilesGroupByPayload<T extends skin_profilesGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Skin_profilesGroupByOutputType, T['by']> & {
+type GetSkin_profilesGroupByPayload<T extends skin_profilesGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Skin_profilesGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof Skin_profilesGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], Skin_profilesGroupByOutputType[P]> : Prisma.GetScalarType<T[P], Skin_profilesGroupByOutputType[P]>;
 }>>;
 export type skin_profilesWhereInput = {
@@ -605,3 +605,4 @@ export type skin_profilesDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
     omit?: Prisma.skin_profilesOmit<ExtArgs> | null;
     include?: Prisma.skin_profilesInclude<ExtArgs> | null;
 };
+export {};

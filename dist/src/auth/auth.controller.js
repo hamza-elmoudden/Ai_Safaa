@@ -27,22 +27,23 @@ let AuthController = class AuthController {
     }
     googleRedirect() { }
     async googleCallback(req, res) {
+        const isMobile = req.headers['user-agent']?.includes('Expo') ?? false;
         const tokens = await this.authService.googleLogin(req.user);
         const base = process.env.FRONTEND_URL ?? 'http://localhost:3001';
         const isProd = process.env.NODE_ENV === 'production';
-        res.cookie('access_token', tokens.accessToken, {
-            httpOnly: true,
-            secure: isProd,
-            sameSite: 'lax',
-            maxAge: 15 * 60 * 1000,
-        });
-        res.cookie('refresh_token', tokens.refreshToken, {
-            httpOnly: true,
-            secure: isProd,
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
-        return res.redirect(`${base}/auth/success`);
+        console.log('Mobile Is : ', isMobile);
+        if (!isMobile) {
+            res.cookie('access_token', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 15 * 60 * 1000 });
+            res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
+            return res.redirect(`${base}/auth/success`);
+        }
+        else {
+            return res.json({
+                access_token: tokens.accessToken,
+                refresh_token: tokens.refreshToken,
+                user: req.user
+            });
+        }
     }
     async refresh(user, res) {
         const tokens = await this.authService.rotateTokens(user);

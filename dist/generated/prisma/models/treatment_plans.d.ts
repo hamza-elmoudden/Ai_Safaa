@@ -189,7 +189,7 @@ export type Treatment_plansGroupByOutputType = {
     _min: Treatment_plansMinAggregateOutputType | null;
     _max: Treatment_plansMaxAggregateOutputType | null;
 };
-export type GetTreatment_plansGroupByPayload<T extends treatment_plansGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Treatment_plansGroupByOutputType, T['by']> & {
+type GetTreatment_plansGroupByPayload<T extends treatment_plansGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Treatment_plansGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof Treatment_plansGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], Treatment_plansGroupByOutputType[P]> : Prisma.GetScalarType<T[P], Treatment_plansGroupByOutputType[P]>;
 }>>;
 export type treatment_plansWhereInput = {
@@ -1293,3 +1293,4 @@ export type treatment_plansDefaultArgs<ExtArgs extends runtime.Types.Extensions.
     omit?: Prisma.treatment_plansOmit<ExtArgs> | null;
     include?: Prisma.treatment_plansInclude<ExtArgs> | null;
 };
+export {};

@@ -29,6 +29,9 @@ let PaymentsController = class PaymentsController {
             subscriptionId: payment?.subscription_id ?? null,
         };
     }
+    async getNameSub(req) {
+        return await this.paymentsService.getPlaneName(req.user.id);
+    }
 };
 exports.PaymentsController = PaymentsController;
 __decorate([
@@ -39,6 +42,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PaymentsController.prototype, "getMyStatus", null);
+__decorate([
+    (0, common_1.Get)('name'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PaymentsController.prototype, "getNameSub", null);
 exports.PaymentsController = PaymentsController = __decorate([
     (0, common_1.Controller)('payments'),
     __metadata("design:paramtypes", [payments_service_1.PaymentsService])

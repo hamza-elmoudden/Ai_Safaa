@@ -155,7 +155,7 @@ export type SubscriptionsGroupByOutputType = {
     _min: SubscriptionsMinAggregateOutputType | null;
     _max: SubscriptionsMaxAggregateOutputType | null;
 };
-export type GetSubscriptionsGroupByPayload<T extends subscriptionsGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<SubscriptionsGroupByOutputType, T['by']> & {
+type GetSubscriptionsGroupByPayload<T extends subscriptionsGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<SubscriptionsGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof SubscriptionsGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], SubscriptionsGroupByOutputType[P]> : Prisma.GetScalarType<T[P], SubscriptionsGroupByOutputType[P]>;
 }>>;
 export type subscriptionsWhereInput = {
@@ -751,3 +751,4 @@ export type subscriptionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
     omit?: Prisma.subscriptionsOmit<ExtArgs> | null;
     include?: Prisma.subscriptionsInclude<ExtArgs> | null;
 };
+export {};

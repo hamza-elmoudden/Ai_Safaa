@@ -159,7 +159,7 @@ export type Token_usageGroupByOutputType = {
     _min: Token_usageMinAggregateOutputType | null;
     _max: Token_usageMaxAggregateOutputType | null;
 };
-export type GetToken_usageGroupByPayload<T extends token_usageGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Token_usageGroupByOutputType, T['by']> & {
+type GetToken_usageGroupByPayload<T extends token_usageGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Token_usageGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof Token_usageGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], Token_usageGroupByOutputType[P]> : Prisma.GetScalarType<T[P], Token_usageGroupByOutputType[P]>;
 }>>;
 export type token_usageWhereInput = {
@@ -947,3 +947,4 @@ export type token_usageDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
     omit?: Prisma.token_usageOmit<ExtArgs> | null;
     include?: Prisma.token_usageInclude<ExtArgs> | null;
 };
+export {};

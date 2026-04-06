@@ -110,6 +110,18 @@ let PaymentsService = class PaymentsService {
             }
         });
     }
+    async getPlaneName(user_id) {
+        const active = await this.getActivePayment(user_id);
+        if (!active) {
+            return null;
+        }
+        const sub = await this.prisma.subscriptions.findUnique({
+            where: {
+                id: active.id
+            }
+        });
+        return sub ? sub.name : null;
+    }
 };
 exports.PaymentsService = PaymentsService;
 exports.PaymentsService = PaymentsService = __decorate([

@@ -105,7 +105,7 @@ export type ConversationsGroupByOutputType = {
     _min: ConversationsMinAggregateOutputType | null;
     _max: ConversationsMaxAggregateOutputType | null;
 };
-export type GetConversationsGroupByPayload<T extends conversationsGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<ConversationsGroupByOutputType, T['by']> & {
+type GetConversationsGroupByPayload<T extends conversationsGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<ConversationsGroupByOutputType, T['by']> & {
     [P in ((keyof T) & (keyof ConversationsGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], ConversationsGroupByOutputType[P]> : Prisma.GetScalarType<T[P], ConversationsGroupByOutputType[P]>;
 }>>;
 export type conversationsWhereInput = {
@@ -645,3 +645,4 @@ export type conversationsDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
     omit?: Prisma.conversationsOmit<ExtArgs> | null;
     include?: Prisma.conversationsInclude<ExtArgs> | null;
 };
+export {};
