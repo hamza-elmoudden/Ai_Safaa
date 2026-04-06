@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { AuthGuard } from '@nestjs/passport';
+import { aw } from '@upstash/redis/error-8y4qG0W2';
 
 @Controller('payments')
 export class PaymentsController {
@@ -20,5 +21,13 @@ export class PaymentsController {
             expiresAt: payment?.expires_at ?? null,
             subscriptionId: payment?.subscription_id ?? null,
         };
+    }
+
+
+
+    @Get('name')
+    @UseGuards(AuthGuard('jwt'))
+    async getNameSub(@Req() req:any){
+        return await this.paymentsService.getPlaneName(req.user.id)
     }
 }
