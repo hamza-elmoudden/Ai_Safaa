@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Payment } from './Schema/payments.schema';
 import { payment_method, payment_status } from 'generated/prisma/browser';
+import { aw } from '@upstash/redis/error-8y4qG0W2';
 
 @Injectable()
 export class PaymentsService {
@@ -133,6 +134,26 @@ export class PaymentsService {
 
       }
     })
+  }
+
+
+
+  async getPlaneName(user_id:string):Promise<String | null>{
+
+      const active = await this.getActivePayment(user_id)
+
+      if(!active){
+        return null
+      }
+
+
+     const sub = await this.prisma.subscriptions.findUnique({
+      where:{
+        id:active.id
+      }
+     })
+
+     return sub ? sub.name : null
   }
   
 }
