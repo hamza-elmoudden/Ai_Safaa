@@ -13,11 +13,11 @@ async function bootstrap() {
 
   const frontendUrl = configService.get<string>('FRONTEND_URL')
   const localFrontendUrl = configService.get<string>('LOCAL_FRONTEND_URL')
-  
-  console.log(frontendUrl,localFrontendUrl)
+  const expoAppUrl = configService.get<string>('EXPO_APP_URL')
+
 
   app.enableCors({
-    origin: [frontendUrl,localFrontendUrl],
+    origin: [frontendUrl,localFrontendUrl,expoAppUrl],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: 'Content-Type, Accept,Authorization',
@@ -26,6 +26,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true })
   );
+
+  app.getHttpAdapter().getInstance().set('trust proxy', 1)
 
   app.use(cookieParser());
 
