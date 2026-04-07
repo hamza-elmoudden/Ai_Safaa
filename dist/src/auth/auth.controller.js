@@ -29,12 +29,11 @@ let AuthController = class AuthController {
     async googleCallback(req, res) {
         const isMobile = req.headers['user-agent']?.includes('Expo') ?? false;
         const tokens = await this.authService.googleLogin(req.user);
-        const base = process.env.FRONTEND_URL ?? 'http://localhost:3001';
+        const base = process.env.FRONTEND_URL;
         const isProd = process.env.NODE_ENV === 'production';
-        console.log('Mobile Is : ', isMobile);
         if (!isMobile) {
-            res.cookie('access_token', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 15 * 60 * 1000 });
-            res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
+            res.cookie('access_token', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 15 * 60 * 1000 });
+            res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 });
             return res.redirect(`${base}/auth/success`);
         }
         else {

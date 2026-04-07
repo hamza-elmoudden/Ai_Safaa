@@ -13,14 +13,15 @@ async function bootstrap() {
     const configService = app.get(config_1.ConfigService);
     const frontendUrl = configService.get('FRONTEND_URL');
     const localFrontendUrl = configService.get('LOCAL_FRONTEND_URL');
-    console.log(frontendUrl, localFrontendUrl);
+    const expoAppUrl = configService.get('EXPO_APP_URL');
     app.enableCors({
-        origin: [frontendUrl, localFrontendUrl, 'http://localhost:8081', '192.168.100.206'],
+        origin: [frontendUrl, localFrontendUrl, expoAppUrl],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
         allowedHeaders: 'Content-Type, Accept,Authorization',
     });
     app.useGlobalPipes(new common_1.ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true }));
+    app.getHttpAdapter().getInstance().set('trust proxy', 1);
     app.use((0, cookie_parser_1.default)());
     await app.listen(process.env.PORT ?? 3001);
 }
