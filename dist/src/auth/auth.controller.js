@@ -32,9 +32,8 @@ let AuthController = class AuthController {
         const base = process.env.FRONTEND_URL;
         const isProd = process.env.NODE_ENV === 'production';
         if (!isMobile) {
-            res.cookie('access_token', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 15 * 60 * 1000 });
-            res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 });
-            return res.redirect(`${base}/auth/success`);
+            const redirectUrl = `${base}/auth/success?access_token=${tokens.accessToken}&refresh_token=${tokens.refreshToken}`;
+            return res.redirect(redirectUrl);
         }
         else {
             return res.json({
