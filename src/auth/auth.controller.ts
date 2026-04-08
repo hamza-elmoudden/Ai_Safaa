@@ -51,33 +51,14 @@ export class AuthController {
     const isMobile = req.headers['user-agent']?.includes('Expo') ?? false;
     const tokens = await this.authService.googleLogin(req.user as User);
 
-    const base = process.env.FRONTEND_URL ;
+    const base = process.env.FRONTEND_URL;
     const isProd = process.env.NODE_ENV === 'production';
 
-    // access token في cookie
-    // res.cookie('access_token', tokens.accessToken, {
-    //   httpOnly: true,   
-    //   secure: isProd,   // HTTPS فقط في production
-    //   sameSite: 'lax',
-    //   maxAge: 15 * 60 * 1000, 
-    // });
-
-    // // refresh token في cookie
-    // res.cookie('refresh_token', tokens.refreshToken, {
-    //   httpOnly: true,
-    //   secure: isProd,
-    //   sameSite: 'lax',
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
-
-    // return res.redirect(`${base}/auth/success`);
 
     if (!isMobile) {
-      res.cookie('access_token', tokens.accessToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 15 * 60 * 1000 });
+      const redirectUrl = `${base}/auth/success?access_token=${tokens.accessToken}&refresh_token=${tokens.refreshToken}`;
+      return res.redirect(redirectUrl);
 
-      res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 });
-
-      return res.redirect(`${base}/auth/success`);
     } else {
       return res.json({
         access_token: tokens.accessToken,
