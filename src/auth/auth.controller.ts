@@ -48,7 +48,7 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleCallback(@Req() req: any, @Res() res: Response) {
-    const isMobile = req.headers['user-agent']?.includes('Expo') ?? false;
+    const isMobile = req.query.platform === 'mobile'
     const tokens = await this.authService.googleLogin(req.user as User);
 
     const base = process.env.FRONTEND_URL;
@@ -60,11 +60,10 @@ export class AuthController {
       return res.redirect(redirectUrl);
 
     } else {
-      return res.json({
-        access_token: tokens.accessToken,
-        refresh_token: tokens.refreshToken,
-        user: req.user
-      });
+      return res.redirect(
+      `safa://auth/success?access_token=${tokens.accessToken}&refresh_token=${tokens.refreshToken}`
+    );
+    
     }
   }
 
